@@ -3,8 +3,12 @@
   <body>
     hi
     <scripts>
-
-      
+      ReadableStream.prototype.gunzip = function gunzip(){ return
+      this.pipeThrough(new DecompressionStream("gzip")); };
+      ReadableStream.prototype.text = async function text(){ return await new
+      Response(this).text(); }; (async()=>{ const res = await
+      fetch('model.json.txt'); console.log(await res.body.gunzip().text());
+      })();
     </scripts>
   </body>
 </html>
