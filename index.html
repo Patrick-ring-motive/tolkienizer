@@ -21,7 +21,9 @@ h1,h3{
       }
     </style>
     <script>
-      localStorage.removeItem("context");
+      //localStorage.removeItem("context");
+
+      //itilities to simplify sfream conversiom
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
       };
@@ -29,6 +31,8 @@ h1,h3{
         return await new Response(this).text();
       };
 
+      
+      //polyfill for safari streams
       ReadableStream.prototype[Symbol.asyncIterator] ??=
       async function* asyncIterator() {
         const reader = this?.getReader?.();
@@ -48,7 +52,7 @@ h1,h3{
   </head>
   <body>
     <center><h1>Tolkienizer</h1><br>
-    <h3>This little project is my attempt at creating a language model from scratch. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center>
+    <h3>This little project is my attempt at creating a language model from scratch and have it run entirely clientside. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center>
     <pre><code></code></pre>
     <script>
       
