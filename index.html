@@ -174,9 +174,9 @@
         const stream = generateStream(prompt, model, context);
 
         for await (const chunk of stream) {
+          localStorage.setItem("context", JSON.stringify(context));
           document.querySelector("div").innerHTML += " " + chunk;
         }
-        localStorage.setItem("context", JSON.stringify(context));
       })();
     </script>
   </body>
