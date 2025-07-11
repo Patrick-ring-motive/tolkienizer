@@ -2,6 +2,7 @@
   <head>
     <style>
 html{
+  background-image: url("bak.jpeg");
   background-color:#8de0a4;
 }
 h1,h3{
@@ -216,6 +217,7 @@ h1,h3{
         }
         let context = JSON.parse(localStorage.getItem("context") || "[]");
         appendText(join(context, " "));
+        await nextIdle();
         let prompt = ">Aragorn";
         appendText(prompt);
         const stream = generateStream(prompt, model, context);
