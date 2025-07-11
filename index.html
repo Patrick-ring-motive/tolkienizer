@@ -18,6 +18,7 @@
             yield chunk?.value;
             chunk = await reader.read();
           }
+          await reader.releaseLock();
         };
 
       (async () => {
