@@ -14,8 +14,8 @@
         async function* asyncIterator() {
           const reader = this.getReader();
           let chunk = await reader.read();
-          while (chunk.done === false) {
-            yield chunk.value;
+          while (chunk?.done === false) {
+            yield chunk?.value;
             chunk = await reader.read();
           }
         };
