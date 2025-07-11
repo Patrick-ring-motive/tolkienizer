@@ -230,10 +230,12 @@ function generate(prompt, model, context = []) {
     .replace(/\! [a-z]/g, (x) => x.toUpperCase());
 }
 
-const nextTime = globalThis.requestIdleCallback ?? globalThis.requestAnimationFrame ?? (x=>setTimeout(x,0));
+const nextTime =
+  globalThis.requestIdleCallback ??
+  globalThis.requestAnimationFrame ??
+  ((x) => setTimeout(x, 0));
 
-const nextIdle = () => new Promise(resolve=>nextTime(resolve));
-
+const nextIdle = () => new Promise((resolve) => nextTime(resolve));
 
 function generateStream(prompt, model, context = []) {
   return new ReadableStream({
@@ -284,10 +286,10 @@ async function readFile(filePath) {
       readFile("king.txt"),
       readFile("hobbit.txt"),
       //getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
-      (async () =>
+      /*  (async () =>
         (
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
-        ).replaceAll("’", "'"))(),
+        ).replaceAll("’", "'"))(),*/
     ])
   ).join(" ");
 
