@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.13.11",
+    "dictionary-en": "^4.0.0",
+    "jsdom": "^26.1.0",
+    "retext": "^9.0.0",
+    "retext-english": "^5.0.0",
+    "retext-readability": "^8.0.0",
+    "retext-spell": "^6.1.0",
+    "retext-stringify": "^4.0.0",
+    "retext-syntax-mentions": "^4.0.0",
+    "unified": "^11.0.5",
+    "vfile-reporter": "^8.1.1"
+  }
+}
