@@ -17,10 +17,11 @@ h1,h3{
       code{
         white-space:pre-wrap;
         word-break:normal !important;
-        font-size:10vmin;
+        font-size:2vmin;
       }
     </style>
     <script>
+      localStorage.removeItem("context");
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
       };
