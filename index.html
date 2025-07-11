@@ -1,8 +1,11 @@
 <html>
-  <head></head>
-  <body>
-    <h1>Tolkienizer</h1>
-    <pre><code></code></pre>
+  <head>
+    <style>
+html{
+  background-color:#8de0a4;
+}
+      
+    </style>
     <script>
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
@@ -24,6 +27,16 @@
         reader?.releaseLock?.();
         }
       };
+      
+    </script>
+    <title>Tolkienizer</title>
+  </head>
+  <body>
+    <center><h1>Tolkienizer</h1><br>
+    <h3>This little project is my attempt at creating a language model from scratch. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center>
+    <pre><code></code></pre>
+    <script>
+      
 
       (async () => {
         const res = await fetch("model.json.txt.gz");
