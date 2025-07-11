@@ -1,7 +1,8 @@
 <html>
   <head></head>
   <body>
-    <div></div>
+    <h1>Tolkienizer</h1>
+    <pre><code></code></pre>
     <script>
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
@@ -11,15 +12,18 @@
       };
 
       ReadableStream.prototype[Symbol.asyncIterator] ??=
-        async function* asyncIterator() {
-          const reader = this.getReader();
-          let chunk = await reader.read();
-          while (chunk?.done === false) {
-            yield chunk?.value;
-            chunk = await reader.read();
-          }
-          await reader.releaseLock();
-        };
+      async function* asyncIterator() {
+        const reader = this?.getReader?.();
+        try{
+        let chunk = await reader.read();
+        while (chunk?.done === false) {
+          yield chunk?.value;
+          chunk = await reader?.read?.();
+        }
+        }finally{
+        reader?.releaseLock?.();
+        }
+      };
 
       (async () => {
         const res = await fetch("model.json.txt.gz");
@@ -178,8 +182,8 @@
           });
         }
         function appendText(text) {
-          document.querySelector("div").innerHTML = (
-            document.querySelector("div").innerHTML +
+          document.querySelector("code").innerHTML = (
+            document.querySelector("code").innerHTML +
             " " +
             text
           )
