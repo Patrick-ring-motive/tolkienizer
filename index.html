@@ -2,7 +2,7 @@
   <head></head>
   <body>
     <div></div>
-    <scripts>
+    <script>
       ReadableStream.prototype.gunzip = function gunzip(){ 
         return this.pipeThrough(new DecompressionStream("gzip")); 
       };
@@ -175,6 +175,6 @@
             }
       
       })();
-    </scripts>
+    </script>
   </body>
 </html>
