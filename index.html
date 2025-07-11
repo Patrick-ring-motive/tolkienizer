@@ -166,16 +166,26 @@
             },
           });
         }
-
+        function appendText(text) {
+          document.querySelector("div").innerHTML = (
+            document.querySelector("div").innerHTML +
+            " " +
+            text
+          )
+            .replaceAll("_", " ")
+            .replace(/\? [a-z]/g, (x) => x.toUpperCase())
+            .replace(/\. [a-z]/g, (x) => x.toUpperCase())
+            .replace(/\! [a-z]/g, (x) => x.toUpperCase());
+        }
         let context = JSON.parse(localStorage.getItem("context") || "[]");
-        document.querySelector("div").innerHTML += join(context, " ");
+        appendText(join(context, " "));
         let prompt = ">Aragorn";
-        document.querySelector("div").innerHTML += prompt;
+        appendText(prompt);
         const stream = generateStream(prompt, model, context);
 
         for await (const chunk of stream) {
           localStorage.setItem("context", JSON.stringify(context));
-          document.querySelector("div").innerHTML += " " + chunk;
+          appendText(chunk);
         }
       })();
     </script>
