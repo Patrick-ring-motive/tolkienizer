@@ -10,6 +10,16 @@
         return await new Response(this).text();
       };
 
+      ReadableStream.prototype[Symbol.asyncIterator] ??=
+        async function* asyncIterator() {
+          const reader = this.getReader();
+          let chunk = await reader.read();
+          while (chunk.done === false) {
+            yield chunk.value;
+            chunk = await reader.read();
+          }
+        };
+
       (async () => {
         const res = await fetch("model.json.txt.gz");
         const model = JSON.parse(await res.body.gunzip().text());
