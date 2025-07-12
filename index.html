@@ -209,16 +209,9 @@
               if (!prompt) {
                 prompt = context[context.length - 1];
               }
-              const seed1 = getNextToken(prompt, trimodel, bimodel, context);
-              const seed2 = getNextToken(
-                `${prompt} ${seed1}`,
-                trimodel,
-                bimodel,
-                context,
-              );
-              const out = [seed1, seed2];
-              context.push(seed1);
-              context.push(seed2);
+              if (!prompt) {
+                prompt = crypto.randomUUID();
+              }
               const tokens = context;
               while (join(out).split(/[\.\?\!]/).length < 10) {
                 await nextIdle();
@@ -257,7 +250,7 @@
         gen.innerHTML = "Generate";
         gen.onclick = async () => {
           await nextIdle();
-          let prompt = ".".repeat(Math.floor(Math.random()*100));
+          let prompt;
           const stream = generateStream(prompt, trimodel, bimodel, context);
 
           for await (const chunk of stream) {
