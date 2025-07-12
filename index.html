@@ -210,8 +210,14 @@
                 prompt = context[context.length - 1];
               }
               if (!prompt) {
-                prompt = crypto.randomUUID();
+                prompt = getNextToken(
+                  crypto.randomUUID(),
+                    trimodel,
+                    bimodel,
+                    tokens,
+                  );
               }
+              context.push(prompt);
               const tokens = context;
               while (join(out).split(/[\.\?\!]/).length < 10) {
                 await nextIdle();
