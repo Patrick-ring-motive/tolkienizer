@@ -71,7 +71,10 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" s ", "'s ")
     .replaceAll(" t ", "'t ")
     .replaceAll(" ve ", "'ve ")
-    .replaceAll(" ll ", "'ll ").replaceAll("Sm agol", "Smeagol");
+    .replaceAll(" ll ", "'ll ")
+    .replaceAll("Sm agol", "Smeagol")
+    .replaceAll(" ing ","ing ")
+    .replace(/[A-Z]{2,}/g,x=>x[0]+x.slice(1).toLowerCase());
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
     .filter((x) => x?.trim?.());
@@ -317,11 +320,10 @@ async function readFile(filePath) {
   let model = buildNGrams(text);
   model = Object.fromEntries(Object.entries(model).sort());
   const fs = require("fs");
+  const { execSync } = require('child_process');
 
-
-  fs.writeFile("model.json.txt", JSON.stringify(model, null, 2), (err) =>
-    console.error(err || ""),
-  );
+  fs.writeFileSync("model.json.txt", JSON.stringify(model, null, 2));
+  execSync("gzip -k --force model.json.txt");
   let context = [];
   let prompt = ">Aragorn";
   console.log(prompt);
