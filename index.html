@@ -53,6 +53,7 @@ h1,h3{
   <body>
     <center><h1>Tolkienizer</h1><br>
     <h3>This little project is my attempt at creating a language model from scratch and have it run entirely clientside. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center>
+    <loading>loading...</loading>
     <pre><code></code></pre>
     <script>
       
@@ -60,7 +61,7 @@ h1,h3{
       (async () => {
         const res = await fetch("model.json.txt.gz");
         const model = JSON.parse(await res.body.gunzip().text());
-
+document.querySelector("loading")?.remove?.();
         const lcs = function lcs(seq1, seq2) {
           "use strict";
           let arr1 = [...(seq1 ?? [])];
