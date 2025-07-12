@@ -117,11 +117,16 @@ document.querySelector("loading")?.remove?.();
           let maxMatch = 0;
           let keyMatch = keywords;
           let matches = model[keywords];
+          // 10% chance to do fuzzy match search even if exact match is found.
           if (Math.random() > 0.9 || !matches) {
             for (const key in model) {
+              //random skips
               if (maxMatch > 0 && Math.random() > 0.5) {
                 continue;
               }
+              // lcs finds common sequences. 
+              // min length/max length punishes differences in length
+              // strtok.split(key).length punishes repeated sequences
               const keylcs =
                 (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
                 (Math.max(key.length, keywords.length) *
@@ -133,7 +138,7 @@ document.querySelector("loading")?.remove?.();
             }
             matches = model[keyMatch];
           }
-
+// extra randomness
           if (Math.random() > 0.5) {
             matches = Object.fromEntries(Object.entries(matches).sort());
           }
@@ -146,6 +151,8 @@ document.querySelector("loading")?.remove?.();
             if (maxMatch > 0 && Math.random() > 0.5) {
               continue;
             }
+
+            //followCount boosts trigrams that have more poddible followups
             if (
               (matches[key] + followCount(model, key) * 0.01) /
                 strtok.split(key).length >
