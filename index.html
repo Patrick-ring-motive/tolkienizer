@@ -1,37 +1,43 @@
 <html>
   <head>
     <style>
-html{
-  background-image: url("bak.jpeg");
-  background-size: cover;
-}
-      
-h1,h3{
-  font-family:sans-serif;
-}
-    button,loading,h1,h3,pre{
-      border-radius:1vmax;
-      background-color:rgba(118, 207, 138,0.8);
-      max-width:100vw;
-    }
-     button,loading,code{
-        white-space:pre-wrap;
-        word-break:normal !important;
-        font-size:4vmin;
+      html {
+        background-image: url("bak.jpeg");
+        background-size: cover;
       }
-      buttons{
-        width:100%;
+
+      h1,
+      h3 {
+        font-family: sans-serif;
       }
-      button{
-        color:#003200 !important;
-        margin:1vmax;
+      button,
+      loading,
+      h1,
+      h3,
+      pre {
+        border-radius: 1vmax;
+        background-color: rgba(118, 207, 138, 0.8);
+        max-width: 100vw;
       }
-      pre{
-        padding:1vmax;
+      button,
+      loading,
+      code {
+        white-space: pre-wrap;
+        word-break: normal !important;
+        font-size: 4vmin;
+      }
+      buttons {
+        width: 100%;
+      }
+      button {
+        color: #003200 !important;
+        margin: 1vmax;
+      }
+      pre {
+        padding: 1vmax;
       }
     </style>
     <script>
-
       //utilities to simplify stream conversion
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
@@ -40,39 +46,57 @@ h1,h3{
         return await new Response(this).text();
       };
 
-      
       //polyfill for safari streams
       ReadableStream.prototype[Symbol.asyncIterator] ??=
-      async function* asyncIterator() {
-        const reader = this?.getReader?.();
-        try{
-        let chunk = await reader.read();
-        while (chunk?.done === false) {
-          yield chunk?.value;
-          chunk = await reader?.read?.();
-        }
-        }finally{
-        reader?.releaseLock?.();
-        }
-      };
-      
+        async function* asyncIterator() {
+          const reader = this?.getReader?.();
+          try {
+            let chunk = await reader.read();
+            while (chunk?.done === false) {
+              yield chunk?.value;
+              chunk = await reader?.read?.();
+            }
+          } finally {
+            reader?.releaseLock?.();
+          }
+        };
     </script>
     <title>Tolkienizer</title>
   </head>
   <body>
-    <center><h1>Tolkienizer</h1><br>
-    <h3>This little project is my attempt at creating a language model from scratch and have it run entirely clientside. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.⠀<a href="https://github.com/Patrick-ring-motive/tolkienizer">Here's the code or whatever.</a></h3></center><buttons></buttons>
+    <center>
+      <h1>Tolkienizer</h1>
+      <br />
+      <h3>
+        This little project is my attempt at creating a language trimodel from
+        scratch and have it run entirely clientside. It's a simple trigram
+        trimodel trained on the 3 LotR books and The Hobbit. It has a bunch of
+        small optimizations to seem more coherent. It's no Chatgpt but it is
+        fun.⠀<a href="https://github.com/Patrick-ring-motive/tolkienizer"
+          >Here's the code or whatever.</a
+        >
+      </h3>
+    </center>
+    <buttons></buttons>
     <loading>loading...</loading>
     <pre><code></code></pre>
     <script>
-      
-
       (async () => {
-        //download the model. Its a gzipped json dictionary of trigrams.
-        const res = await fetch("model.json.txt.gz");
-        const model = JSON.parse(await res.body.gunzip().text());
-document.querySelector("loading")?.remove?.();
+        let trimodel;
+        let bimodel;
+        //download the trimodel. Its a gzipped json dictionary of trigrams.
+        await Promise.all([
+          (async () => {
+            const res = await fetch("trimodel.json.txt.gz");
+            trimodel = JSON.parse(await res.body.gunzip().text());
+          })(),
+          (async () => {
+            const res = await fetch("bimodel.json.txt.gz");
+            bimodel = JSON.parse(await res.body.gunzip().text());
+          })(),
+        ]);
 
+        document.querySelector("loading")?.remove?.();
         //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
         const lcs = function lcs(seq1, seq2) {
           "use strict";
@@ -98,7 +122,6 @@ document.querySelector("loading")?.remove?.();
           return dp[arr1.length][arr2.length];
         };
 
-        
         const stringify = (x) => {
           try {
             return JSON.parse(x);
@@ -107,39 +130,43 @@ document.querySelector("loading")?.remove?.();
           }
         };
 
-
         //Count the number of of possible trigrams that follow a given trigram
         const followCount = (model, key) => {
           if (!model[key]) return 0;
-          return Object.keys(model[key]).length;
+          return Object.keys(trimodel[key]).length;
         };
 
         //Get the next token in the sequence. This is the core of the model.
-        function getNextToken(keywords, model, tokens = []) {
+        function getNextToken(keywords, trimodel, bimodel, tokens = []) {
           const strtok = stringify(tokens);
+          let model = trimodel;
           let maxMatch = 0;
           let keyMatch = keywords;
-          let matches = model[keywords];
+          let matches = trimodel[keywords];
           // 10% chance to do fuzzy match search even if exact match is found.
-          if ( !matches) {
-            for (const key in model) {
-              // lcs finds common sequences. 
-              // min length/max length punishes differences in length
-              // strtok.split(key).length punishes repeated sequences
-              const keylcs =
-                (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
-                (Math.max(key.length, keywords.length) *
-                  strtok.split(key).length);
-              if (keylcs > maxMatch) {
-                maxMatch = keylcs;
-                keyMatch = key;
+          if (!matches) {
+            matches = bimodel[keywords.split(" ").pop()];
+            if (!matches) {
+              for (const key in trimodel) {
+                // lcs finds common sequences.
+                // min length/max length punishes differences in length
+                // strtok.split(key).length punishes repeated sequences
+                const keylcs =
+                  (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
+                  (Math.max(key.length, keywords.length) *
+                    strtok.split(key).length);
+                if (keylcs > maxMatch) {
+                  maxMatch = keylcs;
+                  keyMatch = key;
+                }
               }
+              matches = trimodel[keyMatch];
+            } else {
+              model = bimodel;
             }
-            matches = model[keyMatch];
           }
           maxMatch = 0;
           for (const key in matches) {
-
             //followCount boosts trigrams that have more possible followups
             //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
             if (
@@ -162,33 +189,6 @@ document.querySelector("loading")?.remove?.();
           }
         };
 
-        function generate(prompt, model, context = []) {
-          console.log(context.length);
-          if (!prompt) {
-            prompt = context[context.length - 1];
-          }
-          const seed1 = getNextToken(prompt, model, context);
-          const seed2 = getNextToken(`${prompt} ${seed1}`, model, context);
-          const out = [seed1, seed2];
-          context.push(seed1);
-          context.push(seed2);
-          const tokens = context;
-          while (join(out).split(/[\.\?\!]/).length < 10) {
-            const nextToken = getNextToken(
-              `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
-              model,
-              tokens,
-            );
-            tokens.push(nextToken);
-            out.push(nextToken);
-          }
-          return out
-            .join(" ")
-            .replace(/\? [a-z]/g, (x) => x.toUpperCase())
-            .replace(/\. [a-z]/g, (x) => x.toUpperCase())
-            .replace(/\! [a-z]/g, (x) => x.toUpperCase());
-        }
-
         const nextTime =
           globalThis.requestIdleCallback ??
           globalThis.requestAnimationFrame ??
@@ -196,13 +196,13 @@ document.querySelector("loading")?.remove?.();
 
         const nextIdle = () => new Promise((resolve) => nextTime(resolve));
 
-        function generateStream(prompt, model, context = []) {
+        function generateStream(prompt, trimodel, bimodel, context = []) {
           return new ReadableStream({
             async start(controller) {
               if (!prompt) {
                 prompt = context[context.length - 1];
               }
-              const seed1 = getNextToken(prompt, model, context);
+              const seed1 = getNextToken(prompt, trimodel, bimodel, context);
               const seed2 = getNextToken(`${prompt} ${seed1}`, model, context);
               const out = [seed1, seed2];
               context.push(seed1);
@@ -212,7 +212,8 @@ document.querySelector("loading")?.remove?.();
                 await nextIdle();
                 const nextToken = getNextToken(
                   `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
-                  model,
+                  trimodel,
+                  bimodel,
                   tokens,
                 );
                 tokens.push(nextToken);
@@ -224,15 +225,13 @@ document.querySelector("loading")?.remove?.();
           });
         }
 
-        const cap=txt=>{
-          txt=txt.trim();
-          return (txt[0]?.toUpperCase?.()||"")+txt.slice(1);
+        const cap = (txt) => {
+          txt = txt.trim();
+          return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
         };
         function appendText(text) {
           document.querySelector("code").innerHTML = cap(
-            document.querySelector("code").innerHTML +
-            " " +
-            text
+            document.querySelector("code").innerHTML + " " + text,
           )
             .replaceAll("_", " ")
             .replace(/\? [a-z]/g, (x) => x.toUpperCase())
@@ -244,21 +243,21 @@ document.querySelector("loading")?.remove?.();
         const buttons = document.querySelector("buttons");
         const gen = document.createElement("button");
         gen.innerHTML = "Generate";
-        gen.onclick = async()=>{
-        await nextIdle();
-        let prompt = ".";
-        const stream = generateStream(prompt, model, context);
+        gen.onclick = async () => {
+          await nextIdle();
+          let prompt = ".";
+          const stream = generateStream(prompt, trimodel, bimodel, context);
 
-        for await (const chunk of stream) {
-          localStorage.setItem("context", JSON.stringify(context));
-          appendText(chunk);
-        }
-      };
+          for await (const chunk of stream) {
+            localStorage.setItem("context", JSON.stringify(context));
+            appendText(chunk);
+          }
+        };
         buttons.appendChild(gen);
         const clear = document.createElement("button");
         clear.innerHTML = "Clear";
-        clear.onclick = ()=>{
-          localStorage.setItem("context","[]");
+        clear.onclick = () => {
+          localStorage.setItem("context", "[]");
           context = [];
           document.querySelector("code").innerHTML = "";
         };

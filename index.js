@@ -87,6 +87,55 @@ function buildNGrams(text, n = 3) {
   return model;
 }
 
+function buildPrunedNGrams(text, n = 3) {
+  const model = {};
+  text = text
+    .replace(/[^a-zA-Z\.\?\!,';\s]/g, " ")
+    .replace(/(\s*\.)+/g, ".")
+    .replace(/(\s*\?)+/g, "?")
+    .replace(/(\s*\!)+/g, "!")
+    .replace(/(\s*\,)+/g, ",")
+    .replaceAll(" re ", "'re ")
+    .replaceAll(" s ", "'s ")
+    .replaceAll(" t ", "'t ")
+    .replaceAll(" ve ", "'ve ")
+    .replaceAll(" ll ", "'ll ")
+    .replaceAll("Sm agol", "Smeagol")
+    .replaceAll(" ing ", "ing ")
+    .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
+  let tokens = norm(text)
+    .split(/\s+/)
+    .filter((x) => x?.trim?.());
+  for (let i = 0; i < tokens.length - n + 1; i++) {
+    const key = tokens
+      .slice(i, i + n - 1)
+      .join(" ")
+      .trim();
+    const next = tokens[i + n - 1];
+    model[key] ??= {};
+    model[key][next] = (model[key][next] || 0) + 1;
+  }
+  for (const key in model) {
+    if (Object.keys(model[key]).length < 2) {
+      delete model[key];
+    }
+  }
+  return model;
+}
+
+const mergeModels = (...models) => {
+  const model = {};
+  for (const m of models) {
+    for (const key in m) {
+      model[key] ??= {};
+      for (const next in m[key]) {
+        model[key][next] = (model[key][next] || 0) + m[key][next];
+      }
+    }
+  }
+  return model;
+};
+
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
@@ -152,44 +201,37 @@ const followCount = (model, key) => {
 };
 
 //Get the next token in the sequence. This is the core of the model.
-function getNextToken(keywords, model, tokens = []) {
+function getNextToken(keywords, trimodel, bimodel, tokens = []) {
   const strtok = stringify(tokens);
+  let model = trimodel;
   let maxMatch = 0;
   let keyMatch = keywords;
-  let matches = model[keywords];
+  let matches = trimodel[keywords];
   // 10% chance to do fuzzy match search even if exact match is found.
-  if (Math.random() > 0.9 || !matches) {
-    for (const key in model) {
-      //random skips
-      if (maxMatch > 0 && Math.random() > 0.5) {
-        continue;
+  if (!matches) {
+    matches = bimodel[keywords.split(" ").pop()];
+    if (!matches) {
+      for (const key in trimodel) {
+        // lcs finds common sequences.
+        // min length/max length punishes differences in length
+        // strtok.split(key).length punishes repeated sequences
+        const keylcs =
+          (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
+          (Math.max(key.length, keywords.length) * strtok.split(key).length);
+        if (keylcs > maxMatch) {
+          maxMatch = keylcs;
+          keyMatch = key;
+        }
       }
-      // lcs finds common sequences.
-      // min length/max length punishes differences in length
-      // strtok.split(key).length punishes repeated sequences
-      const keylcs =
-        (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
-        (Math.max(key.length, keywords.length) * strtok.split(key).length);
-      if (keylcs > maxMatch) {
-        maxMatch = keylcs;
-        keyMatch = key;
-      }
+      matches = trimodel[keyMatch];
+    } else {
+      model = bimodel;
     }
-    matches = model[keyMatch];
-  }
-  // extra randomness
-  if (Math.random() > 0.5) {
-    matches = Object.fromEntries(Object.entries(matches).sort());
-  }
-
-  if (Math.random() > 0.8) {
-    matches = Object.fromEntries(Object.entries(matches).reverse());
   }
   maxMatch = 0;
   for (const key in matches) {
-    if (maxMatch > 0 && Math.random() > 0.5) {
-      continue;
-    }
+    //followCount boosts trigrams that have more possible followups
+    //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
     if (
       (matches[key] + followCount(model, key) * 0.01) /
         strtok.split(key).length >
@@ -210,13 +252,13 @@ const join = (x, y = "") => {
   }
 };
 
-function generate(prompt, model, context = []) {
+function generate(prompt, trimodel, bimodel, context = []) {
   console.log(context.length);
   if (!prompt) {
     prompt = context[context.length - 1];
   }
-  const seed1 = getNextToken(prompt, model, context);
-  const seed2 = getNextToken(`${prompt} ${seed1}`, model, context);
+  const seed1 = getNextToken(prompt, trimodel, bimodel, context);
+  const seed2 = getNextToken(`${prompt} ${seed1}`, trimodel, bimodel, context);
   const out = [seed1, seed2];
   context.push(seed1);
   context.push(seed2);
@@ -224,7 +266,8 @@ function generate(prompt, model, context = []) {
   while (join(out).split(/[\.\?\!]/).length < 10) {
     const nextToken = getNextToken(
       `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
-      model,
+      trimodel,
+      bimodel,
       tokens,
     );
     tokens.push(nextToken);
@@ -244,13 +287,13 @@ const nextTime =
 
 const nextIdle = () => new Promise((resolve) => nextTime(resolve));
 
-function generateStream(prompt, model, context = []) {
+function generateStream(prompt, trimodel, bimodel, context = []) {
   return new ReadableStream({
     async start(controller) {
       if (!prompt) {
         prompt = context[context.length - 1];
       }
-      const seed1 = getNextToken(prompt, model, context);
+      const seed1 = getNextToken(prompt, trimodel, bimodel, context);
       const seed2 = getNextToken(`${prompt} ${seed1}`, model, context);
       const out = [seed1, seed2];
       context.push(seed1);
@@ -260,7 +303,8 @@ function generateStream(prompt, model, context = []) {
         await nextIdle();
         const nextToken = getNextToken(
           `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
-          model,
+          trimodel,
+          bimodel,
           tokens,
         );
         tokens.push(nextToken);
@@ -319,15 +363,22 @@ async function readFile(filePath) {
     ])
   ).join(" ");
 
-  let model = buildNGrams(text);
-  model = Object.fromEntries(Object.entries(model).sort());
+  let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
+  trimodel = Object.fromEntries(Object.entries(trimodel).sort());
+  let bimodel = mergeModels(buildNGrams(text, 2), buildPrunedNGrams(text, 2));
+  bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+
   const fs = require("fs");
   const { execSync } = require("child_process");
 
-  fs.writeFileSync("model.json.txt", JSON.stringify(model, null, 2));
-  execSync("gzip -k --force model.json.txt");
+  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel, null, 2));
+  execSync("gzip -k --force trimodel.json.txt");
+
+  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel, null, 2));
+  execSync("gzip -k --force bimodel.json.txt");
+
   let context = [];
   let prompt = ">Aragorn";
   console.log(prompt);
-  console.log(generate(prompt, model, context));
+  console.log(generate(prompt, trimodel, bimodel, context));
 })();
