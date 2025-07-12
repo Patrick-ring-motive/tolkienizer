@@ -21,12 +21,12 @@ h1,h3{
       }
       buttons{
         width:100%;
+        color:green !important;
       }
     </style>
     <script>
-      //localStorage.removeItem("context");
 
-      //itilities to simplify sfream conversiom
+      //utilities to simplify stream conversion
       ReadableStream.prototype.gunzip = function gunzip() {
         return this.pipeThrough(new DecompressionStream("gzip"));
       };
@@ -62,9 +62,12 @@ h1,h3{
       
 
       (async () => {
+        //download the model. Its a gzipped json dictionary of trigrams.
         const res = await fetch("model.json.txt.gz");
         const model = JSON.parse(await res.body.gunzip().text());
 document.querySelector("loading")?.remove?.();
+
+        //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
         const lcs = function lcs(seq1, seq2) {
           "use strict";
           let arr1 = [...(seq1 ?? [])];
@@ -89,6 +92,7 @@ document.querySelector("loading")?.remove?.();
           return dp[arr1.length][arr2.length];
         };
 
+        
         const stringify = (x) => {
           try {
             return JSON.parse(x);
@@ -97,11 +101,14 @@ document.querySelector("loading")?.remove?.();
           }
         };
 
+
+        //Count the number of of possible trigrams that follow a given trigram
         const followCount = (model, key) => {
           if (!model[key]) return 0;
           return Object.keys(model[key]).length;
         };
 
+        //Get the next token in the sequence. This is the core of the model.
         function getNextToken(keywords, model, tokens = []) {
           const strtok = stringify(tokens);
           let maxMatch = 0;
@@ -217,8 +224,13 @@ document.querySelector("loading")?.remove?.();
             },
           });
         }
+
+        const cap=txt=>{
+          txt=txt.trim();
+          return (txt[0]?.toUpperCase?.()||"")+txt.slice(1);
+        };
         function appendText(text) {
-          document.querySelector("code").innerHTML = (
+          document.querySelector("code").innerHTML = cap(
             document.querySelector("code").innerHTML +
             " " +
             text
