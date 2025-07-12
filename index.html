@@ -19,6 +19,9 @@ h1,h3{
         word-break:normal !important;
         font-size:4vmin;
       }
+      buttons{
+        width:100%;
+      }
     </style>
     <script>
       //localStorage.removeItem("context");
@@ -52,7 +55,7 @@ h1,h3{
   </head>
   <body>
     <center><h1>Tolkienizer</h1><br>
-    <h3>This little project is my attempt at creating a language model from scratch and have it run entirely clientside. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center>
+    <h3>This little project is my attempt at creating a language model from scratch and have it run entirely clientside. It's a simple trigram model trained on the 3 LotR books and The Hobbit. It has a bunch of small optimizations to seem more coherent. It's no Chatgpt but it is fun.</h3></center><buttons></buttons>
     <loading>loading...</loading>
     <pre><code></code></pre>
     <script>
@@ -227,15 +230,28 @@ document.querySelector("loading")?.remove?.();
         }
         let context = JSON.parse(localStorage.getItem("context") || "[]");
         appendText(join(context, " "));
+        const buttons = document.querySelector("buttons");
+        const gen = document.createElement("button");
+        gen.innerHTML = "Generate";
+        gen.onclick = async()=>{
         await nextIdle();
-        let prompt = ">Aragorn";
-        appendText(prompt);
+        let prompt = ".";
         const stream = generateStream(prompt, model, context);
 
         for await (const chunk of stream) {
           localStorage.setItem("context", JSON.stringify(context));
           appendText(chunk);
         }
+      };
+        buttons.appendChild(gen);
+        const clear = document.createElement("button");
+        clear.innerHTML = "Clear";
+        clear.onclick = ()=>{
+          localStorage.setItem("context","[]");
+          context = [];
+          document.querySelector("code").innerHTML = "";
+        };
+        buttons.appendChild(clear);
       })();
     </script>
   </body>
