@@ -155,7 +155,7 @@ document.querySelector("loading")?.remove?.();
               continue;
             }
 
-            //followCount boosts trigrams that have more poddible followups
+            //followCount boosts trigrams that have more possible followups
             if (
               (matches[key] + followCount(model, key) * 0.01) /
                 strtok.split(key).length >
