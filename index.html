@@ -61,7 +61,7 @@
           }
         };
 
-      window.onerror = (e) =>alert(e);
+      window.onerror = (e) =>(document.querySelector("log")??{}).innerHTML+='<br>'+e;
     </script>
     <title>Tolkienizer</title>
   </head>
@@ -84,6 +84,7 @@
     <pre><code></code></pre>
     <script>
       (async () => {
+        try{
         let trimodel;
         let bimodel;
         //download the trimodel. Its a gzipped json dictionary of trigrams.
@@ -275,7 +276,11 @@
           document.querySelector("code").innerHTML = "";
         };
         buttons.appendChild(clear);
+        }catch(e){
+          (document.querySelector("log")??{}).innerHTML+='<br>'+e.message;
+        }
       })();
     </script>
+    <log></log>
   </body>
 </html>
