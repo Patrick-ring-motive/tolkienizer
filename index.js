@@ -277,16 +277,37 @@ async function readFile(filePath) {
 (async () => {
   let text = (
     await Promise.all([
-      //getDocText("https://en.wikipedia.org/wiki/Cheese"),
-      //getDocText("https://en.wikipedia.org/wiki/Chicken"),
-      //getDocText("https://en.wikipedia.org/wiki/George_Washington"),
+      
 
       readFile("fellowship.txt"),
       readFile("towers.txt"),
       readFile("king.txt"),
       readFile("hobbit.txt"),
-      //getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
-      /*  (async () =>
+      
+      //silmarillion
+      getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
+      
+      
+      //elfland
+      getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
+      
+      //beowulf
+      getDocText("https://www.gutenberg.org/cache/epub/16328/pg16328.txt"),
+      
+      
+      //modern beowulf
+      getDocText("https://www.gutenberg.org/cache/epub/50742/pg50742.txt"),
+      
+      //The Kalevala
+
+      getDocText("https://www.gutenberg.org/cache/epub/5186/pg5186.txt"),
+      
+      //fellowship movie script
+      getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Fellowship-of-the-Ring,-The.html"),
+      getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-The-Two-Towers.html"),
+      getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Return-of-the-King.html"),
+      getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),
+     /*   (async () =>
         (
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
         ).replaceAll("’", "'"))(),*/
@@ -297,16 +318,14 @@ async function readFile(filePath) {
   model = Object.fromEntries(Object.entries(model).sort());
   const fs = require("fs");
 
-  // let model = JSON.parse(fs.readFileSync('model.json', 'utf8'));
+
   fs.writeFile("model.json.txt", JSON.stringify(model, null, 2), (err) =>
     console.error(err || ""),
   );
   let context = [];
   let prompt = ">Aragorn";
   console.log(prompt);
-  const stream = generateStream(prompt, model, context);
+   console.log(generate(prompt, model, context));
 
-  for await (const chunk of stream) {
-    console.log(chunk);
-  }
+  
 })();

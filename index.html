@@ -156,6 +156,7 @@ document.querySelector("loading")?.remove?.();
             }
 
             //followCount boosts trigrams that have more possible followups
+            //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
             if (
               (matches[key] + followCount(model, key) * 0.01) /
                 strtok.split(key).length >
