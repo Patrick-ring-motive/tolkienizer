@@ -136,6 +136,11 @@
           return Object.keys(model[key]).length;
         };
 
+        function getContextBoost(tokens, key) {
+          const context = stringify(tokens.slice(-20));
+          return (0.1 * lcs(context, key)) / context.length;
+        }
+
         //Get the next token in the sequence. This is the core of the model.
         function getNextToken(keywords, trimodel, bimodel, tokens = []) {
           const strtok = stringify(tokens);
@@ -170,7 +175,9 @@
             //followCount boosts trigrams that have more possible followups
             //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
             if (
-              (matches[key] + followCount(model, key) * 0.01) /
+              (matches[key] +
+                getContextBoost(tokens, key) +
+                followCount(model, key) * 0.01) /
                 strtok.split(key).length >
               maxMatch
             ) {
