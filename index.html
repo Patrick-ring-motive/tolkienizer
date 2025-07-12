@@ -203,7 +203,12 @@
                 prompt = context[context.length - 1];
               }
               const seed1 = getNextToken(prompt, trimodel, bimodel, context);
-              const seed2 = getNextToken(`${prompt} ${seed1}`, model, context);
+              const seed2 = getNextToken(
+                `${prompt} ${seed1}`,
+                trimodel,
+                bimodel,
+                context,
+              );
               const out = [seed1, seed2];
               context.push(seed1);
               context.push(seed2);
