@@ -138,7 +138,7 @@
 
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
-          return (0.1 * lcs(context, key)) / context.length;
+          return (lcs(context, key)/ context.length)/20;
         }
 
         //Get the next token in the sequence. This is the core of the model.
@@ -257,7 +257,7 @@
         gen.innerHTML = "Generate";
         gen.onclick = async () => {
           await nextIdle();
-          let prompt = crypto.randomUUID();
+          let prompt = ".".repeat(Math.floor(Math.random()*100));
           const stream = generateStream(prompt, trimodel, bimodel, context);
 
           for await (const chunk of stream) {
