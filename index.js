@@ -11,7 +11,6 @@ const norm = (str) => {
 // run **before** you split into tokens
 const glueCommonPairs = (text) => {
   const re = RegExp(`\\b(${words100})\\s+(${words100})\\b`, "g");
-  // iterate until no more pairs (handles chains like "in the end")
   let next = text,
     prev;
   do {
@@ -23,7 +22,6 @@ const glueCommonPairs = (text) => {
 
 const glueShortPairs = (text) => {
   const re = /\b([a-z]{1,3})\s+([a-z]{1,3})\b/g;
-  // iterate until no more pairs (handles chains like "in the end")
   let next = text,
     prev;
   do {
@@ -49,7 +47,6 @@ const revWords = [...words100].reverse().join("") + "|[a-z]{1,3}";
 const glueReverse = (text) => {
   text = [...text].reverse().join("");
   const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
-  // iterate until no more pairs (handles chains like "in the end")
   let next = text,
     prev;
   do {
@@ -73,8 +70,8 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" ve ", "'ve ")
     .replaceAll(" ll ", "'ll ")
     .replaceAll("Sm agol", "Smeagol")
-    .replaceAll(" ing ","ing ")
-    .replace(/[A-Z]{2,}/g,x=>x[0]+x.slice(1).toLowerCase());
+    .replaceAll(" ing ", "ing ")
+    .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
     .filter((x) => x?.trim?.());
@@ -115,7 +112,7 @@ async function getDocText(url) {
   ].forEach((x) => x.remove());
   return doc.firstElementChild.textContent;
 }
-
+//longest common subsequence. Used to find the closest matching trigram if no exact match is found.
 const lcs = function lcs(seq1, seq2) {
   "use strict";
   let arr1 = [...(seq1 ?? [])];
@@ -148,21 +145,28 @@ const stringify = (x) => {
   }
 };
 
+//Count the number of of possible trigrams that follow a given trigram
 const followCount = (model, key) => {
   if (!model[key]) return 0;
   return Object.keys(model[key]).length;
 };
 
+//Get the next token in the sequence. This is the core of the model.
 function getNextToken(keywords, model, tokens = []) {
   const strtok = stringify(tokens);
   let maxMatch = 0;
   let keyMatch = keywords;
   let matches = model[keywords];
+  // 10% chance to do fuzzy match search even if exact match is found.
   if (Math.random() > 0.9 || !matches) {
     for (const key in model) {
+      //random skips
       if (maxMatch > 0 && Math.random() > 0.5) {
         continue;
       }
+      // lcs finds common sequences.
+      // min length/max length punishes differences in length
+      // strtok.split(key).length punishes repeated sequences
       const keylcs =
         (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
         (Math.max(key.length, keywords.length) * strtok.split(key).length);
@@ -173,7 +177,7 @@ function getNextToken(keywords, model, tokens = []) {
     }
     matches = model[keyMatch];
   }
-
+  // extra randomness
   if (Math.random() > 0.5) {
     matches = Object.fromEntries(Object.entries(matches).sort());
   }
@@ -280,14 +284,12 @@ async function readFile(filePath) {
 (async () => {
   let text = (
     await Promise.all([
-      
-
       readFile("fellowship.txt"),
       readFile("towers.txt"),
       readFile("king.txt"),
       readFile("hobbit.txt"),
-      
-   /*   //silmarillion
+
+      /*   //silmarillion
       getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
       
       
@@ -310,7 +312,7 @@ async function readFile(filePath) {
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-The-Two-Towers.html"),
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Return-of-the-King.html"),
       getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),*/
-     /*   (async () =>
+      /*   (async () =>
         (
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
         ).replaceAll("’", "'"))(),*/
@@ -320,14 +322,12 @@ async function readFile(filePath) {
   let model = buildNGrams(text);
   model = Object.fromEntries(Object.entries(model).sort());
   const fs = require("fs");
-  const { execSync } = require('child_process');
+  const { execSync } = require("child_process");
 
   fs.writeFileSync("model.json.txt", JSON.stringify(model, null, 2));
   execSync("gzip -k --force model.json.txt");
   let context = [];
   let prompt = ">Aragorn";
   console.log(prompt);
-   console.log(generate(prompt, model, context));
-
-  
+  console.log(generate(prompt, model, context));
 })();
