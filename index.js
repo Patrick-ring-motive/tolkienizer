@@ -71,7 +71,7 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" s ", "'s ")
     .replaceAll(" t ", "'t ")
     .replaceAll(" ve ", "'ve ")
-    .replaceAll(" ll ", "'ll ");
+    .replaceAll(" ll ", "'ll ").replaceAll("Sm agol", "Smeagol");
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
     .filter((x) => x?.trim?.());
