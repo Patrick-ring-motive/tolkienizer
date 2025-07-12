@@ -284,7 +284,7 @@ async function readFile(filePath) {
       readFile("king.txt"),
       readFile("hobbit.txt"),
       
-      //silmarillion
+   /*   //silmarillion
       getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
       
       
@@ -306,7 +306,7 @@ async function readFile(filePath) {
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Fellowship-of-the-Ring,-The.html"),
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-The-Two-Towers.html"),
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Return-of-the-King.html"),
-      getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),
+      getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),*/
      /*   (async () =>
         (
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
