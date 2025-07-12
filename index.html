@@ -133,7 +133,7 @@
         //Count the number of of possible trigrams that follow a given trigram
         const followCount = (model, key) => {
           if (!model[key]) return 0;
-          return Object.keys(trimodel[key]).length;
+          return Object.keys(model[key]).length;
         };
 
         //Get the next token in the sequence. This is the core of the model.
