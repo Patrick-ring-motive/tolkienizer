@@ -257,7 +257,7 @@
         gen.innerHTML = "Generate";
         gen.onclick = async () => {
           await nextIdle();
-          let prompt = ".";
+          let prompt = crypto.randomUUID();
           const stream = generateStream(prompt, trimodel, bimodel, context);
 
           for await (const chunk of stream) {
