@@ -173,15 +173,16 @@
 
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
+            const randoSkip = Math.random() < 0.1;
             const strtok = stringify(tokens);
             let model = trimodel;
             let maxMatch = 0;
             let keyMatch = keywords;
             let matches = trimodel[keywords];
             // 10% chance to do fuzzy match search even if exact match is found.
-            if (!matches) {
+            if (randoSkip||!matches) {
               matches = bimodel[keywords.split(" ").pop()];
-              if (!matches) {
+              if (randoSkip||!matches) {
                 for (const key in trimodel) {
                   // lcs finds common sequences.
                   // min length/max length punishes differences in length
