@@ -163,9 +163,9 @@
           let score=0;
             const smk = stringify(model[key]).toLowerCase();
         for(const actor in activeActors){
-           if(smk.includes(actor)){
-            score+=0.2;
-          }
+            score+=(0.2 * (lcs(smk, actor) *
+            Math.min(key.length, keywords.length)) /
+          Math.max(key.length, keywords.length));
         }
             return score;
           };
@@ -228,6 +228,9 @@
               if(activeActors[actor]<=0){
                 delete activeActors[actor];
               }
+            }
+            if(/[A-Z]/.test(keyMatch)&&!/\?|\.|\!/.test(keywords) ){
+              activeActors[keyMatch]=20;
             }
             return keyMatch;
           }
