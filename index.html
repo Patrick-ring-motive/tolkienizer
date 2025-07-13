@@ -232,6 +232,7 @@
                       tokens,
                     );
                   }
+                  const out = [];
                   context.push(prompt);
                   while (join(out).split(/[\.\?\!]/).length < 10) {
                     await nextIdle();
@@ -242,6 +243,7 @@
                       tokens,
                     );
                     tokens.push(nextToken);
+                    out.push(nextToken);
                     controller.enqueue(nextToken);
                   }
                   controller.close();
