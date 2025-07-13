@@ -65,7 +65,7 @@
         };
       window.log = (e) => {
         console.log(e);
-        (document.querySelector("log") ?? {}).innerHTML += "<br>" + e.message;
+        (document.querySelector("log") ?? {}).innerHTML += "<br>" + e.message??e;
       };
       window.addEventListener("error", function (e) {
         log(e?.message);
@@ -165,7 +165,7 @@
           }
         }
             return score;
-          }
+          };
 
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
