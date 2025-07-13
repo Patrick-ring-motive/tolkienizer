@@ -65,14 +65,13 @@
         };
       window.log = (e) => {
         console.log(e);
-        (document.querySelector("log") ?? {}).innerHTML += "<br>" +=(e.message??e);
+        (document.querySelector("log") ?? {}).innerHTML += ("<br>" + (e.message??e));
       };
       window.addEventListener("error", function (e) {
         log(e?.message);
         [...arguments].forEach(x=>{
-          log("window error "+(x?.message??x))
-        }
-                               );
+          log("window error "+(x?.message??x));
+        });
       });
     </script>
     <title>Tolkienizer</title>
