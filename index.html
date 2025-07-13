@@ -163,7 +163,10 @@
           let score=0;
             const smk = stringify(model[key]).toLowerCase();
         for(const actor in activeActors){
-            score+=(0.2 * (lcs(smk, actor)/actor.length));
+          if(smk.includes(actor)){
+            score+=0.2;
+          }
+            score+=(0.2 * (lcs(smk, actor)*actor.length/smk.length));
         }
             return score;
           };
