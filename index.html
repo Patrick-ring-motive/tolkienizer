@@ -206,7 +206,7 @@
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
                 (matches[key] +
-                  //getActorBoost(model,key) +
+                  getActorBoost(model,key) +
                   getContextBoost(tokens, key) +
                   followCount(model, key) * 0.01) /
                   strtok.split(key).length >
