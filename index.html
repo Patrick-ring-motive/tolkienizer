@@ -153,6 +153,20 @@
             return lcs(context, key) / context.length / 20;
           }
 
+          const actors = 'Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman'.toLowerCase().split("|");
+          const activeActors = {};
+
+          function getActorBoost(model,key){
+            if (!model[key]) return 0;
+          let score=0;
+        for(const actor of activeActors){
+            if(stringify(model[key]).toLowerCase().includes(actor)){
+            score+=0.2;
+          }
+        }
+            return score;
+          }
+
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
             const strtok = stringify(tokens);
@@ -189,6 +203,7 @@
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
                 (matches[key] +
+                  getActorBoost(model,key) +
                   getContextBoost(tokens, key) +
                   followCount(model, key) * 0.01) /
                   strtok.split(key).length >
@@ -198,7 +213,20 @@
                 keyMatch = key;
               }
             }
-            return stringify(keyMatch);
+            keyMatch = stringify(keyMatch);
+            const lk = keyMatch.toLowerCase();
+            for(const actor of actors){
+              if(lk.includes(actor)){
+                activeActors[actor] = 20;
+              }
+            }
+            for(const actor in activeActors){
+              activeActors[actor]--;
+              if(activeActors[actor]<=0){
+                delete activeActors[actor];
+              }
+            }
+            return keyMatch;
           }
 
           const join = (x, y = "") => {
