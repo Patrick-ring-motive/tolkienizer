@@ -83,6 +83,7 @@ function buildNGrams(text, n = 3) {
       .join(" ")
       .trim();
     const next = tokens[i + n - 1];
+    if(['www.','.com','http'].some(x=>`${key} ${next}`.includes(x)))continue;
     model[key] ??= {};
     model[key][next] = (model[key][next] || 0) + 1;
   }
@@ -114,6 +115,7 @@ function buildPrunedNGrams(text, n = 3) {
       .join(" ")
       .trim();
     const next = tokens[i + n - 1];
+    if(['www.','.com','http'].some(x=>`${key} ${next}`.includes(x)))continue;
     model[key] ??= {};
     model[key][next] = (model[key][next] || 0) + 1;
   }
