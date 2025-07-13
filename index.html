@@ -159,8 +159,9 @@
           function getActorBoost(model,key){
             if (!model[key]) return 0;
           let score=0;
+            const smk = stringify(model[key]).toLowerCase();
         for(const actor of activeActors){
-            if(stringify(model[key]).toLowerCase().includes(actor)){
+           if(smk.includes(actor)){
             score+=0.2;
           }
         }
@@ -203,7 +204,7 @@
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
                 (matches[key] +
-                  getActorBoost(model,key) +
+                  //getActorBoost(model,key) +
                   getContextBoost(tokens, key) +
                   followCount(model, key) * 0.01) /
                   strtok.split(key).length >
