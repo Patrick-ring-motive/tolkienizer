@@ -163,7 +163,7 @@
             if (!model[key]) return 0;
           let score=0;
             const smk = stringify(model[key]).toLowerCase();
-        for(const actor of activeActors){
+        for(const actor in activeActors){
            if(smk.includes(actor)){
             score+=0.2;
           }
