@@ -181,7 +181,7 @@
 
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
-            const randoSkip = Math.random() < 0.1;
+            const randoSkip = false; //Math.random() < 0.1;
             const strtok = stringify(tokens);
             let model = trimodel;
             let maxMatch = 0;
