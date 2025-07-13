@@ -65,12 +65,13 @@
         };
       window.log = (e) => {
         console.log(e);
-        (document.querySelector("log") ?? {}).innerHTML += ("<br>" + (e.message??e));
+        (document.querySelector("log") ?? {}).innerHTML +=
+          "<br>" + (e.message ?? e);
       };
       window.addEventListener("error", function (e) {
         log(e?.message);
-        [...arguments].forEach(x=>{
-          log("window error "+(x?.message??x));
+        [...arguments].forEach((x) => {
+          log("window error " + (x?.message ?? x));
         });
       });
     </script>
@@ -94,6 +95,7 @@
     <loading>loading...</loading>
     <pre><code></code></pre>
     <script>
+      const $name = Symbol("name");
       (async () => {
         try {
           let trimodel;
@@ -109,6 +111,9 @@
               bimodel = JSON.parse(await res.body.gunzip().text());
             })(),
           ]);
+
+          trimodel[$name] = "trimodel";
+          bimodel[$name] = "bimodel";]
 
           document.querySelector("loading")?.remove?.();
           //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
@@ -155,21 +160,24 @@
             return lcs(context, key) / context.length / 20;
           }
 
-          const actors = 'Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman'.toLowerCase().split("|");
+          const actors =
+            "Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman"
+              .toLowerCase()
+              .split("|");
           const activeActors = {};
 
-          function getActorBoost(model,key){
+          function getActorBoost(model, key) {
             if (!model[key]) return 0;
-          let score=0;
+            let score = 0;
             const smk = stringify(model[key]).toLowerCase();
-        for(const actor in activeActors){
-          if(smk.includes(actor)){
-            score+=0.2;
-          }
-            score+=(0.2 * (lcs(smk, actor)*actor.length/smk.length));
-        }
+            for (const actor in activeActors) {
+              if (smk.includes(actor)) {
+                score += 0.2;
+              }
+              score += 0.2 * ((lcs(smk, actor) * actor.length) / smk.length);
+            }
             return score;
-          };
+          }
 
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
@@ -179,10 +187,13 @@
             let maxMatch = 0;
             let keyMatch = keywords;
             let matches = trimodel[keywords];
+            let selectedModel = "trigram";
             // 10% chance to do fuzzy match search even if exact match is found.
-            if (randoSkip||!matches) {
+            if (randoSkip || !matches) {
+              selectedModel = "bigram";
               matches = bimodel[keywords.split(" ").pop()];
-              if (randoSkip||!matches) {
+              if (randoSkip || !matches) {
+                selectedModel = "lcs";
                 for (const key in trimodel) {
                   // lcs finds common sequences.
                   // min length/max length punishes differences in length
@@ -208,7 +219,7 @@
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
                 (matches[key] +
-                  getActorBoost(model,key) +
+                  getActorBoost(model, key) +
                   getContextBoost(tokens, key) +
                   followCount(model, key) * 0.01) /
                   strtok.split(key).length >
@@ -220,21 +231,22 @@
             }
             keyMatch = stringify(keyMatch);
             const lk = keyMatch.toLowerCase();
-            for(const actor of actors){
-              if(lk.includes(actor)){
+            for (const actor of actors) {
+              if (lk.includes(actor)) {
                 activeActors[actor] = 20;
               }
             }
-            for(const actor in activeActors){
+            for (const actor in activeActors) {
               activeActors[actor]--;
-              if(activeActors[actor]<=0){
+              if (activeActors[actor] <= 0) {
                 delete activeActors[actor];
               }
             }
-            if(/[A-Z]/.test(keyMatch)&&!/\?|\.|\!/.test(keywords) ){
-              activeActors[keyMatch]=20;
+            if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
+              activeActors[keyMatch] = 20;
             }
-            delete activeActors['I'];
+            delete activeActors["I"];
+            console.log(`Key ${keyMatch} selected from ${selectedModel}`);
             return keyMatch;
           }
 
