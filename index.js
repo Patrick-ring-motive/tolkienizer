@@ -59,7 +59,7 @@ const glueReverse = (text) => {
 function buildNGrams(text, n = 3) {
   const model = {};
   text = text
-    .replace(/[^a-zA-Z\.\?\!,';\s]/g, " ")
+    .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
     .replace(/(\s*\!)+/g, "!")
@@ -71,8 +71,8 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" ll ", "'ll ")
     .replaceAll("Sm agol", "Smeagol")
     .replaceAll(" ing ", "ing ")
-    .replaceAll("h oden","heoden")
-    .replaceAll("magi cal","magical")
+    .replaceAll("h oden", "heoden")
+    .replaceAll("magi cal", "magical")
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
@@ -83,7 +83,8 @@ function buildNGrams(text, n = 3) {
       .join(" ")
       .trim();
     const next = tokens[i + n - 1];
-    if(['www.','.com','http'].some(x=>`${key} ${next}`.includes(x)))continue;
+    if (["www.", ".com", "http"].some((x) => `${key} ${next}`.includes(x)))
+      continue;
     model[key] ??= {};
     model[key][next] = (model[key][next] || 0) + 1;
   }
@@ -93,7 +94,7 @@ function buildNGrams(text, n = 3) {
 function buildPrunedNGrams(text, n = 3) {
   const model = {};
   text = text
-    .replace(/[^a-zA-Z\.\?\!,';\s]/g, " ")
+    .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
     .replace(/(\s*\!)+/g, "!")
@@ -115,7 +116,8 @@ function buildPrunedNGrams(text, n = 3) {
       .join(" ")
       .trim();
     const next = tokens[i + n - 1];
-    if(['www.','.com','http'].some(x=>`${key} ${next}`.includes(x)))continue;
+    if (["www.", ".com", "http"].some((x) => `${key} ${next}`.includes(x)))
+      continue;
     model[key] ??= {};
     model[key][next] = (model[key][next] || 0) + 1;
   }
@@ -342,9 +344,9 @@ async function readFile(filePath) {
       readFile("king.txt"),
       readFile("hobbit.txt"),
 
-        //silmarillion
-      getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
-      
+      //silmarillion
+      //   getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
+
       /*
       //elfland
       getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
@@ -385,6 +387,11 @@ async function readFile(filePath) {
 
   fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel, null, 2));
   execSync("gzip -k --force bimodel.json.txt");
+
+  const sil = await getDocText(
+    "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
+  );
+  fs.writeFileSync("sil.txt", sil);
 
   let context = [];
   let prompt = ">Aragorn";
