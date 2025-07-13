@@ -233,6 +233,7 @@
             if(/[A-Z]/.test(keyMatch)&&!/\?|\.|\!/.test(keywords) ){
               activeActors[keyMatch]=20;
             }
+            delete activeActors['I'];
             return keyMatch;
           }
 
