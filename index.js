@@ -71,6 +71,8 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" ll ", "'ll ")
     .replaceAll("Sm agol", "Smeagol")
     .replaceAll(" ing ", "ing ")
+    .replaceAll("h oden","heoden")
+    .replaceAll("magi cal","magical")
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
@@ -338,10 +340,10 @@ async function readFile(filePath) {
       readFile("king.txt"),
       readFile("hobbit.txt"),
 
-      /*   //silmarillion
+        //silmarillion
       getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
       
-      
+      /*
       //elfland
       getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
       
