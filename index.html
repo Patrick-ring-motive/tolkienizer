@@ -182,7 +182,7 @@
           let newActor;
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
-            if(newActor && !/\?$|\.$|\!$/.test(keywords)){
+            if(newActor && /\?$|\.$|\!$/.test(keywords)){
               const x = newActor;
               newActor = null;
               tokens.push(x);
