@@ -250,10 +250,11 @@
               }
             }
             if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
-              activeActors[keyMatch] = 20;
-              if(!tokens.includes(keyMatch)){
+              if(!activeActors[keyMatch]){
                 newActor = keyMatch;
               }
+              activeActors[keyMatch] = 20;
+              
             }
             delete activeActors["I"];
             console.log(
