@@ -33,7 +33,6 @@ const glueShortPairs = (text) => {
 const words = words100 + "|[a-z]{1,3}";
 const gluePairs = (text) => {
   const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
-  // iterate until no more pairs (handles chains like "in the end")
   let next = text,
     prev;
   do {
@@ -471,10 +470,10 @@ async function readFile(filePath) {
   const fs = require("fs");
   const { execSync } = require("child_process");
 
-  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel, null, 2));
+  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel).replaceAll('","','¸'));
   execSync("gzip -k --force trimodel.json.txt");
 
-  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel, null, 2));
+  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel).replaceAll('","','¸'));
   execSync("gzip -k --force bimodel.json.txt");
 
   const sil = await getDocText(
