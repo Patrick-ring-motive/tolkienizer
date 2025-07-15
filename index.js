@@ -206,17 +206,45 @@ const followCount = (model, key) => {
   return Object.keys(model[key]).length;
 };
 
+function getContextBoost(tokens, key) {
+  const context = stringify(tokens.slice(-20));
+  return lcs(context, key) / context.length / 20;
+}
+
+const actors =
+  "Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman"
+    .toLowerCase()
+    .split("|");
+const activeActors = {};
+
+function getActorBoost(model, key) {
+  if (!model[key]) return 0;
+  let score = 0;
+  const smk = stringify(model[key]).toLowerCase();
+  for (const actor in activeActors) {
+    if (smk.includes(actor)) {
+      score += 0.2;
+    }
+    score += 0.2 * ((lcs(smk, actor) * actor.length) / smk.length);
+  }
+  return score;
+}
+
 //Get the next token in the sequence. This is the core of the model.
 function getNextToken(keywords, trimodel, bimodel, tokens = []) {
+  const randoSkip = false; //Math.random() < 0.1;
   const strtok = stringify(tokens);
   let model = trimodel;
   let maxMatch = 0;
   let keyMatch = keywords;
   let matches = trimodel[keywords];
+  let selectedModel = "trigram";
   // 10% chance to do fuzzy match search even if exact match is found.
-  if (!matches) {
+  if (randoSkip || !matches) {
+    selectedModel = "bigram";
     matches = bimodel[keywords.split(" ").pop()];
-    if (!matches) {
+    if (randoSkip || !matches) {
+      selectedModel = "lcs";
       for (const key in trimodel) {
         // lcs finds common sequences.
         // min length/max length punishes differences in length
@@ -239,7 +267,10 @@ function getNextToken(keywords, trimodel, bimodel, tokens = []) {
     //followCount boosts trigrams that have more possible followups
     //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
     if (
-      (matches[key] + followCount(model, key) * 0.01) /
+      (matches[key] +
+        getActorBoost(model, key) +
+        getContextBoost(tokens, key) +
+        followCount(model, key) * 0.01) /
         strtok.split(key).length >
       maxMatch
     ) {
@@ -247,7 +278,27 @@ function getNextToken(keywords, trimodel, bimodel, tokens = []) {
       keyMatch = key;
     }
   }
-  return stringify(keyMatch);
+  keyMatch = stringify(keyMatch);
+  const lk = keyMatch.toLowerCase();
+  for (const actor of actors) {
+    if (lk.includes(actor)) {
+      activeActors[actor] = 20;
+    }
+  }
+  for (const actor in activeActors) {
+    activeActors[actor]--;
+    if (activeActors[actor] <= 0) {
+      delete activeActors[actor];
+    }
+  }
+  if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
+    activeActors[keyMatch] = 20;
+  }
+  delete activeActors["I"];
+  console.log(
+    `Key ${keyMatch} selected from ${selectedModel} and skips ${randoSkip}`,
+  );
+  return keyMatch;
 }
 
 const join = (x, y = "") => {
@@ -256,6 +307,51 @@ const join = (x, y = "") => {
   } catch {
     return String(y);
   }
+};
+
+const nextTime =
+  globalThis.requestIdleCallback ??
+  globalThis.requestAnimationFrame ??
+  ((x) => setTimeout(x, 0));
+
+const nextIdle = () => new Promise((resolve) => nextTime(resolve));
+
+function generateStream(prompt, trimodel, bimodel, context = []) {
+  return new ReadableStream({
+    async start(controller) {
+      try {
+        const tokens = context;
+        if (!prompt) {
+          prompt = context[context.length - 1];
+        }
+        if (!prompt) {
+          prompt = getNextToken(crypto.randomUUID(), trimodel, bimodel, tokens);
+        }
+        const out = [];
+        context.push(prompt);
+        while (join(out).split(/[\.\?\!]/).length < 10) {
+          await nextIdle();
+          const nextToken = getNextToken(
+            `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
+            trimodel,
+            bimodel,
+            tokens,
+          );
+          tokens.push(nextToken);
+          out.push(nextToken);
+          controller.enqueue(nextToken);
+        }
+        controller.close();
+      } catch (e) {
+        log(e.message);
+      }
+    },
+  });
+}
+
+const cap = (txt) => {
+  txt = txt.trim();
+  return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
 };
 
 function generate(prompt, trimodel, bimodel, context = []) {
@@ -285,13 +381,6 @@ function generate(prompt, trimodel, bimodel, context = []) {
     .replace(/\. [a-z]/g, (x) => x.toUpperCase())
     .replace(/\! [a-z]/g, (x) => x.toUpperCase());
 }
-
-const nextTime =
-  globalThis.requestIdleCallback ??
-  globalThis.requestAnimationFrame ??
-  ((x) => setTimeout(x, 0));
-
-const nextIdle = () => new Promise((resolve) => nextTime(resolve));
 
 function generateStream(prompt, trimodel, bimodel, context = []) {
   return new ReadableStream({
