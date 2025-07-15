@@ -470,10 +470,17 @@ async function readFile(filePath) {
   const fs = require("fs");
   const { execSync } = require("child_process");
 
-  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel).replaceAll('","','¸'));
+  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel)
+                   .replaceAll('":{"','[')
+                   .replaceAll('},"',']')
+                   .replaceAll(',"','¸')
+                   .replaceAll('":','='));
   execSync("gzip -k --force trimodel.json.txt");
 
-  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel).replaceAll('","','¸'));
+  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel).replaceAll('":{"','[')
+                   .replaceAll('},"',']')
+                   .replaceAll(',"','¸')
+                   .replaceAll('":','='));
   execSync("gzip -k --force bimodel.json.txt");
 
   const sil = await getDocText(

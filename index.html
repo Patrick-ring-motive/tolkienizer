@@ -104,11 +104,11 @@
           await Promise.all([
             (async () => {
               const res = await fetch("trimodel.json.txt.gz");
-              trimodel = JSON.parse((await res.body.gunzip().text()).replaceAll('¸','","'));
+              trimodel = JSON.parse((await res.body.gunzip().text()).replaceAll('":','=').replaceAll(',"','¸').replaceAll('},"',']').replaceAll('":{"','['));
             })(),
             (async () => {
               const res = await fetch("bimodel.json.txt.gz");
-              bimodel = JSON.parse((await res.body.gunzip().text()).replaceAll('¸','","'));
+              bimodel = JSON.parse((await res.body.gunzip().text()).replaceAll('":','=').replaceAll(',"','¸').replaceAll('},"',']').replaceAll('":{"','['));
             })(),
           ]);
 
