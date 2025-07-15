@@ -72,6 +72,7 @@ function buildNGrams(text, n = 3) {
     .replaceAll(" ing ", "ing ")
     .replaceAll("h oden", "heoden")
     .replaceAll("magi cal", "magical")
+    .replaceAll("Gl in","Gloin")
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)

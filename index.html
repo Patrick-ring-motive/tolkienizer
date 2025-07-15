@@ -250,7 +250,7 @@
               }
             }
             if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
-              if(!activeActors[keyMatch]&&!/\?|\.|\!/.test(keyMatch)){
+              if(!activeActors[keyMatch]&&!/\?|\.|\!/.test(keyMatch)&&!newActor){
                 newActor = keyMatch;
               }
               activeActors[keyMatch] = 20;
