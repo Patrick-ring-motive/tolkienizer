@@ -83,10 +83,10 @@
       <br />
       <h3>
         This little project is my attempt at creating a language model from
-        scratch and have it run entirely clientside. It's a simple trigram
-        model trained on the 3 LotR books and The Hobbit. It has a bunch of
-        small optimizations to seem more coherent. It's no Chatgpt but it is
-        fun.⠀<a href="https://github.com/Patrick-ring-motive/tolkienizer"
+        scratch and have it run entirely clientside. It's a simple trigram model
+        trained on the 3 LotR books and The Hobbit. It has a bunch of small
+        optimizations to seem more coherent. It's no Chatgpt but it is fun.⠀<a
+          href="https://github.com/Patrick-ring-motive/tolkienizer"
           >Here's the code or whatever.</a
         >
       </h3>
@@ -105,16 +105,30 @@
           await Promise.all([
             (async () => {
               const res = await fetch("trimodel.json.txt.gz");
-              trimodel = JSON.parse((await res.body.gunzip().text()).replaceAll("=",'":').replaceAll('¸',',"').replaceAll("]",'},"').replaceAll("[",'":{"'));
+              trimodel = JSON.parse(
+                (await res.body.gunzip().text())
+                  .replaceAll("=", '":')
+                  .replaceAll("¸", ',"')
+                  .replaceAll("]", '},"')
+                  .replaceAll("[", '":{"'),
+              );
             })(),
             (async () => {
               const res = await fetch("bimodel.json.txt.gz");
-              bimodel = JSON.parse((await res.body.gunzip().text()).replaceAll("=",'":').replaceAll('¸',',"').replaceAll("]",'},"').replaceAll("[",'":{"'));
+              bimodel = JSON.parse(
+                (await res.body.gunzip().text())
+                  .replaceAll("=", '":')
+                  .replaceAll("¸", ',"')
+                  .replaceAll("]", '},"')
+                  .replaceAll("[", '":{"'),
+              );
             })(),
             (async () => {
               const res = await fetch("smodel.json.txt.gz");
-              smodel = JSON.parse((await res.body.gunzip().text()).replaceAll('¸','","'));
-            })()
+              smodel = JSON.parse(
+                (await res.body.gunzip().text()).replaceAll("¸", '","'),
+              );
+            })(),
           ]);
 
           trimodel[$name] = "trimodel";
@@ -146,23 +160,29 @@
             return dp[arr1.length][arr2.length];
           };
 
-          const weightedLCS = (seq1,seq2)=>{
-            return lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)/
-              Math.max(seq1.length, seq2.length);
+          const weightedLCS = (seq1, seq2) => {
+            return (
+              (lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
+              Math.max(seq1.length, seq2.length)
+            );
           };
 
-          const getsGram = tokens=>{
-            const text = tokens.join(" ").trim().split(/(?<=[\.\!\?,;])\s+/).pop();
+          const getsGram = (tokens) => {
+            const text = tokens
+              .join(" ")
+              .trim()
+              .split(/(?<=[\.\!\?,;])\s+/)
+              .pop();
             let maxMatch = 0;
-            let keyMatchIndex =0;
-            for(let i=1;i<smodel.length;i++){
-              const keylcs = weightedLCS(smodel[i],text);
-              if(keylcs>maxMatch){
+            let keyMatchIndex = 0;
+            for (let i = 1; i < smodel.length; i++) {
+              const keylcs = weightedLCS(smodel[i], text);
+              if (keylcs > maxMatch) {
                 maxMatch = keylcs;
                 keyMatchIndex = i;
               }
             }
-            return smodel[keyMatchIndex+1];
+            return smodel[keyMatchIndex + 1];
           };
 
           const stringify = (x) => {
@@ -206,7 +226,7 @@
           let newActor;
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
-            if(newActor && /\?$|\.$|\!$/.test(keywords)){
+            if (newActor && /\?$|\.$|\!$/.test(keywords)) {
               const x = newActor;
               newActor = null;
               tokens.push(x);
@@ -274,11 +294,15 @@
               }
             }
             if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
-              if(!activeActors[keyMatch]&&!/\?|\.|\!/.test(keyMatch)&&!newActor){
+              if (
+                !activeActors[keyMatch] &&
+                !/\?|\.|\!/.test(keyMatch) &&
+                !newActor &&
+                keyMatch != "I"
+              ) {
                 newActor = keyMatch;
               }
               activeActors[keyMatch] = 20;
-              
             }
             delete activeActors["I"];
             console.log(
@@ -331,9 +355,9 @@
                     tokens.push(nextToken);
                     out.push(nextToken);
                     controller.enqueue(nextToken);
-                    if(/[\.\?\!,;]/.test(nextToken)){
-                      const sgrams = getsGram(tokens).split(" "):
-                      for(const sgram of sgrams){
+                    if (/[\.\?\!,;]/.test(nextToken)) {
+                      const sgrams = getsGram(tokens).split(" ");
+                      for (const sgram of sgrams) {
                         tokens.push(sgram);
                         out.push(sgram);
                         controller.enqueue(sgram);
