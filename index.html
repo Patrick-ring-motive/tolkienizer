@@ -65,8 +65,11 @@
         };
       window.log = (e) => {
         console.log(e);
-        (document.querySelector("log") ?? {}).innerHTML +=
-          "<br>" + (e.message ?? e);
+        (
+          document.querySelector("log") ??
+          document.getElementsByTagName("log")?.[0] ??
+          {}
+        ).innerHTML += "<br>" + (e.message ?? e);
       };
       window.addEventListener("error", function (e) {
         log(e?.message);
