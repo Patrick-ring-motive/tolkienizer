@@ -152,10 +152,10 @@
           };
 
           const getsGram = tokens=>{
-            const text = tokens.join(" ").split(/(?<=[\.\!\?,;])\s+/).pop();
+            const text = tokens.join(" ").trim().split(/(?<=[\.\!\?,;])\s+/).pop();
             let maxMatch = 0;
             let keyMatchIndex =0;
-            for(let=1;i<smodel.length;i++){
+            for(let i=1;i<smodel.length;i++){
               const keylcs = weightedLCS(smodel[i],text);
               if(keylcs>maxMatch){
                 maxMatch = keylcs;
