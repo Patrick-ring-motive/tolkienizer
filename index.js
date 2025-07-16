@@ -55,9 +55,9 @@ const glueReverse = (text) => {
   return [...next].reverse().join("");
 };
 
-function buildNGrams(text, n = 3) {
-  const model = {};
-  text = text
+const fixText = text=>{
+  
+  return text
     .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
@@ -74,6 +74,15 @@ function buildNGrams(text, n = 3) {
     .replaceAll("magi cal", "magical")
     .replaceAll("Gl in","Gloin")
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
+};
+
+function buildSGrams(text){
+  return norm(fixText(text)).split(/(?<=[.!?,;])\s+/);
+}
+
+function buildNGrams(text, n = 3) {
+  const model = {};
+  text = fixText(text);
   let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
     .split(/\s+/)
     .filter((x) => x?.trim?.());
@@ -93,20 +102,7 @@ function buildNGrams(text, n = 3) {
 
 function buildPrunedNGrams(text, n = 3) {
   const model = {};
-  text = text
-    .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
-    .replace(/(\s*\.)+/g, ".")
-    .replace(/(\s*\?)+/g, "?")
-    .replace(/(\s*\!)+/g, "!")
-    .replace(/(\s*\,)+/g, ",")
-    .replaceAll(" re ", "'re ")
-    .replaceAll(" s ", "'s ")
-    .replaceAll(" t ", "'t ")
-    .replaceAll(" ve ", "'ve ")
-    .replaceAll(" ll ", "'ll ")
-    .replaceAll("Sm agol", "Smeagol")
-    .replaceAll(" ing ", "ing ")
-    .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
+  text = fixText(text);
   let tokens = norm(text)
     .split(/\s+/)
     .filter((x) => x?.trim?.());
@@ -192,6 +188,11 @@ const lcs = function lcs(seq1, seq2) {
   return dp[arr1.length][arr2.length];
 };
 
+const weightedLCS = (seq1,seq2)=>{
+  return lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)/
+    Math.max(seq1.length, seq2.length);
+};
+
 const stringify = (x) => {
   try {
     return JSON.parse(x);
@@ -250,8 +251,7 @@ function getNextToken(keywords, trimodel, bimodel, tokens = []) {
         // min length/max length punishes differences in length
         // strtok.split(key).length punishes repeated sequences
         const keylcs =
-          (lcs(key, keywords) * Math.min(key.length, keywords.length)) /
-          (Math.max(key.length, keywords.length) * strtok.split(key).length);
+          weightedLCS(key,keywords)/strtok.split(key).length;
         if (keylcs > maxMatch) {
           maxMatch = keylcs;
           keyMatch = key;
@@ -468,6 +468,8 @@ async function readFile(filePath) {
   let bimodel = mergeModels(buildNGrams(text, 2), buildPrunedNGrams(text, 2));
   bimodel = Object.fromEntries(Object.entries(bimodel).sort());
 
+  let smodel = buildSGrams(text);
+
   const fs = require("fs");
   const { execSync } = require("child_process");
 
@@ -483,6 +485,9 @@ async function readFile(filePath) {
                    .replaceAll(',"','¸')
                    .replaceAll('":','='));
   execSync("gzip -k --force bimodel.json.txt");
+
+  fs.writeFileSync("smodel.json.txt", JSON.stringify(smodel).replaceAll('","','¸'));
+  execSync("gzip -k --force smodel.json.txt");
 
   const sil = await getDocText(
     "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
