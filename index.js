@@ -77,7 +77,7 @@ const fixText = text=>{
 };
 
 function buildSGrams(text){
-  return norm(fixText(text)).split(/(?<=[.!?,;])\s+/);
+  return norm(fixText(text)).split(/(?<=[.!?,;])\s+/).map(x=>x.trim().replace(/\s+/g,' ')).filter(x=>x);
 }
 
 function buildNGrams(text, n = 3) {

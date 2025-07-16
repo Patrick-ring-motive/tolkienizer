@@ -152,7 +152,7 @@
           };
 
           const getsGram = tokens=>{
-            const text = tokens.join(" ").split(/(?<=[.!?,;])\s+/).pop();
+            const text = tokens.join(" ").split(/(?<=[\.\!\?,;])\s+/).pop();
             let maxMatch = 0;
             let keyMatchIndex =0;
             for(let=1;i<smodel.length;i++){
