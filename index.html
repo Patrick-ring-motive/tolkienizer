@@ -269,6 +269,10 @@
             }
             maxMatch = 0;
             for (const key in matches) {
+              if(matches[key] == key){
+                delete matches[key];
+                continue;
+              }
               //followCount boosts trigrams that have more possible followups
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
