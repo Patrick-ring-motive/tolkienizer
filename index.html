@@ -229,12 +229,12 @@
           let newActor;
           //Get the next token in the sequence. This is the core of the model.
           function getNextToken(keywords, trimodel, bimodel, tokens = []) {
-            if (newActor && /\?$|\.$|\!$/.test(keywords)) {
+            /*if (newActor && /\?$|\.$|\!$/.test(keywords)) {
               const x = newActor;
               newActor = null;
               tokens.push(x);
               return x;
-            }
+            }*/
             const randoSkip = false; //Math.random() < 0.1;
             const strtok = stringify(tokens);
             let model = trimodel;
@@ -269,7 +269,7 @@
             }
             maxMatch = 0;
             for (const key in matches) {
-              if(matches[key] == key){
+              if (matches[key] == key) {
                 delete matches[key];
                 continue;
               }
@@ -362,14 +362,16 @@
                     tokens.push(nextToken);
                     out.push(nextToken);
                     controller.enqueue(nextToken);
-                    if (/[\.\?\!,;]/.test(nextToken)) {/*
+                    if (/[\.\?\!,;]/.test(nextToken)) {
+                      /*
                       const sgrams = getsGram(tokens).split(" ");
                       for (const sgram of sgrams) {
                         tokens.push(sgram);
                         out.push(sgram);
                         controller.enqueue(sgram);
                       }
-                */    }
+                */
+                    }
                   }
                   controller.close();
                 } catch (e) {
