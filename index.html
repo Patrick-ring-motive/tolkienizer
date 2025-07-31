@@ -343,7 +343,8 @@
                   }
                   if (!prompt) {
                     prompt = getNextToken(
-                      crypto.randomUUID(),
+                     // crypto.randomUUID(),
+                      actors[Math.floor(actors.length*Math.random())]
                       trimodel,
                       bimodel,
                       tokens,
