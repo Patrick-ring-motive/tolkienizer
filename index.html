@@ -133,7 +133,7 @@
               );
             })(),
           ]);
-
+          globalThis["ngram-models"] = { trimodel, bimodel };
           trimodel[$name] = "trimodel";
           bimodel[$name] = "bimodel";
 
