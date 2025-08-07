@@ -404,7 +404,7 @@
           appendText(join(context, " "));
 
           const low = x => String(x).toLowerCase();
-           const cleanCtx = ctx =>{
+        globalThis.cleanCtx =   function cleanCtx(ctx ){
              const ctxLen = ctx.length-3;
              for(let i = 0; i < ctxLen; i++){
                try{
