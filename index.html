@@ -440,7 +440,7 @@
           setInterval(
             () =>
               cleanCtx(
-                String(document.querySelector("code").innerHTML).split(" "),
+                JSON.parse(localStorage.getItem('context')||[]),
               ),
             500,
           );
