@@ -400,7 +400,7 @@
               .replace(/\. [a-z]/g, (x) => x.toUpperCase())
               .replace(/\! [a-z]/g, (x) => x.toUpperCase());
           }
-          let context = JSON.parse(localStorage.getItem("context") || "[]");
+          let context = cleanCtx(JSON.parse(localStorage.getItem("context") || "[]"));
           appendText(join(context, " "));
 
           const low = x => String(x).toLowerCase();
