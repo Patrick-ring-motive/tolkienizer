@@ -394,7 +394,7 @@
                  if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
                    ctx[i+2]='';
                    ctx[i+3]='';
-                   document.querySelector("code").innerHTML = "";
+                   
                  }
                  }catch(e){
                    log(e.message);
@@ -409,7 +409,7 @@
           };
           function appendText(text) {
             document.querySelector("code").innerHTML = cap(
-              cleanCtx(document.querySelector("code").innerHTML + " " + text).split(' ').join(' ')),
+              cleanCtx((document.querySelector("code").innerHTML + " " + text).split(' ')).join(' ')
             )
               .replaceAll("_", " ")
               .replace(/\? [a-z]/g, (x) => x.toUpperCase())
