@@ -97,7 +97,8 @@
     <buttons></buttons>
     <loading>loading...</loading>
     <pre><code></code></pre>
-    <script>
+    <script src="index.js"></script>
+    <style>
       const $name = Symbol("name");
       (async () => {
         try {
@@ -235,7 +236,7 @@
               tokens.push(x);
               return x;
             }*/
-            const randoSkip = Math.random() < 0.1;
+            const randoSkip = false;//Math.random() < 0.1;
             const strtok = stringify(tokens);
             let model = trimodel;
             let maxMatch = 0;
@@ -423,7 +424,7 @@
           log(e.message);
         }
       })();
-    </script>
+                  </style>
     <log></log>
   </body>
 </html>
