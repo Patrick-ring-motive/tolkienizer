@@ -407,6 +407,13 @@
                     appendText(word);
                   }
                 }
+                if(String(ctx[i+3]).includes(' ')){
+                  ctx[i+3]='';
+                  document.querySelector("code").innerHTML = "";
+                  for (const word of ctx) {
+                    appendText(word);
+                  }
+                }
               } catch (e) {
                 log(e.message);
               }
