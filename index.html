@@ -425,6 +425,7 @@
             for await (const chunk of stream) {
               localStorage.setItem("context", JSON.stringify(context));
               appendText(chunk);
+              cleanCtx(context);
             }
           };
           buttons.appendChild(gen);
