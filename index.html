@@ -386,7 +386,23 @@
             });
           }
          
-          
+          const low = x => String(x).toLowerCase();
+          globalThis.cleanCtx =   function cleanCtx(ctx ){
+               const ctxLen = ctx.length-3;
+               for(let i = 0; i < ctxLen; i++){
+                 try{
+                 if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
+                   ctx[i+2]='';
+                   ctx[i+3]='';
+                   document.querySelector("code").innerHTML = "";
+                 }
+                 }catch(e){
+                   log(e.message);
+                 }
+               }
+
+               return ctx.filter(x=>x);
+             };
           const cap = (txt) => {
             txt = txt.trim();
             return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
@@ -403,24 +419,7 @@
           let context = cleanCtx(JSON.parse(localStorage.getItem("context") || "[]"));
           appendText(join(context, " "));
 
-          const low = x => String(x).toLowerCase();
-        globalThis.cleanCtx =   function cleanCtx(ctx ){
-             const ctxLen = ctx.length-3;
-             for(let i = 0; i < ctxLen; i++){
-               try{
-               if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
-                 ctx[i+2]='';
-                 ctx[i+3]='';
-                 document.querySelector("code").innerHTML = "";
-                 appendText(ctx.join(" "));
-               }
-               }catch(e){
-                 log(e.message);
-               }
-             }
-             
-             return ctx.filter(x=>x);
-           };
+          
           context=cleanCtx(context);
           const buttons = document.querySelector("buttons");
           const gen = document.createElement("button");
