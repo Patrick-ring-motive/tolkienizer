@@ -8,6 +8,13 @@ const norm = (str) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
+const glueFixes = (text) => {
+  return text
+    .replaceAll(/\sthe\s+/g, " the_")
+    .replace(/\sa\s+/g, " a_")
+    .replace(/\san\s+/g, " an_");
+};
+
 // run **before** you split into tokens
 const glueCommonPairs = (text) => {
   const re = RegExp(`\\b(${words100})\\s+(${words100})\\b`, "g");
@@ -55,8 +62,7 @@ const glueReverse = (text) => {
   return [...next].reverse().join("");
 };
 
-const fixText = text=>{
-  
+const fixText = (text) => {
   return text
     .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
@@ -68,22 +74,36 @@ const fixText = text=>{
     .replaceAll(" t ", "'t ")
     .replaceAll(" ve ", "'ve ")
     .replaceAll(" ll ", "'ll ")
+    .replaceAll(" d ", "'d ")
+    .replaceAll(" m ", "'m ")
     .replaceAll("Sm agol", "Smeagol")
     .replaceAll(" ing ", "ing ")
     .replaceAll("h oden", "heoden")
     .replaceAll("magi cal", "magical")
-    .replaceAll("Gl in","Gloin")
+    .replaceAll("Gl in", "Gloin")
+    .replace(/\s+'re\s/g, "'re ")
+    .replace(/\s+'s\s/g, "'s ")
+    .replace(/\s+'t\s/g, "'t ")
+    .replace(/\s+'ll\s/g, "'ll ")
+    .replace(/\s+'ve\s/g, "'ve ")
+    .replace(/\s+'d\s/g, "'d ")
+    .replace(/\s+'m\s/g, "'m ")
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
 };
 
-function buildSGrams(text){
-  return norm(fixText(text)).split(/(?<=[.!?,;])\s+/).map(x=>x.trim().replace(/\s+/g,' ')).filter(x=>x);
+function buildSGrams(text) {
+  return norm(fixText(text))
+    .split(/(?<=[.!?,;])\s+/)
+    .map((x) => x.trim().replace(/\s+/g, " "))
+    .filter((x) => x);
 }
 
 function buildNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
-  let tokens = norm(`${gluePairs(text)} ${glueReverse(text)} ${text}`)
+  let tokens = norm(
+    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(text))} ${glueReverse(glueFixes(text))} ${glueFixes(text)}`,
+  )
     .split(/\s+/)
     .filter((x) => x?.trim?.());
   for (let i = 0; i < tokens.length - n + 1; i++) {
@@ -137,9 +157,9 @@ const mergeModels = (...models) => {
   }
   return model;
 };
-if(typeof process){
-globalThis.jsdom = require("jsdom");
-   globalThis.JSDOM = jsdom.JSDOM;
+if (typeof process) {
+  globalThis.jsdom = require("jsdom");
+  globalThis.JSDOM = jsdom.JSDOM;
 }
 function parseDoc(input) {
   return new JSDOM(input).window.document;
@@ -177,7 +197,7 @@ globalThis.lcs = function lcs(seq1, seq2) {
   const dp_length = dp.length;
   for (let i = 1; i !== dp_length; ++i) {
     const dpi_length = dp[i].length;
-    for (let x = 1; x !== dpi_length;++x) {
+    for (let x = 1; x !== dpi_length; ++x) {
       if (arr1[i - 1] === arr2[x - 1]) {
         dp[i][x] = dp[i - 1][x - 1] + 1;
       } else {
@@ -188,9 +208,11 @@ globalThis.lcs = function lcs(seq1, seq2) {
   return dp[arr1.length][arr2.length];
 };
 
-const weightedLCS = (seq1,seq2)=>{
-  return lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)/
-    Math.max(seq1.length, seq2.length);
+const weightedLCS = (seq1, seq2) => {
+  return (
+    (lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
+    Math.max(seq1.length, seq2.length)
+  );
 };
 
 const stringify = (x) => {
@@ -250,8 +272,7 @@ function getNextToken(keywords, trimodel, bimodel, tokens = []) {
         // lcs finds common sequences.
         // min length/max length punishes differences in length
         // strtok.split(key).length punishes repeated sequences
-        const keylcs =
-          weightedLCS(key,keywords)/strtok.split(key).length;
+        const keylcs = weightedLCS(key, keywords) / strtok.split(key).length;
         if (keylcs > maxMatch) {
           maxMatch = keylcs;
           keyMatch = key;
@@ -309,11 +330,6 @@ const join = (x, y = "") => {
   }
 };
 
-
-
-
-
-
 function generate(prompt, trimodel, bimodel, context = []) {
   console.log(context.length);
   if (!prompt) {
@@ -342,28 +358,28 @@ function generate(prompt, trimodel, bimodel, context = []) {
     .replace(/\! [a-z]/g, (x) => x.toUpperCase());
 }
 
-if(typeof process){
-const fsPromises = require("fs/promises");
-async function readFile(filePath) {
-  try {
-    return await fsPromises.readFile(filePath, { encoding: "utf8" });
-  } catch (err) {
-    return err.message;
+if (typeof process) {
+  const fsPromises = require("fs/promises");
+  async function readFile(filePath) {
+    try {
+      return await fsPromises.readFile(filePath, { encoding: "utf8" });
+    } catch (err) {
+      return err.message;
+    }
   }
-}
 
-(async () => {
-  let text = (
-    await Promise.all([
-      readFile("fellowship.txt"),
-      readFile("towers.txt"),
-      readFile("king.txt"),
-      readFile("hobbit.txt"),
-//getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
-      //silmarillion
-      //   getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
+  (async () => {
+    let text = (
+      await Promise.all([
+        readFile("fellowship.txt"),
+        readFile("towers.txt"),
+        readFile("king.txt"),
+        readFile("hobbit.txt"),
+        //getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
+        //silmarillion
+        //   getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
 
-      /*
+        /*
       //elfland
       getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
       
@@ -383,50 +399,57 @@ async function readFile(filePath) {
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-The-Two-Towers.html"),
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Return-of-the-King.html"),
       getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),*/
-      /*   (async () =>
+        /*   (async () =>
         (
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
         ).replaceAll("’", "'"))(),*/
-    ])
-  ).join(" ");
+      ])
+    ).join(" ");
 
-  let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
-  trimodel = Object.fromEntries(Object.entries(trimodel).sort());
-  let bimodel = mergeModels(buildNGrams(text, 2), buildPrunedNGrams(text, 2));
-  bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+    let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
+    trimodel = Object.fromEntries(Object.entries(trimodel).sort());
+    let bimodel = mergeModels(buildNGrams(text, 2), buildPrunedNGrams(text, 2));
+    bimodel = Object.fromEntries(Object.entries(bimodel).sort());
 
-  let smodel = buildSGrams(text);
+    let smodel = buildSGrams(text);
 
-  const fs = require("fs");
-  const { execSync } = require("child_process");
+    const fs = require("fs");
+    const { execSync } = require("child_process");
 
-  fs.writeFileSync("trimodel.json.txt", JSON.stringify(trimodel)
-                   .replaceAll('":{"','[')
-                   .replaceAll('},"',']')
-                   .replaceAll(',"','¸')
-                   .replaceAll('":','='));
-  execSync("gzip -k --force trimodel.json.txt");
+    fs.writeFileSync(
+      "trimodel.json.txt",
+      JSON.stringify(trimodel)
+        .replaceAll('":{"', "[")
+        .replaceAll('},"', "]")
+        .replaceAll(',"', "¸")
+        .replaceAll('":', "="),
+    );
+    execSync("gzip -k --force trimodel.json.txt");
 
-  fs.writeFileSync("bimodel.json.txt", JSON.stringify(bimodel).replaceAll('":{"','[')
-                   .replaceAll('},"',']')
-                   .replaceAll(',"','¸')
-                   .replaceAll('":','='));
-  execSync("gzip -k --force bimodel.json.txt");
+    fs.writeFileSync(
+      "bimodel.json.txt",
+      JSON.stringify(bimodel)
+        .replaceAll('":{"', "[")
+        .replaceAll('},"', "]")
+        .replaceAll(',"', "¸")
+        .replaceAll('":', "="),
+    );
+    execSync("gzip -k --force bimodel.json.txt");
 
-  fs.writeFileSync("smodel.json.txt", JSON.stringify(smodel).replaceAll('","','¸'));
-  execSync("gzip -k --force smodel.json.txt");
+    fs.writeFileSync(
+      "smodel.json.txt",
+      JSON.stringify(smodel).replaceAll('","', "¸"),
+    );
+    execSync("gzip -k --force smodel.json.txt");
 
-  const sil = await getDocText(
-    "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
-  );
-  fs.writeFileSync("sil.txt", sil);
+    const sil = await getDocText(
+      "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
+    );
+    fs.writeFileSync("sil.txt", sil);
 
-  let context = [];
-  let prompt = ">Aragorn";
-  console.log(prompt);
-  console.log(generate(prompt, trimodel, bimodel, context));
-
-
- 
-})();
+    let context = [];
+    let prompt = ">Aragorn";
+    console.log(prompt);
+    console.log(generate(prompt, trimodel, bimodel, context));
+  })();
 }
