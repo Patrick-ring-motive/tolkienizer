@@ -385,19 +385,7 @@
               },
             });
           }
-         const low = x => String(x).toLowerCase();
-         const cleanCtx = ctx =>{
-           const ctxLen = ctx.length-3;
-           for(let i = 0; i < ctxLen; i++){
-             if(low(ctx[i]) === low(ctx[i+2]) && low(ctx[i+1]) === low(ctx[i+3])){
-               ctx[i+2]='';
-               ctx[i+3]='';
-               document.querySelector("code").innerHTML = "";
-               appendText(ctx.join(" "));
-             }
-           }
-           return ctx.filter(x=>x);
-         };
+         
           
           const cap = (txt) => {
             txt = txt.trim();
@@ -414,6 +402,21 @@
           }
           let context = JSON.parse(localStorage.getItem("context") || "[]");
           appendText(join(context, " "));
+
+          const low = x => String(x).toLowerCase();
+           const cleanCtx = ctx =>{
+             const ctxLen = ctx.length-3;
+             for(let i = 0; i < ctxLen; i++){
+               if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
+                 ctx[i+2]='';
+                 ctx[i+3]='';
+                 document.querySelector("code").innerHTML = "";
+                 appendText(ctx.join(" "));
+               }
+             }
+             return ctx.filter(x=>x);
+           };
+          cleanCtx(context);
           const buttons = document.querySelector("buttons");
           const gen = document.createElement("button");
           gen.innerHTML = "Generate";
@@ -423,9 +426,10 @@
             const stream = generateStream(prompt, trimodel, bimodel, context);
 
             for await (const chunk of stream) {
+              cleanCtx(context);
               localStorage.setItem("context", JSON.stringify(context));
               appendText(chunk);
-              cleanCtx(context);
+              
             }
           };
           buttons.appendChild(gen);
