@@ -39,7 +39,7 @@ const glueShortPairs = (text) => {
 };
 const words = words100 + "|[a-z]{1,3}";
 const gluePairs = (text) => {
-  const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
+  const re = RegExp(`\\s(${words})\\s+(${words})\\s`, "g");
   let next = text,
     prev;
   do {
