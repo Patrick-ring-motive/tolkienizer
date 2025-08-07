@@ -409,7 +409,7 @@
           };
           function appendText(text) {
             document.querySelector("code").innerHTML = cap(
-              document.querySelector("code").innerHTML + " " + text,
+              cleanCtx(document.querySelector("code").innerHTML + " " + text).split(' ').join(' ')),
             )
               .replaceAll("_", " ")
               .replace(/\? [a-z]/g, (x) => x.toUpperCase())
