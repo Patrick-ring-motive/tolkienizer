@@ -416,7 +416,7 @@
              }
              return ctx.filter(x=>x);
            };
-          cleanCtx(context);
+          context=cleanCtx(context);
           const buttons = document.querySelector("buttons");
           const gen = document.createElement("button");
           gen.innerHTML = "Generate";
@@ -426,10 +426,10 @@
             const stream = generateStream(prompt, trimodel, bimodel, context);
 
             for await (const chunk of stream) {
-              cleanCtx(context);
+             context=cleanCtx(context);
               localStorage.setItem("context", JSON.stringify(context));
               appendText(chunk);
-              
+              context=cleanCtx(context);
             }
           };
           buttons.appendChild(gen);
