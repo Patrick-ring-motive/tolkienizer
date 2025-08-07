@@ -431,6 +431,7 @@
 
             return ctx.filter((x) => x);
           };
+          setInterval(()=>cleanCtx(String(document.querySelector("code").innerHTML).split(' ')),500);
           function cap(txt) {
             txt = txt.trim();
             return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
