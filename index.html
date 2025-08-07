@@ -388,7 +388,7 @@
          const low = x => String(x).toLowerCase();
          const cleanCtx = ctx =>{
            const ctxLen = ctx.length-3;
-           for(let i = 0; i !== ctxLen; i++){
+           for(let i = 0; i < ctxLen; i++){
              if(low(ctx[i]) === low(ctx[i+2]) && low(ctx[i+1]) === low(ctx[i+3])){
                ctx[i+2]='';
                ctx[i+3]='';
