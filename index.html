@@ -407,13 +407,18 @@
            const cleanCtx = ctx =>{
              const ctxLen = ctx.length-3;
              for(let i = 0; i < ctxLen; i++){
+               try{
                if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
                  ctx[i+2]='';
                  ctx[i+3]='';
                  document.querySelector("code").innerHTML = "";
                  appendText(ctx.join(" "));
                }
+               }catch(e){
+                 log(e.message);
+               }
              }
+             
              return ctx.filter(x=>x);
            };
           context=cleanCtx(context);
@@ -426,10 +431,10 @@
             const stream = generateStream(prompt, trimodel, bimodel, context);
 
             for await (const chunk of stream) {
-             context=cleanCtx(context);
+             cleanCtx(context);
               localStorage.setItem("context", JSON.stringify(context));
               appendText(chunk);
-              context=cleanCtx(context);
+              cleanCtx(context);
             }
           };
           buttons.appendChild(gen);
