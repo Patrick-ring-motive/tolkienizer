@@ -236,14 +236,14 @@
               tokens.push(x);
               return x;
             }*/
-            const randoSkip = false;//Math.random() < 0.1;
+            const randoSkip = Math.random() < 0.01;
             const strtok = stringify(tokens);
             let model = trimodel;
             let maxMatch = 0;
             let keyMatch = keywords;
             let matches = trimodel[keywords];
             let selectedModel = "trigram";
-            // 10% chance to do fuzzy match search even if exact match is found.
+            // 1% chance to do fuzzy match search even if exact match is found.
             if (randoSkip || !matches) {
               selectedModel = "bigram";
               matches = bimodel[keywords.split(" ").pop()];
@@ -270,6 +270,9 @@
             }
             maxMatch = 0;
             for (const key in matches) {
+              if(Math.random()<0.2){
+                continue;
+              }
               if (matches[key] == key) {
                 delete matches[key];
                 continue;
