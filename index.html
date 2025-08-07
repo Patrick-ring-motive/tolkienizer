@@ -427,7 +427,7 @@
           }
           function appendText(text) {
             document.querySelector("code").innerHTML = cap(
-              cleanCtx(document.querySelector("code").innerHTML + " " + text)
+              (document.querySelector("code").innerHTML + " " + text)
                 .split(" ")
                 .join(" "),
             )
