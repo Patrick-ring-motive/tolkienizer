@@ -440,7 +440,7 @@
           setInterval(
             () =>
               cleanCtx(
-                JSON.parse(localStorage.getItem('context')||[]),
+                JSON.parse(localStorage.getItem('context')||'[]'),
               ),
             500,
           );
