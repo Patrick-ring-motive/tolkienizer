@@ -406,19 +406,19 @@
                   for (const word of ctx) {
                     appendText(word);
                   }
-                }else if (
-                    ctx[i] &&
-                    ctx[i + 1] &&
-                    low(ctx[i]) == low(ctx[i + 1]))
-                  ) {
-                    ctx[i + 1] = "";
-                    document.querySelector("code").innerHTML = "";
-                    for (const word of ctx) {
-                      appendText(word);
-                    }
+                } else if (
+                  ctx[i] &&
+                  ctx[i + 1] &&
+                  low(ctx[i]) == low(ctx[i + 1])
+                ) {
+                  ctx[i + 1] = "";
+                  document.querySelector("code").innerHTML = "";
+                  for (const word of ctx) {
+                    appendText(word);
                   }
-                if(String(ctx[i+3]).includes(' ')){
-                  ctx[i+3]='';
+                }
+                if (String(ctx[i + 3]).includes(" ")) {
+                  ctx[i + 3] = "";
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
@@ -431,13 +431,21 @@
 
             return ctx.filter((x) => x);
           };
-          setInterval(()=>cleanCtx(String(document.querySelector("code").innerHTML).split(' ')),500);
+          setInterval(
+            () =>
+              cleanCtx(
+                String(document.querySelector("code").innerHTML).split(" "),
+              ),
+            500,
+          );
           function cap(txt) {
             txt = txt.trim();
             return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
           }
           function appendText(text) {
-            document.querySelector("code").innerHTML = cap(document.querySelector("code").innerHTML + " " + text)
+            document.querySelector("code").innerHTML = cap(
+              document.querySelector("code").innerHTML + " " + text,
+            )
               .replaceAll("_", " ")
               .replace(/\? [a-z]/g, (x) => x.toUpperCase())
               .replace(/\. [a-z]/g, (x) => x.toUpperCase())
