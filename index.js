@@ -102,7 +102,7 @@ function buildNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
   let tokens = norm(
-    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(text))} ${glueReverse(glueFixes(text))} ${glueFixes(text)}`,
+    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(text))} ${glueReverse(glueFixes(text))}`,
   )
     .split(/\s+/)
     .filter((x) => x?.trim?.());
