@@ -406,7 +406,17 @@
                   for (const word of ctx) {
                     appendText(word);
                   }
-                }
+                }else if (
+                    ctx[i] &&
+                    ctx[i + 1] &&
+                    low(ctx[i]) == low(ctx[i + 1]))
+                  ) {
+                    ctx[i + 1] = "";
+                    document.querySelector("code").innerHTML = "";
+                    for (const word of ctx) {
+                      appendText(word);
+                    }
+                  }
                 if(String(ctx[i+3]).includes(' ')){
                   ctx[i+3]='';
                   document.querySelector("code").innerHTML = "";
