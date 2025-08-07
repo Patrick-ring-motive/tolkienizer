@@ -406,7 +406,7 @@
                 ) {
                   ctx[i + 2] = `$${ctx[i + 2]}`;
                   ctx[i + 3] = `$${ctx[i + 3]}`;
-                  ctx.splice(i+2,2);
+                  ctx.splice(i + 2, 2);
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
@@ -417,15 +417,14 @@
                   low(ctx[i]) == low(ctx[i + 1])
                 ) {
                   ctx[i + 1] = `#${ctx[i + 1]}`;
-                  ctx.remove(i+1);
+                  ctx.remove(i + 1);
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
                   }
-                }
-                if (String(ctx[i + 3]).includes(" ")) {
+                } else if (String(ctx[i + 3]).includes(" ")) {
                   ctx[i + 3] = `&${ctx[i + 3]}`;
-                  ctx.remove(i+3);
+                  ctx.remove(i + 3);
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
