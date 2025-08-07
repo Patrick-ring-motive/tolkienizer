@@ -97,7 +97,10 @@
     <buttons></buttons>
     <loading>loading...</loading>
     <pre><code></code></pre>
-    <script type="noop" src="https://patrick-ring-motive.github.io/tolkienizer/index.js"></script>
+    <script
+      type="noop"
+      src="https://patrick-ring-motive.github.io/tolkienizer/index.js"
+    ></script>
     <script>
       const $name = Symbol("name");
       (async () => {
@@ -270,7 +273,7 @@
             }
             maxMatch = 0;
             for (const key in matches) {
-              if(Math.random()<0.2){
+              if (Math.random() < 0.2) {
                 continue;
               }
               if (matches[key] == key) {
@@ -385,42 +388,53 @@
               },
             });
           }
-         
-          const low = x => String(x).toLowerCase();
-          globalThis.cleanCtx =   function cleanCtx(ctx ){
-               const ctxLen = ctx.length-3;
-               for(let i = 0; i < ctxLen; i++){
-                 try{
-                 if(ctx[i] && ctx[i+1] && low(ctx[i]) == low(ctx[i+2]) && low(ctx[i+1]) == low(ctx[i+3])){
-                   ctx[i+2]='';
-                   ctx[i+3]='';
-                   
-                 }
-                 }catch(e){
-                   log(e.message);
-                 }
-               }
 
-               return ctx.filter(x=>x);
-             };
-          const cap = (txt) => {
+          const low = (x) => String(x).toLowerCase();
+          globalThis.cleanCtx = function cleanCtx(ctx) {
+            const ctxLen = ctx.length - 3;
+            for (let i = 0; i < ctxLen; i++) {
+              try {
+                if (
+                  ctx[i] &&
+                  ctx[i + 1] &&
+                  low(ctx[i]) == low(ctx[i + 2]) &&
+                  low(ctx[i + 1]) == low(ctx[i + 3])
+                ) {
+                  ctx[i + 2] = "";
+                  ctx[i + 3] = "";
+                  document.querySelector("code").innerHTML = "";
+                  for (const word of ctx) {
+                    appendText(word);
+                  }
+                }
+              } catch (e) {
+                log(e.message);
+              }
+            }
+
+            return ctx.filter((x) => x);
+          };
+          function cap(txt) {
             txt = txt.trim();
             return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
-          };
+          }
           function appendText(text) {
             document.querySelector("code").innerHTML = cap(
-              cleanCtx((document.querySelector("code").innerHTML + " " + text).split(' ')).join(' ')
+              cleanCtx(document.querySelector("code").innerHTML + " " + text)
+                .split(" ")
+                .join(" "),
             )
               .replaceAll("_", " ")
               .replace(/\? [a-z]/g, (x) => x.toUpperCase())
               .replace(/\. [a-z]/g, (x) => x.toUpperCase())
               .replace(/\! [a-z]/g, (x) => x.toUpperCase());
           }
-          let context = cleanCtx(JSON.parse(localStorage.getItem("context") || "[]"));
+          let context = cleanCtx(
+            JSON.parse(localStorage.getItem("context") || "[]"),
+          );
           appendText(join(context, " "));
 
-          
-          context=cleanCtx(context);
+          context = cleanCtx(context);
           const buttons = document.querySelector("buttons");
           const gen = document.createElement("button");
           gen.innerHTML = "Generate";
@@ -430,7 +444,7 @@
             const stream = generateStream(prompt, trimodel, bimodel, context);
 
             for await (const chunk of stream) {
-             cleanCtx(context);
+              cleanCtx(context);
               localStorage.setItem("context", JSON.stringify(context));
               appendText(chunk);
               cleanCtx(context);
@@ -449,7 +463,7 @@
           log(e.message);
         }
       })();
-                  </script>
+    </script>
     <log></log>
   </body>
 </html>
