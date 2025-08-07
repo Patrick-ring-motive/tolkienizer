@@ -77,6 +77,10 @@
           log("window error " + (x?.message ?? x));
         });
       });
+
+      Array.prototype.remove = function remove(i) {
+        this.splice(i, 1);
+      };
     </script>
     <title>Tolkienizer</title>
   </head>
@@ -411,7 +415,7 @@
                   ctx[i + 1] &&
                   low(ctx[i]) == low(ctx[i + 1])
                 ) {
-                  ctx[i + 1] = `#${ctx[i + 1]}`;;
+                  ctx[i + 1] = `#${ctx[i + 1]}`;
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
