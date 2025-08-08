@@ -375,7 +375,7 @@ if (typeof process) {
         readFile("towers.txt"),
         readFile("king.txt"),
         readFile("hobbit.txt"),
-        (await readFile("pedia.text"))
+        (await readFile("pedia.txt"))
           .split("\n")
           .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
           .join("\n"),
