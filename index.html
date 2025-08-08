@@ -260,11 +260,12 @@
                   // lcs finds common sequences.
                   // min length/max length punishes differences in length
                   // strtok.split(key).length punishes repeated sequences
+                  let repeatTax = strtok.split(key).length;
                   const keylcs =
                     (lcs(key, keywords) *
                       Math.min(key.length, keywords.length)) /
                     (Math.max(key.length, keywords.length) *
-                      strtok.split(key).length);
+                      repeatTax);
                   if (keylcs > maxMatch) {
                     maxMatch = keylcs;
                     keyMatch = key;
@@ -285,7 +286,7 @@
                 continue;
               }
 
-              const repeatTax = strtok.split(key).length;
+               repeatTax = strtok.split(key).length;
               
               //followCount boosts trigrams that have more possible followups
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
@@ -463,7 +464,7 @@
             document.querySelector("code").innerHTML = cap(
               document.querySelector("code").innerHTML + " " + text,
             )
-              .replaceAll("_", " ")
+             // .replaceAll("_", " ")
               .replace(/\? [a-z]/g, (x) => x.toUpperCase())
               .replace(/\. [a-z]/g, (x) => x.toUpperCase())
               .replace(/\! [a-z]/g, (x) => x.toUpperCase());
