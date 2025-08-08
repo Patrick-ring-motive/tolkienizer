@@ -454,7 +454,10 @@
                 localStorage.setItem('context',JSON.stringify(x));
                 
               }
-              cleanCtx(x);
+              document.querySelector("code").innerHTML = "";
+              for (const word of x) {
+                appendText(word);
+              }
             },
             500,
           );
