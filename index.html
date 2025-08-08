@@ -284,6 +284,9 @@
                 delete matches[key];
                 continue;
               }
+
+              const repeatTax = strtok.split(key).length;
+              
               //followCount boosts trigrams that have more possible followups
               //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
               if (
@@ -291,7 +294,7 @@
                   getActorBoost(model, key) +
                   getContextBoost(tokens, key) +
                   followCount(model, key) * 0.01) /
-                  strtok.split(key).length >
+                  repeatTax >
                 maxMatch
               ) {
                 maxMatch = matches[key];
