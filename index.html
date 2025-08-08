@@ -452,6 +452,7 @@
                 .join(' ').split(/\s+/));
               if(c.includes(' ')){
                 localStorage.setItem('context',JSON.stringify(x));
+                cleanCtx(x);
               }
             },
             500,
