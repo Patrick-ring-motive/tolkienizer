@@ -1,5 +1,4 @@
 
-Chapter 1
 
 Minas Tirith
 
@@ -200,7 +199,6 @@ In the night he was wakened by a light, and he saw that Gandalf had come and was
 Hullo! said Pippin, poking his head round the curtain. I thought you had forgotten all about me. I am glad to see you back. It has been a long day.
 But the night will be too short, said Gandalf. I have come back here, for I must have a little peace, alone. You should sleep, in a bed while you still may. At the sunrise I shall take you to the Lord Denethor again. No, when the summons comes, not at sunrise. The Darkness has begun. There will be no dawn.
 
-Chapter 2
 
 The Passing of the Grey Company
 
@@ -381,7 +379,6 @@ And with that he bade Halbarad unfurl the great standard which he had brought; a
 But when the dawn came, cold and pale, Aragorn rose at once, and he led the Company forth upon the journey of greatest haste and weariness that any among them had known, save he alone, and only his will held them to go on. No other mortal Men could have endured it, none but the Dúnedain of the North, and with them Gimli the Dwarf and Legolas of the Elves.
 They passed Tarlang’s Neck and came into Lamedon; and the Shadow Host pressed behind and fear went on before them, until they came to Calembel upon Ciril, and the sun went down like blood behind Pinnath Gelin away in the West behind them. The township and the fords of Ciril they found deserted, for many men had gone away to war, and all that were left fled to the hills at the rumour of the coming of the King of the Dead. But the next day there came no dawn, and the Grey Company passed on into the darkness of the Storm of Mordor and were lost to mortal sight; but the Dead followed them.
 
-Chapter 3
 
 The Muster of Rohan
 
@@ -517,7 +514,6 @@ On into the shadow they rode. In the willow-thickets where Snowbourn flowed into
 Ride on! Ride on! cried Éomer. Too late now to turn aside. The fens of Entwash must guard our flank. Haste now we need. Ride on!
 And so King Théoden departed from his own realm, and mile by mile the long road wound away, and the beacon hills marched past: Calenhad, Min-Rimmon, Erelas, Nardol. But their fires were quenched. All the lands were grey and still; and ever the shadow deepened before them, and hope waned in every heart.
 
-Chapter 4
 
 The Siege of Gondor
 
@@ -720,7 +716,6 @@ Old fool! he said. Old fool! This is my hour. Do you not know Death when you see
 Gandalf did not move. And in that very moment, away behind in some courtyard of the City, a cock crowed. Shrill and clear he crowed, recking nothing of wizardry or war, welcoming only the morning that in the sky far above the shadows of death was coming with the dawn.
 And as if in answer there came from far away another note. Horns, horns, horns. In dark Mindolluin’s sides they dimly echoed. Great horns of the North wildly blowing. Rohan had come at last.
 
-Chapter 5
 
 The Ride of the Rohirrim
 
@@ -797,7 +792,6 @@ With that he seized a great horn from Guthláf his banner-bearer, and he blew su
 Ride now, ride now! Ride to Gondor!
 Suddenly the king cried to Snowmane and the horse sprang away. Behind him his banner blew in the wind, white horse upon a field of green, but he outpaced it. After him thundered the knights of his house, but he was ever before them. Éomer rode there, the white horsetail on his helm floating in his speed, and the front of the first éored roared like a breaker foaming to the shore, but Théoden could not be overtaken. Fey he seemed, or the battle-fury of his fathers ran like new tire in his veins, and he was borne up on Snowmane like a god of old, even as Oromë the Great in the battle of the Valar when the world was young. His golden shield was uncovered, and lo! it shone like an image of the Sun, and the grass flamed into green about the white feet of his steed. For morning came, morning and a wind from the sea; and the darkness was removed, and the hosts of Mordor wailed, and terror took them, and they fled, and died, and the hoofs of wrath rode over them. And then all the host of Rohan burst into song, and they sang as they slew, for the joy of battle was on them, and the sound of their singing that was fair and terrible came even to the City.
 
-Chapter 6
 
 The Battle of the Pelennor Fields
 
@@ -906,7 +900,6 @@ foam dyed with blood flamed at sunset;
 as beacons mountains burned at evening;
 red fell the dew in Rammas Echor.
 
-Chapter 7
 
 The Pyre of Denethor
 
@@ -971,7 +964,6 @@ Alas! then I have guessed rightly, said Gandalf. Thus the will of Sauron entered
 Now I must go down to meet those who come. I have seen a sight upon the field that is very grievous to my heart, and greater sorrow may yet come to pass. Come with me, Pippin! But you, Beregond, should return to the Citadel and tell the chief of the Guard there what has befallen. It will be his duty, I fear, to withdraw you from the Guard; but say to him that, if I may give him counsel, you should be sent to the Houses of Healing, to be the guard and servant of your captain, and to be at his side when he awakes - if that shall ever be again. For by you he was saved from the fire. Go now! I shall return soon.
 With that he turned away and went with Pippin down towards the lower city. And even as they hastened on their way the wind brought a grey rain, and all the fires sank, and there arose a great smoke before them.
 
-Chapter 8
 
 The Houses of Healing
 
@@ -1102,7 +1094,6 @@ They are a remarkable race, said the Warden, nodding his head. Very tough in the
 At the doors of the Houses many were already gathered to see Aragorn, and they followed after him; and when at last he had supped, men came and prayed that he would heal their kinsmen or their friends whose lives were in peril through hurt or wound, or who lay under the Black Shadow. And Aragorn arose and went out, and he sent for the sons of Elrond, and together they laboured far into the night. And word went through the City: The King is come again indeed. And they named him Elfstone, because of the green stone that he wore, and so the name which it was foretold at his birth that he should bear was chosen for him by his own people.
 And when he could labour no more, he cast his cloak about him, and slipped out of the City, and went to his tent just ere dawn and slept for a little. And in the morning the banner of Dol Amroth, a white ship like a swan upon blue water, floated from the Tower, and men looked up and wondered if the coming of the King had been but a dream.
 
-Chapter 9
 
 The Last Debate
 
@@ -1198,7 +1189,6 @@ Surely, he cried, this is the greatest jest in all the history of Gondor: that w
 No, he will try to trap the fly and take the sting, said Gandalf. And there are names among us that are worth more than a thousand mail-clad knights apiece. No, he will not smile.
 Neither shall we, said Aragorn. If this be jest, then it is too bitter for laughter. Nay, it is the last move in a great jeopardy, and for one side or the other it will bring the end of the game. Then he drew Andúril and held it up glittering in the sun. You shall not be sheathed again until the last battle is fought; he said.
 
-Chapter 10
 
 The Black Gate Opens
 
@@ -1268,7 +1258,6 @@ For one moment more Pippin’s thought hovered. Bilbo! it said. But no! That cam
 Book VI
 
 
-Chapter 1
 
 The Tower of Cirith Ungol
 
@@ -1408,7 +1397,6 @@ Gilthoniel, A Elbereth! Sam cried. For, why he did not know, his thought sprang 
 Aiya elenion ancalima! cried Frodo once again behind him.
 The will of the Watchers was broken with a suddenness like the snapping of a cord, and Frodo and Sam stumbled forward. Then they ran. Through the gate and past the great seated figures with their glittering eyes. There was a crack. The keystone of the arch crashed almost on their heels, and the wall above crumbled, and fell in ruin. Only by a hair did they escape. A bell clanged; and from the Watchers there went up a high and dreadful wail. Far up above in the darkness it was answered. Out of the black sky there came dropping like a bolt a winged shape, rending the clouds with a ghastly shriek.
 
-Chapter 2
 
 The Land of Shadow
 
@@ -1537,7 +1525,6 @@ They lay still for a while. It was too dark to seek for cover, if indeed there w
 Come on, Mr. Frodo! he whispered. One more crawl, and then you can lie still.
 With a last despairing effort Frodo raised himself on his hands, and struggled on for maybe twenty yards. Then he pitched down into a shallow pit that opened unexpectedly before them, and there he lay like a dead thing.
 
-Chapter 3
 
 Mount Doom
 
@@ -1641,7 +1628,6 @@ Master! cried Sam. and fell upon his knees. In all that ruin of the world for th
 Your poor hand! he said. And I have nothing to bind it with, or comfort it. I would have spared him a whole hand of mine rather. But he’s gone now beyond recall, gone for ever.
 Yes, said Frodo. But do you remember Gandalf’s words: Even Gollum may have something yet to do? But for him, Sam, I could not have destroyed the Ring. The Quest would have been in vain, even at the bitter end. So let us forgive him! For the Quest is achieved, and now all is over. I am glad you are here with me. Here at the end of all things, Sam.
 
-Chapter 4
 
 The Field of Cormallen
 
@@ -1743,7 +1729,6 @@ In the meanwhile the host made ready for the return to Minas Tirith. The weary r
 But at the last when the month of May was drawing near the Captains of the West set out again; and they went aboard ship with all their men, and they sailed from Cair Andros down Anduin to Osgiliath; and there they remained for one day; and the day after they came to the green fields of the Pelennor and saw again the white towers under tall Mindolluin, the City of the Men of Gondor, last memory of Westernesse, that had passed through the darkness and fire to a new day.
 And there in the midst of the fields they set up their pavilions and awaited the morning; for it was the Eve of May, and the King would enter his gates with the rising of the Sun.
 
-Chapter 5
 
 The Steward and the King
 
@@ -1885,7 +1870,6 @@ Upon the very Eve of Midsummer, when the sky was blue as sapphire and white star
 And Frodo when he saw her come glimmering in the evening, with stars on her brow and a sweet fragrance about her, was moved with great wonder, and he said to Gandalf: At last I understand why we have waited! This is the ending. Now not day only shall be beloved, but night too shall be beautiful and blessed and all its fear pass away!
 Then the King welcomed his guests, and they alighted; and Elrond surrendered the sceptre, and laid the hand of his daughter in the hand of the King, and together they went up into the High City, and all the stars flowered in the sky. And Aragorn the King Elessar wedded Arwen Undómiel in the City of the Kings upon the day of Midsummer, and the tale of their long waiting and labours was come to fulfilment.
 
-Chapter 6
 
 Many Partings
 
@@ -2036,7 +2020,6 @@ As Frodo stood upon the threshold, Elrond wished him a fair journey, and blessed
 I think, Frodo, that maybe you will not need to come back, unless you come very soon. For about this time of the year, when the leaves are gold before they fall, look for Bilbo in the woods of the Shire. I shall be with him.
 These words no one else heard, and Frodo kept them to himself.
 
-Chapter 7
 
 Homeward Bound
 
@@ -2117,7 +2100,6 @@ He turned Shadowfax off the Road, and the great horse leaped the green dike that
 Well here we are, just the four of us that started out together, said Merry. We have left all the rest behind, one after another. It seems almost like a dream that has slowly faded.
 Not to me, said Frodo. To me it feels more like falling asleep again.
 
-Chapter 8
 
 The Scouring of the Shire
 
@@ -2367,7 +2349,6 @@ And the very last end of the War, I hope, said Merry.
 I hope so, said Frodo and sighed. The very last stroke. But to think that it should fall here, at the very door of Bag End! Among all my hopes and fears at least I never expected that.
 I shan’t call it the end, till we’ve cleared up the mess, said Sam gloomily. And that’ll take a lot of time and work.
 
-Chapter 9
 
 The Grey Havens
 
@@ -2426,7 +2407,6 @@ Well, not very well, Mr. Frodo.
 Of course not. But never mind. You can see me on my way. Tell Rose that you won’t be away very long, not more than a fortnight; and you’ll come back quite safe.
 I wish I could go all the way with you to Rivendell, Mr. Frodo, and see Mr. Bilbo, said Sam. And yet the only place I really want to be in is here. I am that torn in two.
 Poor Sam! It will feel like that, I am afraid, said Frodo. But you will be healed. You were meant to be solid and whole, and you will be.
-In the next day or two Frodo went through his papers and his writings with Sam, and he handed over his keys. There was a big book with plain red leather covers; its tall pages were now almost filled. At the beginning there were many leaves covered with Bilbo’s thin wandering hand; but most of it was written in Frodo’s firm flowing script. It was divided into chapters but Chapter 80 was unfinished, and after that were some blank leaves. The title page had many titles on it, crossed out one after another, so:
 My Diary. My Unexpected Journey. There and Back Again. And What Happened After.
 Adventures of Five Hobbits. The Tale of the Great Ring, compiled by Bilbo Baggins from his own observations and the accounts of his friends. What we did in the War of the Ring.
 Here Bilbo’s hand ended and Frodo had written:
