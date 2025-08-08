@@ -380,6 +380,9 @@ if (typeof process) {
         //silmarillion
           getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
 
+//narnia2
+        getDocText("https://archive.org/stream/LewisCSNarnia3TheHorseAndHisBoy/Lewis_C_S_-_Narnia_2_-_The_Lion_The_Witch_and_The__djvu.txt")
+        
         /*
       //elfland
       getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
