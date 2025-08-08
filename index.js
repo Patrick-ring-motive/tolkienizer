@@ -375,10 +375,10 @@ if (typeof process) {
         readFile("towers.txt"),
         readFile("king.txt"),
         readFile("hobbit.txt"),
-        (await readFile("pedia.txt"))
+       /* (await readFile("pedia.txt"))
           .split("\n")
           .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
-          .join("\n"),
+          .join("\n"),*/
         //getDocText("https://archive.org/stream/the-world-book-encyclopedia-volume-1-a/The%20World%20Book%20Encyclopedia%2C%20Volume%201%20A_djvu.txt")
         //getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
         //silmarillion
