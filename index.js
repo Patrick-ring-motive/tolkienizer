@@ -33,7 +33,7 @@ const glueShortPairs = (text) => {
     prev;
   do {
     prev = next;
-    next = prev.replace(re, "$1_$2");
+    next = prev.replace(re, " $1_$2 ");
   } while (next !== prev);
   return next;
 };
@@ -57,7 +57,7 @@ const glueReverse = (text) => {
     prev;
   do {
     prev = next;
-    next = prev.replace(re, "$1_$2");
+    next = prev.replace(re, "$1_$2 ");
   } while (next !== prev);
   return [...next].reverse().join("");
 };
