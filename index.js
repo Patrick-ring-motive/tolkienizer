@@ -52,7 +52,7 @@ const gluePairs = (text) => {
 const revWords = [...words100].reverse().join("") + "|[a-z]{1,3}";
 const glueReverse = (text) => {
   text = [...text].reverse().join("");
-  const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
+  const re = RegExp(`\\s(${words})\\s+(${words})\\s`, "g");
   let next = text,
     prev;
   do {
@@ -64,7 +64,7 @@ const glueReverse = (text) => {
 
 const fixText = (text) => {
   return text
-    .replace(/[^a-zA-Z\.\?\!,';\s\(\)]/g, " ")
+    .replace(/[^\-\—\_0-9a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
     .replace(/(\s*\!)+/g, "!")
