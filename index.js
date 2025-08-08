@@ -375,10 +375,10 @@ if (typeof process) {
         readFile("towers.txt"),
         readFile("king.txt"),
         readFile("hobbit.txt"),
-        getDocText("https://archive.org/stream/the-world-book-encyclopedia-volume-1-a/The%20World%20Book%20Encyclopedia%2C%20Volume%201%20A_djvu.txt")
+        //getDocText("https://archive.org/stream/the-world-book-encyclopedia-volume-1-a/The%20World%20Book%20Encyclopedia%2C%20Volume%201%20A_djvu.txt")
         //getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
         //silmarillion
-        //   getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
+          getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
 
         /*
       //elfland
