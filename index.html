@@ -395,8 +395,8 @@
 
           const low = (x) => String(x).toLowerCase();
           globalThis.cleanCtx = function cleanCtx(ctx) {
-            const ctxLen = ctx.length - 3;
-            for (let i = 0; i < ctxLen; i++) {
+            
+            for (let i = 0; i < ctx.length; i++) {
               try {
                 if (
                   ctx[i] &&
@@ -407,6 +407,7 @@
                   ctx[i + 2] = `$${ctx[i + 2]}`;
                   ctx[i + 3] = `$${ctx[i + 3]}`;
                   ctx.splice(i + 2, 2);
+                  i -= 2;
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
@@ -418,6 +419,7 @@
                 ) {
                   ctx[i + 1] = `#${ctx[i + 1]}`;
                   ctx.remove(i + 1);
+                  i--;
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
@@ -425,6 +427,7 @@
                 } else if (String(ctx[i + 3]).includes(" ")) {
                   ctx[i + 3] = `&${ctx[i + 3]}`;
                   ctx.remove(i + 3);
+                  i--;
                   document.querySelector("code").innerHTML = "";
                   for (const word of ctx) {
                     appendText(word);
