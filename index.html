@@ -438,10 +438,15 @@
             return ctx.filter((x) => x);
           };
           setInterval(
-            () =>
-              cleanCtx(
-                JSON.parse(localStorage.getItem('context')||'[]').join(' ').split(/\s+/),
-              ),
+            () =>{
+              let c = localStorage.getItem('context')||'[]';
+              
+             let x = cleanCtx(JSON.parse(c)
+                .join(' ').split(/\s+/));
+              if(c.includes(' ')){
+                localStorage.setItem('context',JSON.stringify(x));
+              }
+            },
             500,
           );
           function cap(txt) {
