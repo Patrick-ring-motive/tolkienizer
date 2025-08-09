@@ -22,7 +22,7 @@ const glueCommonPairs = (text) => {
     prev;
   do {
     prev = next;
-    next = prev.replace(re, "$1_$2");
+    next = prev.replace(re, " $1_$2 ");
   } while (next !== prev);
   return next;
 };
@@ -39,7 +39,7 @@ const glueShortPairs = (text) => {
 };
 const words = words100 + "|[a-z]{1,3}";
 const gluePairs = (text) => {
-  const re = RegExp(`\\s(${words})\\s+(${words})\\s`, "g");
+  const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
   let next = text,
     prev;
   do {
@@ -52,7 +52,7 @@ const gluePairs = (text) => {
 const revWords = [...words100].reverse().join("") + "|[a-z]{1,3}";
 const glueReverse = (text) => {
   text = [...text].reverse().join("");
-  const re = RegExp(`\\s(${words})\\s+(${words})\\s`, "g");
+  const re = RegExp(`\\b(${words})\\s+(${words})\\b`, "g");
   let next = text,
     prev;
   do {
@@ -64,7 +64,7 @@ const glueReverse = (text) => {
 
 const fixText = (text) => {
   return text
-    .replace(/[^\-\—\_0-9a-zA-Z\.\?\!,';\s\(\)]/g, " ")
+    .replace(/[^\-\_0-9a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
     .replace(/(\s*\!)+/g, "!")
@@ -120,11 +120,60 @@ function buildNGrams(text, n = 3) {
   return model;
 }
 
+
+
 function buildPrunedNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
   let tokens = norm(text)
     .split(/\s+/)
+    .filter((x) => x?.trim?.());
+  for (let i = 0; i < tokens.length - n + 1; i++) {
+    const key = tokens
+      .slice(i, i + n - 1)
+      .join(" ")
+      .trim();
+    const next = tokens[i + n - 1];
+    if (["www.", ".com", "http"].some((x) => `${key} ${next}`.includes(x)))
+      continue;
+    model[key] ??= {};
+    model[key][next] = (model[key][next] || 0) + 1;
+  }
+  for (const key in model) {
+    if (Object.keys(model[key]).length < 2) {
+      delete model[key];
+    }
+  }
+  return model;
+}
+
+function reverseBuildNGrams(text, n = 3) {
+  const model = {};
+  text = fixText(text);
+  let tokens = norm(
+    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
+  )
+    .split(/\s+/).reverse()
+    .filter((x) => x?.trim?.());
+  for (let i = 0; i < tokens.length - n + 1; i++) {
+    const key = tokens
+      .slice(i, i + n - 1)
+      .join(" ")
+      .trim();
+    const next = tokens[i + n - 1];
+    if (["www.", ".com", "http"].some((x) => `${key} ${next}`.includes(x)))
+      continue;
+    model[key] ??= {};
+    model[key][next] = (model[key][next] || 0) + 1;
+  }
+  return model;
+}
+
+function reverseBuildPrunedNGrams(text, n = 3) {
+  const model = {};
+  text = fixText(text);
+  let tokens = norm(text)
+    .split(/\s+/).reverse()
     .filter((x) => x?.trim?.());
   for (let i = 0; i < tokens.length - n + 1; i++) {
     const key = tokens
@@ -421,6 +470,12 @@ if (typeof process) {
 
     let smodel = buildSGrams(text);
 
+    let retrimodel = mergeModels(reverseBuildNGrams(text), reverseBuildPrunedNGrams(text));
+    retrimodel = Object.fromEntries(Object.entries(retrimodel).sort());
+    let rebimodel = mergeModels(reverseBuildNGrams(text, 2), reverseBuildPrunedNGrams(text, 2));
+    rebimodel = Object.fromEntries(Object.entries(rebimodel).sort());
+
+    
     const fs = require("fs");
     const { execSync } = require("child_process");
 
@@ -435,6 +490,16 @@ if (typeof process) {
     execSync("gzip -k --force trimodel.json.txt");
 
     fs.writeFileSync(
+      "retrimodel.json.txt",
+      JSON.stringify(retrimodel)
+        .replaceAll('":{"', "[")
+        .replaceAll('},"', "]")
+        .replaceAll(',"', "¸")
+        .replaceAll('":', "="),
+    );
+    execSync("gzip -k --force retrimodel.json.txt");
+
+    fs.writeFileSync(
       "bimodel.json.txt",
       JSON.stringify(bimodel)
         .replaceAll('":{"', "[")
@@ -443,6 +508,16 @@ if (typeof process) {
         .replaceAll('":', "="),
     );
     execSync("gzip -k --force bimodel.json.txt");
+
+    fs.writeFileSync(
+      "rebimodel.json.txt",
+      JSON.stringify(rebimodel)
+        .replaceAll('":{"', "[")
+        .replaceAll('},"', "]")
+        .replaceAll(',"', "¸")
+        .replaceAll('":', "="),
+    );
+    execSync("gzip -k --force rebimodel.json.txt");
 
     fs.writeFileSync(
       "smodel.json.txt",
