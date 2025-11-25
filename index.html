@@ -483,9 +483,14 @@
               return null;
             }
           };
-          let context = cleanCtx(
-            parseOrNull(localStorage.getItem("context")||"[]") //|| document.querySelector('#start')?.value?.split?.(/\s+/) || []
+          let context;
+          try{
+          context = cleanCtx(
+            parseOrNull(localStorage.getItem("context"))|| document.querySelector('#start')?.value?.split?.(/\s+/) || []
           );
+          }catch(e){
+            context = String(e?.message ?? e).split(' ');
+          }
           appendText(join(context, " "));
 
           context = cleanCtx(context);
