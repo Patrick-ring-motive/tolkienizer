@@ -99,6 +99,7 @@
       </h3>
     </center>
     <buttons></buttons>
+    <table><tr><td>start</td><td><input id="start"></input></td></tr></table>
     <loading>loading...</loading>
     <pre><code></code></pre>
     <script
@@ -474,8 +475,15 @@
               .replace(/\. [a-z]/g, (x) => x.toUpperCase())
               .replace(/\! [a-z]/g, (x) => x.toUpperCase());
           }
+          const parseOrNull = x => {
+            try{
+              return JSON.parse(x);
+            }catch{
+              return null;
+            }
+          };
           let context = cleanCtx(
-            JSON.parse(localStorage.getItem("context") || "[]"),
+            parseOrNull(localStorage.getItem("context")) || document.querySelector('#start')?.value?.split?.(/\s+/) ?? []
           );
           appendText(join(context, " "));
 
