@@ -490,6 +490,7 @@
             );
             if(!context?.length){
               context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
+              localStorage.setItem('context',JSON.stringify(context));
             }
           }catch(e){
             context = cleanCtx(String(e?.message ?? e).split(' '));
