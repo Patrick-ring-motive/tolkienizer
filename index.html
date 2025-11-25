@@ -10,6 +10,7 @@
       h3 {
         font-family: sans-serif;
       }
+      .poop,
       button,
       loading,
       h1,
@@ -99,7 +100,7 @@
       </h3>
     </center>
     <buttons></buttons>
-    <table><tr><td>start</td><td><input id="start"></input></td></tr></table>
+    <table><tr><td class="poop">start</td><td><input id="start"></input></td></tr></table>
     <loading>loading...</loading>
     <pre><code></code></pre>
     <script
@@ -483,7 +484,7 @@
             }
           };
           let context = cleanCtx(
-            parseOrNull(localStorage.getItem("context")) || document.querySelector('#start')?.value?.split?.(/\s+/) ?? []
+            parseOrNull(localStorage.getItem("context")) || document.querySelector('#start')?.value?.split?.(/\s+/) || []
           );
           appendText(join(context, " "));
 
