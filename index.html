@@ -506,7 +506,7 @@
           gen.innerHTML = "Generate";
           gen.onclick = async () => {
             await nextIdle();
-            let prompt = document.querySelector('#start')?.value?.split?.(/\s+/);
+            let prompt = document.querySelector('#start')?.value;
             const stream = generateStream(prompt, trimodel, bimodel, context);
 
             for await (const chunk of stream) {
