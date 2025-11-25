@@ -485,12 +485,12 @@
           };
           let context;
           try{
-          context = cleanCtx(
-            parseOrNull(localStorage.getItem("context")??"[]")
-          );
-          if(!context?.length){
-            context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
-          }
+            context = cleanCtx(
+              parseOrNull(localStorage.getItem("context")) ?? document.querySelector('#start')?.value?.split(/\s+/) ?? []
+            );
+            if(!context?.length){
+              context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
+            }
           }catch(e){
             context = cleanCtx(String(e?.message ?? e).split(' '));
           }
