@@ -495,7 +495,10 @@
           }catch(e){
             context = cleanCtx(String(e?.message ?? e).split(' '));
           }
-          appendText(join(context, " "));
+          for(const txt of context){
+            appendText(txt);
+          }
+          //appendText(join(context, " "));
 
           context = cleanCtx(context);
           const buttons = document.querySelector("buttons");
