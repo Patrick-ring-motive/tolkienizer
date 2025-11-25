@@ -305,7 +305,7 @@
               }
             }
             keyMatch = stringify(keyMatch);
-            const lk = keyMatch.toLowerCase();
+            const lk = String(keyMatch).toLowerCase();
             for (const actor of actors) {
               if (lk.includes(actor)) {
                 activeActors[actor] = 20;
