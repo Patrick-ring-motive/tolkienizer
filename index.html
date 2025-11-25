@@ -484,7 +484,7 @@
             }
           };
           let context = cleanCtx(
-            parseOrNull(localStorage.getItem("context")) || document.querySelector('#start')?.value?.split?.(/\s+/) || []
+            parseOrNull(localStorage.getItem("context")||"[]") //|| document.querySelector('#start')?.value?.split?.(/\s+/) || []
           );
           appendText(join(context, " "));
 
