@@ -489,7 +489,7 @@
             parseOrNull(localStorage.getItem("context"))|| document.querySelector('#start')?.value?.split?.(/\s+/) || []
           );
           }catch(e){
-            context = String(e?.message ?? e).split(' ');
+            context = cleanCtx(String(e?.message ?? e).split(' '));
           }
           appendText(join(context, " "));
 
