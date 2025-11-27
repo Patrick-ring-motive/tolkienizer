@@ -279,8 +279,35 @@
               }
             }
             maxMatch = 0;
+            let keyMatch1 = keyMatch;
+            //old heuristic
+            for (const key in matches) {
+              if (Math.random() < 0.2) {
+                continue;
+              }
+              if (matches[key] == key) {
+                delete matches[key];
+                continue;
+              }
+
+               repeatTax = strtok.split(key).length;
+              
+              //followCount boosts trigrams that have more possible followups
+              //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
+              if (
+                (matches[key] +
+                  getActorBoost(model, key) +
+                  getContextBoost(tokens, key) +
+                  followCount(model, key) * 0.01) /
+                  repeatTax >
+                maxMatch
+              ) {
+                maxMatch = matches[key];
+                keyMatch1 = key;
+              }
+            }
 let bestScore = -Infinity;
-keyMatch = null;
+let keyMatch2 = null;
 
 // Pre-calculate these once per context (you can cache them)
 const totalTrigramCount = Object.values(matches).reduce((a, b) => a + b, 0);
@@ -310,35 +337,20 @@ for (const nextWord in matches) {
 
   if (score > bestScore) {
     bestScore = score;
-    keyMatch = nextWord;
+    keyMatch2 = nextWord;
   }
 }
-            //old heuristic
-            /*for (const key in matches) {
-              if (Math.random() < 0.2) {
-                continue;
-              }
-              if (matches[key] == key) {
-                delete matches[key];
-                continue;
-              }
+const temperature = 0.9;
+const score1 = maxMatch;
+const score2 = bestScore;
+const total = Math.exp(score1 / temperature) + Math.exp(score2 / temperature);
+const choice = Math.random() * total;
 
-               repeatTax = strtok.split(key).length;
-              
-              //followCount boosts trigrams that have more possible followups
-              //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
-              if (
-                (matches[key] +
-                  getActorBoost(model, key) +
-                  getContextBoost(tokens, key) +
-                  followCount(model, key) * 0.01) /
-                  repeatTax >
-                maxMatch
-              ) {
-                maxMatch = matches[key];
-                keyMatch = key;
-              }
-            }*/
+if (choice < Math.exp(score1 / temperature)) {
+  keyMatch = keyMatch2(
+} else {
+  keyMatch = keyMatch2;
+}
             keyMatch = stringify(keyMatch);
             const lk = String(keyMatch).toLowerCase();
             for (const actor of actors) {
