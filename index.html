@@ -347,7 +347,7 @@ const total = Math.exp(score1 / temperature) + Math.exp(score2 / temperature);
 const choice = Math.random() * total;
 
 if (choice < Math.exp(score1 / temperature)) {
-  keyMatch = keyMatch2(
+  keyMatch = keyMatch1;
 } else {
   keyMatch = keyMatch2;
 }
