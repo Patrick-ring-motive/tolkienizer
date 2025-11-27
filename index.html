@@ -108,6 +108,7 @@
       src="https://patrick-ring-motive.github.io/tolkienizer/index.js"
     ></script>
     <script>
+      document.currentScript.onerror = log;
       const $name = Symbol("name");
       (async () => {
         try {
