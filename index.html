@@ -279,7 +279,42 @@
               }
             }
             maxMatch = 0;
-            for (const key in matches) {
+let bestScore = -Infinity;
+let keyMatch = null;
+
+// Pre-calculate these once per context (you can cache them)
+const totalTrigramCount = Object.values(matches).reduce((a, b) => a + b, 0);
+const lambda = 0.1;  // backoff weight — tune this (0.05–0.2 works great)
+
+for (const nextWord in matches) {
+  const count = matches[nextWord];                     // c(w_i | w_{i-2} w_{i-1})
+  const repeatTax = Math.max(1, strtok.split(nextWord).length);
+
+  // 1. Discounted probability (absolute discounting, d = 0.75 is magic number)
+  const discounted = count > 0 ? count - 0.75 : 0;
+
+  // 2. Continuation probability ≈ how many different trigrams end with this word
+  //     This is the real Kneser-Ney magic — favors words that appear in many contexts
+  const continuationCount = followCount(model, nextWord);  // same as your followCount
+  const backoffProb = continuationCount > 0 ? continuationCount : 1;
+
+  // 3. Final probability
+  let prob = (discounted + lambda * backoffProb) / (totalTrigramCount + lambda * 100);
+
+  // 4. Your brilliant boosts (keep these!)
+  prob += getActorBoost(model, nextWord) * 0.4;
+  prob += getContextBoost(tokens, nextWord) * 0.2;
+
+  // 5. Apply repeat tax (still crucial!)
+  const score = prob / repeatTax;
+
+  if (score > bestScore) {
+    bestScore = score;
+    keyMatch = nextWord;
+  }
+}
+            //old heuristic
+            /*for (const key in matches) {
               if (Math.random() < 0.2) {
                 continue;
               }
@@ -303,7 +338,7 @@
                 maxMatch = matches[key];
                 keyMatch = key;
               }
-            }
+            }*/
             keyMatch = stringify(keyMatch);
             const lk = String(keyMatch).toLowerCase();
             for (const actor of actors) {
