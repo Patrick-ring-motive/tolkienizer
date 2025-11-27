@@ -340,13 +340,13 @@ for (const nextWord in matches) {
     keyMatch2 = nextWord;
   }
 }
-const temperature = 2;
+const temperature = 0.9;
 const score1 = maxMatch;
 const score2 = bestScore;
 const total = Math.exp(score1 / temperature) + Math.exp(score2 / temperature);
 const choice = Math.random() * total;
 
-if (choice < Math.exp(score1 / temperature)) {
+if (Math.random() <= 0.8 || choice < Math.exp(score1 / temperature)) {
   keyMatch = keyMatch1;
 } else {
   keyMatch = keyMatch2;
