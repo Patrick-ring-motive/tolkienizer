@@ -239,7 +239,7 @@ function bandedLCS(tokensA, tokensB, similarityThreshold = 0.8) {
     // LCS is at dp_prev index for j = m
     const finalIndex = indexInBand(n, m);
     return finalIndex >= 0 ? dp_prev[finalIndex] : 0;
-}
+};
 
 const weightedLCS = (seq1, seq2) => {
     // Accept strings or arrays
@@ -630,7 +630,7 @@ class SparseLexicalSearch {
 // —– instantiate vector store —–
 globalThis.vectorStore = new SparseLexicalSearch(generator);
 for(const key in trimodel){
-  vectorStore.add(key,key);
+  //vectorStore.add(key,key);
 }
           const getsGram = (tokens) => {
             const text = tokens
