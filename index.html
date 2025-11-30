@@ -349,7 +349,7 @@ const choice = Math.random() * total;
 if (Math.random() <= 0.8 || choice < Math.exp(score1 / temperature)) {
   keyMatch = keyMatch1;
 } else {
-  keyMatch = keyMatch2;
+  keyMatch = keyMatch1; //keyMatch2;
 }
             keyMatch = stringify(keyMatch);
             const lk = String(keyMatch).toLowerCase();
