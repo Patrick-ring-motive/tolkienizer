@@ -147,7 +147,9 @@
           globalThis["ngram-models"] = { trimodel, bimodel };
           trimodel[$name] = "trimodel";
           bimodel[$name] = "bimodel";
-
+          for(const key in trimodel){
+            vectorStore.add(key,key);
+          }
           document.querySelector("loading")?.remove?.();
           //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
           const lcs = function lcs(seq1, seq2) {
