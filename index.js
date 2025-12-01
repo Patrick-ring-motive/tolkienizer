@@ -120,8 +120,6 @@ function buildNGrams(text, n = 3) {
   return model;
 }
 
-
-
 function buildPrunedNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
@@ -153,7 +151,8 @@ function reverseBuildNGrams(text, n = 3) {
   let tokens = norm(
     `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
   )
-    .split(/\s+/).reverse()
+    .split(/\s+/)
+    .reverse()
     .filter((x) => x?.trim?.());
   for (let i = 0; i < tokens.length - n + 1; i++) {
     const key = tokens
@@ -173,7 +172,8 @@ function reverseBuildPrunedNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
   let tokens = norm(text)
-    .split(/\s+/).reverse()
+    .split(/\s+/)
+    .reverse()
     .filter((x) => x?.trim?.());
   for (let i = 0; i < tokens.length - n + 1; i++) {
     const key = tokens
@@ -424,7 +424,8 @@ if (typeof process) {
         readFile("towers.txt"),
         readFile("king.txt"),
         readFile("hobbit.txt"),
-       /* (await readFile("pedia.txt"))
+        readFile("hobbit-es1.txt"),
+        /* (await readFile("pedia.txt"))
           .split("\n")
           .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
           .join("\n"),*/
@@ -470,12 +471,17 @@ if (typeof process) {
 
     let smodel = buildSGrams(text);
 
-    let retrimodel = mergeModels(reverseBuildNGrams(text), reverseBuildPrunedNGrams(text));
+    let retrimodel = mergeModels(
+      reverseBuildNGrams(text),
+      reverseBuildPrunedNGrams(text),
+    );
     retrimodel = Object.fromEntries(Object.entries(retrimodel).sort());
-    let rebimodel = mergeModels(reverseBuildNGrams(text, 2), reverseBuildPrunedNGrams(text, 2));
+    let rebimodel = mergeModels(
+      reverseBuildNGrams(text, 2),
+      reverseBuildPrunedNGrams(text, 2),
+    );
     rebimodel = Object.fromEntries(Object.entries(rebimodel).sort());
 
-    
     const fs = require("fs");
     const { execSync } = require("child_process");
 

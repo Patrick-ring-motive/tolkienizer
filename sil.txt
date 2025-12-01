@@ -683,9 +683,8 @@
                     
                       
                         
-                          Search the history of over __WB_PAGES_ARCHIVED__
-                          web pages
-                          on the Internet.
+                          Search the history of more than 1 trillion
+                          web pages.
                           
                           
                           
@@ -777,17 +776,20 @@
                     About
                     
                     Blog
+                    
+                    Events
+                    
                     Projects
                     
                     Help
+                    
                     Donate
                     
                     Contact
                     
                     Jobs
-                    Volunteer
                     
-                    People
+                    Volunteer
                     
                     
             
@@ -864,6 +866,10 @@
         
       
       
+        Events
+        
+      
+      
         Projects
         
       
@@ -892,10 +898,6 @@
       
       
         Volunteer
-        
-      
-      
-        People
         
       
     
