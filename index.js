@@ -425,6 +425,8 @@ if (typeof process) {
         readFile("king.txt"),
         readFile("hobbit.txt"),
         readFile("hobbit-es1.txt"),
+        readFile("hobbit-sit.txt"),
+        readFile("hobbit-sum.txt"),
         /* (await readFile("pedia.txt"))
           .split("\n")
           .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
