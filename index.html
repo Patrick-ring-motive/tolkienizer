@@ -154,7 +154,7 @@
             pool[x] ??=0;
             pool[x]++;
           });
-          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${Match.max(...Object.values(pool))}`);
+          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${Math.max(...Object.values(pool))}`);
           /*for(const key in trimodel){
             vectorStore.add(key,key);
           }*/
