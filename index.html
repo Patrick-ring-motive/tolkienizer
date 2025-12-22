@@ -150,11 +150,11 @@
           const trikeys = Object.keys(trimodel);
           const cbuckets = (trikeys.map(x=>[...new Set(x.toLowerCase().replace(/[^a-z]/g,''))].sort().join('')));
           const pool = {};
-          cbuckets.forEach(x=>{
+          for(const x of cbuckets){
             pool[x] ??=0;
             pool[x]++;
-          });
-          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${Math.max(...Object.values(pool))}`);
+          };
+          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${Math.max.apply(null,Object.values(pool))}`);
           /*for(const key in trimodel){
             vectorStore.add(key,key);
           }*/
