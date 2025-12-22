@@ -157,7 +157,7 @@
           let ii = 0;
           for(const x in pool){
             const rr = pool[x];
-            if(rr > ii)rr = ii;
+            if(rr > ii)ii = rr;
           }
           log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${ii}`);
           /*for(const key in trimodel){
