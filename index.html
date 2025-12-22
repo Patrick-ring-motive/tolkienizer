@@ -147,6 +147,9 @@
           globalThis["ngram-models"] = { trimodel, bimodel };
           trimodel[$name] = "trimodel";
           bimodel[$name] = "bimodel";
+          const trikeys = Object.keys(trimodel);
+          const cbuckets = new Set(trikeys.map(x=>[...new Set(x)].sort().join('')));
+          log(`key:${trikeys.length}|buckets:${cbuckets.length}`);
           /*for(const key in trimodel){
             vectorStore.add(key,key);
           }*/
