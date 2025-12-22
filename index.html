@@ -149,7 +149,7 @@
           bimodel[$name] = "bimodel";
           const trikeys = Object.keys(trimodel);
           const cbuckets = new Set(trikeys.map(x=>[...new Set(x)].sort().join('')));
-          log(`key:${trikeys.length}|buckets:${cbuckets.length}`);
+          log(`key:${trikeys.length}|buckets:${cbuckets.size}`);
           /*for(const key in trimodel){
             vectorStore.add(key,key);
           }*/
