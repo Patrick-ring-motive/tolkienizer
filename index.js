@@ -88,6 +88,8 @@ const fixText = (text) => {
     .replace(/\s+'ve\s/g, "'ve ")
     .replace(/\s+'d\s/g, "'d ")
     .replace(/\s+'m\s/g, "'m ")
+    .replace(/\s+\./g,'.')
+    .replace(/\s+,/g,',')
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
 };
 
