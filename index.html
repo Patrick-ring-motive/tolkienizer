@@ -154,7 +154,12 @@
             pool[x] ??=0;
             pool[x]++;
           };
-          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${Math.max.apply(null,Object.values(pool))}`);
+          let ii = 0;
+          for(const x in pool){
+            const rr = pool[x];
+            if(rr > ii)rr = ii;
+          }
+          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${ii}`);
           /*for(const key in trimodel){
             vectorStore.add(key,key);
           }*/
