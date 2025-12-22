@@ -468,6 +468,7 @@ if (typeof process) {
         ).replaceAll("’", "'"))(),*/
       ])
     ).join(" ");
+    text += text.replaceAll('-',' ');
 
     let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
     trimodel = Object.fromEntries(Object.entries(trimodel).sort());
