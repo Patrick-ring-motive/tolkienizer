@@ -542,6 +542,22 @@
               appendText(chunk);
               cleanCtx(context);
             }
+            
+
+            const url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
+            
+            const fetchText = async(...args)=>(await fetch(...args)).text();
+            
+            async function fixText(text){
+            	return (fetchText(`${url}`,{
+            		method:"POST",
+            		body:encodeURIComponent(text)
+            	}));
+            }
+            
+            context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
+
+            localStorage.setItem("context", JSON.stringify(context));
           };
           buttons.appendChild(gen);
           const clear = document.createElement("button");
