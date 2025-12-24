@@ -421,7 +421,7 @@ if (typeof process) {
   (async () => {
     let text = (
       await Promise.all([
-        readFile("sil.txt"),
+        //readFile("sil.txt"),
         readFile("fellowship.txt"),
        //readFile("fellowship-es1.txt"),
         readFile("towers.txt"),
