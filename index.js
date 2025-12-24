@@ -425,7 +425,7 @@ if (typeof process) {
     }
   }
   (async () => {
-    await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
+    //await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
     let text = (
       await Promise.all([
         //readFile("sil.txt"),
@@ -475,7 +475,7 @@ if (typeof process) {
         ).replaceAll("’", "'"))(),*/
       ])
     ).join(" ");
-    text += text.replaceAll('-',' ');
+    text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
 
     let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
     trimodel = Object.fromEntries(Object.entries(trimodel).sort());
