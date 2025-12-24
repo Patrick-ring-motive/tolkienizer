@@ -428,7 +428,7 @@ if (typeof process) {
         readFile("king.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
        readFile("hobbit.txt"),
-      //  readFile("hobbit-sit.txt"),
+       readFile("hobbit-fren.txt"),
       //  readFile("hobbit-sum.txt"),
         /* (await readFile("pedia.txt"))
           .split("\n")
