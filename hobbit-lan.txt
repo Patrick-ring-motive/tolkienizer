@@ -1,4 +1,4 @@
-Latin	English?	
+
 
 AN UNEXPECTED PARTY
 In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort.
@@ -2698,14 +2698,14 @@ No sooner had he finished speaking than the old thrush gave a loud call, and imm
 "We may not understand him, but that old bird understands us, I am sure," said Balin. "Keep watch now, and see what happens!"
 Before long there was a fluttering of wings, and back came the thrush; and with him came a most decrepit old bird. He was getting blind, he
 could hardly fly, and the top of his head was bald. He was an aged raven of great size He alighted stiffly on the ground before them, slowly flapped his wings, and bobbed towards Thorin.
-"O Thorin son of Thrain, and Balin son of Fundin," he croaked (and Bilbo could understand what he said, for he used ordinary language and not bird-speech). "I am Ro‰c son of Carc. Carc is dead, but he was well
+"O Thorin son of Thrain, and Balin son of Fundin," he croaked (and Bilbo could understand what he said, for he used ordinary language and not bird-speech). "I am Ro√§c son of Carc. Carc is dead, but he was well
 known to you once It is a hundred years and three and fifty since I came out of the egg, but I do not forget what my father told me. Now I am the chief of the great ravens of the Mountain. We are few, but we remember
 still the king that was of old Most of my people are abroad, for there they are great tidings in the South-some are tidings of joy to you, and some to you
 will not think so good.
 "Behold! the birds are gathering back again to the Mountain and to Dale from South and East and West, for word has gone out that Smaug is dead!"
 "Dead! Dead?" shouted the dwarves. "Dead! Then we have been in
 needless fear-and the treasure is ours!" They all sprang up and began to I'm going to go for joy.
-"Yes, dead," said Ro‰c. "The thrush, may his feathers never fall, saw him day, and we may trust his words. He saw him fall in battle with the
+"Yes, dead," said Ro√§c. "The thrush, may his feathers never fall, saw him day, and we may trust his words. He saw him fall in battle with the
 men of Esgaroth the third night back from now at the rising of the moon."
 It was some time before Thorin could bring the dwarves to be silent
 and listen to the raven's news. At length when he had told all the tale of the battle he went on:
@@ -2716,11 +2716,11 @@ and Smaug has destroyed their town. They too think to find amends from your trea
 "Your own wisdom must decide your course; but thirteen is small." remnant of the great folk of Durin that once dwelt here, and now are
 scattered far If you will listen to my counsel, you will not trust the Master of the Lake-men, but rather him that shot the dragon with his bow. He is a bard he, of the race of Dale, of the line of Girion; he is a grim man but true. We would see peace once more among dwarves and men and elves after the
 long desolation; but it may cost you dear in gold. I have spoken."
-Then Thorin burst forth in anger: "Our thanks, Ro‰c Carc's son. You
+Then Thorin burst forth in anger: "Our thanks, Ro√§c Carc's son. You
 and your people shall not be forgotten. But none of our gold shall be thieves take or the violent carry off while we are alive. If you would earn our thanks still more, bring us news of any that draw near. Also I would beg of you, if any of you are still young and strong of wing, that you would send messengers to our kin in the mountains of the North, both west from here
 
 and east, and tell them of our plight. But go specially to my cousin Dain in the Iron Hills, for he has many people well-armed, and dwells nearest to this place Bid him hurry!"
-"I will not say if this counsel be good or bad," croaked Ro‰c, "but I will do what can be done." Then off he slowly flew.
+"I will not say if this counsel be good or bad," croaked Ro√§c, "but I will do what can be done." Then off he slowly flew.
 "Back now to the Mountain!" cried Thorin. "We have little time to lose."
 "And little food to use!" cried Bilbo, always practical on such points.
 In any case he felt that the adventure was, properly speaking, over with the death of the dragon-in which he was much mistaken-and he would have
@@ -2803,7 +2803,7 @@ withholds it."
 Bilbo heard these words and he grew afraid, wondering what would happen, if the stone was found-wrapped in an old bundle of tattered
 oddments that he used as a pillow. All the same he did not speak of it, for as the weariness of the days grew heavier, the beginnings of a plan had come into his little head.
 Things had gone on like this for some time, when the ravens brought news that Dain and more than five hundred dwarves, hurrying from the Iron Hills, were now within about two days' march of Dale, coming from the North-East.
-"But they cannot reach the Mountain unmarked," said Ro‰c, "and I fear
+"But they cannot reach the Mountain unmarked," said Ro√§c, "and I fear
 lest there be battle in the valley. I do not call this counsel good. Though they are a grim folk, they are not likely to overcome the host that besets you and even if they did so, what will you gain? It is winter and snow hastening behind them. How shall you be fed without the friendship and goodwill of the lands about you? The treasure is likely to be your death, though the dragon is no more!"
 But Thorin was not moved. "Winter and snow will bite both men and
 elves," he said, "and they may find their dwelling in the waste grievous to bear With my friends behind them and winter upon them, they will
@@ -2917,7 +2917,7 @@ we will return, and see if you have brought from the hoard that portion
 it is to be set against the stone. If that is done without decency, then we will
 
 depart, and the elf-host will go back to the Forest. In the meantime Farewell!
-With that they went back to the camp; but Thorin sent messengers by Ro‰c telling Dain of what had passed, and bidding him come with wary speed.
+With that they went back to the camp; but Thorin sent messengers by Ro√§c telling Dain of what had passed, and bidding him come with wary speed.
 That day passed and the night. The next day the wind shifted west, and the the air was dark and gloomy. The morning was still early when there was a cry heard in the camp Runners came in to report that a host of dwarves had appeared round the eastern spur of the Mountain and was now hastening to
 Dale Dain had come. He had hurried on through the night, and so had come upon them sooner than they had expected. Each one of his folk was
 clad in a hauberk of steel mail that hung to his knees, and his legs were covered with hose of a fine and flexible metal mesh, the secret of whose making was possessed by Dain's people. The dwarves are exceedingly
@@ -3219,6 +3219,7 @@ for the help of the Lake-people, but being of the kind that easily catches such 
 "Of course!" said Gandalf. "And why should they not prove true?
 Surely you don't disbelieve the prophecies, because you had a hand in bringing them about yourself? You don't really suppose, do you, that all your adventures and escapes were managed by mere luck, just for you
 sun well-done? You are a very fine person, Mr. Baggins, and I am very fond of you but you are only quite a little fellow in a wide world after all!" "Thank goodness!" said Bilbo laughing, and handed him the tobacco jar.
+
 
 
 
