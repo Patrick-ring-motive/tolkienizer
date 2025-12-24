@@ -555,9 +555,9 @@
             	}));
             }
             
-            //context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
+            context = (await(Promise.all(context.join(' ').replaceAll('_',' ').split('.').map(fixText)))).join('. ').split(' ');
 
-            //localStorage.setItem("context", JSON.stringify(context));
+            localStorage.setItem("context", JSON.stringify(context));
           };
           buttons.appendChild(gen);
           const clear = document.createElement("button");
