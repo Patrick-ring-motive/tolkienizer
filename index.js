@@ -430,7 +430,7 @@ if (typeof process) {
       await Promise.all([
         //readFile("sil.txt"),
         readFile("fellowship-lan.txt"),
-       readFile("fellowship-fren.txt"),
+        readFile("fellowship-fren.txt"),
         readFile("towers.txt"),
         readFile("king.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
