@@ -562,9 +562,9 @@
                                          .join('. ')
                                          .replaceAll('.. ','. ')
                                          .split(' ');*/
-            context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
+            //context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
 
-            localStorage.setItem("context", JSON.stringify(context));
+            //localStorage.setItem("context", JSON.stringify(context));
           };
           buttons.appendChild(gen);
           const clear = document.createElement("button");
