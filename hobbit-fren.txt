@@ -1,4 +1,4 @@
-French	English?	
+
 
 
 AN UNEXPECTED PARTY
@@ -102,7 +102,7 @@ Nothing about the service; but poor Mr. Baggins said he was sorry for so many pe
 "Here we all are!" said Gandalf, looking at the row of thirteen.
 hoods - the best removable party hoods - and its own hat hanging from the
 "What a joyous gathering! I hope there's something left to eat and drink for the latecomers! What is it? Tea! No, I think that's for me "And for me too," said Thorin.
-"And raspberry jam and an apple pie," added Bifur. "And minced meat pies and cheese," added Bofur. "And pork p‚tÈ and salad," added Bombur.
+"And raspberry jam and an apple pie," added Bifur. "And minced meat pies and cheese," added Bofur. "And pork p√¢t√© and salad," added Bombur.
 "And more cakes, beer and coffee, if you don't mind," asked the other dwarves. "Put some eggs in the oven, there's a good lad!" Gandalf shouted to him.
 The hobbit trudged towards the pantry. "And just get out the cold stuff. Chicken and pickles!" "He seems to know as much as I do about the contents of my pantries."
 "Myself!" thought Mr. Baggins, who felt completely bewildered.
@@ -1113,7 +1113,7 @@ an opening in the roof. They crossed this dark hall, lit only by sunlight. The f
 Then Gandalf gave a long, shrill whistle, and at once Thorin and Dory
 He went around the house along the garden path and stopped, bowing deeply before them. "You meant one or three, I see!" said Beorn. "But they're not hobbits, they're dwarves!"
 "Thorin Oakenshield, at your service! Dori, at your service!" said the Two dwarves bowed again. "I don't need your services, thank you," said Beorn, "but I expect you to..."
-I need mine. I don't particularly care for dwarves; but if it's true that you are Thorin (son of Thr·in, son of ThrÛr, I believe), and respectable, and that you are the enemies of the goblins and that you are not up to anything
+I need mine. I don't particularly care for dwarves; but if it's true that you are Thorin (son of Thr√°in, son of Thr√≥r, I believe), and respectable, and that you are the enemies of the goblins and that you are not up to anything
 "Mischief on my land... what are you plotting, anyway?"
 "They are on their way to visit the land of their fathers, far to the east."
 "Beyond Mirkwood," Gandalf interjected, "and it is pure chance that we are on your land. We were crossing by the High Pass which should brought us to the road that lies south of your country, when we were attacked by the evil goblins, as I was about to tell you.
@@ -1454,7 +1454,7 @@ A muffled groan came from inside, then a toe shot out and kicked the spider stra
 The others laughed. "You were absolutely right," they said, "the meat is alive." And they kicked! "I'll put an end to this soon," hissed the furious spider as it climbed back up the branch.
 Bilbo understood that the moment had come for him to act.
 
-He couldn't stand up to the brutes and had nothing to shoot with; but he watched. He then saw that in that place there were many stones It looked like a small stream, now dry. Bilbo was a rather good shot with a stone, and it didn't take him long to find a nice, smooth e He would attack anything and everything, until rabbits, squirrels, and even birds moved out of his way. He was as quick as lightning if He spent a lot of time playing shuffleboard, darts, magic stick shooting, pÈtanque, skittles and other quiet aiming and throwing games Indeed, he could do many things besides blow smoke rings and ask riddles and cook, which I haven't had time to tell you about. There is It was about time. While he was gathering stones, the spider had reached Bombur, and soon he would be dead. At that moment, Bilbo threw He struck the spider sharply on the head, and it fell unconscious from the tree, collapsing to the ground with all its legs folded.
+He couldn't stand up to the brutes and had nothing to shoot with; but he watched. He then saw that in that place there were many stones It looked like a small stream, now dry. Bilbo was a rather good shot with a stone, and it didn't take him long to find a nice, smooth e He would attack anything and everything, until rabbits, squirrels, and even birds moved out of his way. He was as quick as lightning if He spent a lot of time playing shuffleboard, darts, magic stick shooting, p√©tanque, skittles and other quiet aiming and throwing games Indeed, he could do many things besides blow smoke rings and ask riddles and cook, which I haven't had time to tell you about. There is It was about time. While he was gathering stones, the spider had reached Bombur, and soon he would be dead. At that moment, Bilbo threw He struck the spider sharply on the head, and it fell unconscious from the tree, collapsing to the ground with all its legs folded.
 The next stone hissed through a large web, snapping its strings and snatching the spider from the middle-smack, dead. After that There was great commotion in the spider colony, and they forgot the
 The dwarves, for a little while, I can tell you. They couldn't see Bilbo, but they could try to guess as best they could the direction As quick as lightning, they ran and swung towards the hobbit,
 projecting their long threads in all directions, until the air seemed filled with waving traps.
@@ -1801,7 +1801,7 @@ Things needed to calm down, albeit a little later. He therefore spoke to the Mas
 And he wondered if Thorin was, after all, a true descendant of the ancient kings. He had never thought the dwarves would actually dare They approached Smaug, but believed they were imposters who would sooner or later be unmasked, discovered, and driven out. He was wrong truly the grandson of the King under the Mountain, and there is no
 knowing what a dwarf wouldn't dare do to get revenge or to get his own back.
 But the Master had absolutely no regrets about letting them go. They were expensive.
-to keep, and their arrival had turned things into a long holiday during which business was at a standstill. "Let them go bother Smaug a "He welcomes them!" he thought. "Certainly, O Thorin, son of ThrÌn, son of ThrÛr..."
+to keep, and their arrival had turned things into a long holiday during which business was at a standstill. "Let them go bother Smaug a "He welcomes them!" he thought. "Certainly, O Thorin, son of Thr√≠n, son of Thr√≥r..."
 "Son!" he said. "You must claim what is rightfully yours. The time has come."
 As we have already said, any help we can provide will be yours, and we are counting on you. "Gratitude when your kingdom is reconquered."
 One day, when autumn was already well advanced and the winds were blowing,
@@ -2275,17 +2275,17 @@ He had barely finished speaking when the old blackbird let out a loud cry and fl
 "Of course," said Balin. "Keep an eye on the situation and see what happens!" Soon after, a flapping of wings was heard, and the thrush And with him came a very decrepit old bird. He was going blind, he
 He could barely fly, and the top of his head was bald. He was an old raven, quite large. He landed stiffly on the ground in front of th "O Thorin, son of Thrain, and Balin, son of Fundin," he croaked (and
 Bilbo could understand what he was saying, because he was using ordinary language and
-(not the language of birds). "I am Ro‰c, son of Carc. Carc is dead, but he was in good health." You have known me for a long time. It h I've hatched, but I haven't forgotten what my father told me. Now I am... chief of the great ravens of the Mountain. We are few in numb Great news from the South - some of it is news of joy for you, and some of it will make you not so happy.
+(not the language of birds). "I am Ro√§c, son of Carc. Carc is dead, but he was in good health." You have known me for a long time. It h I've hatched, but I haven't forgotten what my father told me. Now I am... chief of the great ravens of the Mountain. We are few in numb Great news from the South - some of it is news of joy for you, and some of it will make you not so happy.
 "Behold! The birds are gathering again on the mountain and in Dale of the South, East and West, for the rumor is that Smaug is... dead! "Dead! Dead?" cried the dwarves. "Dead! So we have been..."
-"A needless fear, and the treasure is ours!" They all jumped up and began to frolic with joy. "Yes, dead," said Ro‰c. "The blackbird, whose feathers never fall out, saw
+"A needless fear, and the treasure is ours!" They all jumped up and began to frolic with joy. "Yes, dead," said Ro√§c. "The blackbird, whose feathers never fall out, saw
 He saw him die, and we can believe his words. He saw him fall in battle against the
 "Men of Esgaroth, on the third night from today, at moonrise." It took some time before Thorin was able to silence the dwarves. and listen to the news from the raven. Finally, when he had told the whole story of the battle he had fought:
 "That puts an end to the joy, Thorin Oakenshield. You may return to your chambers." All the treasure is yours-for now. But much is gathering here near the birds. The news of the guardian's death
 has already circled the globe, and the legend of Thror's wealth has spread like wildfire.
 This tale has not been forgotten for many years; many yearn to obtain a share of it. Already a horde of elves is on the march, and scav They, too, hoped for battle and carnage. By the lake, men murmured that their misfortunes were due to the dwarves; for they were homele your treasure, whether you are alive or dead.
-"It is up to your own wisdom to decide your path; but thirteen is few." Remnants of Durin's great people who once dwelt in these places He, of the race of Dale, of the line of Girion; he is an austere but loyal man. He would see peace restored between the dwarves, men, a A long period of desolation; but it could cost you dearly in gold. I have spoken. Then Thorin cried out angrily: "Thank you, son of Ro‰ And your people will not be forgotten. But none of our gold will fall into the hands of thieves. They will not take us or violently abd Thank you again, please keep us updated on everything that's coming up. I would also ask you to please... If some of you are still youn messengers to our loved ones in the northern mountains, west of here
+"It is up to your own wisdom to decide your path; but thirteen is few." Remnants of Durin's great people who once dwelt in these places He, of the race of Dale, of the line of Girion; he is an austere but loyal man. He would see peace restored between the dwarves, men, a A long period of desolation; but it could cost you dearly in gold. I have spoken. Then Thorin cried out angrily: "Thank you, son of Ro√§ And your people will not be forgotten. But none of our gold will fall into the hands of thieves. They will not take us or violently abd Thank you again, please keep us updated on everything that's coming up. I would also ask you to please... If some of you are still youn messengers to our loved ones in the northern mountains, west of here
 
-Go to the east and tell them about our situation. But above all, go see my cousin Dain at the Iron Hills, for he has many well-armed me "I won't say whether this advice is good or bad," croaked Ro‰c, "but I..."
+Go to the east and tell them about our situation. But above all, go see my cousin Dain at the Iron Hills, for he has many well-armed me "I won't say whether this advice is good or bad," croaked Ro√§c, "but I..."
 "Do what can be done." Then he flew away slowly.
 "Let's return to the Mountain!" cried Thorin. "We don't have much time to waste." "And little food to use!" cried Bilbo, ever pragmatic on these points.
 In any case, he believed that the adventure was, strictly speaking, over with the death of the dragon-about which he had been greatly m having granted him the greater part of the profits for the peaceful liquidation of these affairs.
@@ -2300,7 +2300,7 @@ They must have entered the valley under cover of dusk, along both banks of the r
 That night, the dwarves slept little. Morning was still pale when they saw a company approaching. From behind their wall, they watched. They reach the bottom of the valley and climb slowly. Shortly after, they
 It was clear that the two men from the lake were armed as if for war, as were the elven archers. Finally, the most advanced among them Rocks appeared at the top of the falls; and their surprise was very great.
 They saw the basin in front of them and the door blocked by a wall of freshly cut stone. As they stood there, pointing and talking to each other, Thorin greeted them:
-"Who are you," he cried in a loud voice, "you who come as if in times of war?" The gates of Thorin, son of Thr·in, king under the mount what would you like ?
+"Who are you," he cried in a loud voice, "you who come as if in times of war?" The gates of Thorin, son of Thr√°in, king under the mount what would you like ?
 But they did not reply. Some turned back quickly, and the others, after contemplating the gate and its defenses for a moment, soon foll That day, the camp was moved east of the river, right between the arms of the mountain. The rocks then echoed with voices and songs. as they had not done for many days. There was also the sound of an elf-harps and sweet music; and as it resonated to them, it seemed th Woodland flowers in full bloom in spring.
 So Bilbo dreamed of escaping from the dark fortress and going down and
 Join the festivities and feast around the fires. Some of the youngest dwarves
@@ -2322,7 +2322,7 @@ cheerful; and he began to calculate the distance to the Iron Hills and how long
 Dain could have reached the Lonely Mountain before he even started, if he had left as soon as the message reached him. But Bilbo's hear The songs and the lyrics: they sounded far too belligerent.
 Early the next morning, a company of lancers was seen crossing the
 They walked along the river and up the valley. They carried with them the green banner of the Elf King and the blue banner of the Lake, They were standing right in front of the wall, at the door.
-Thorin greeted them again in a loud voice: "Who are you, you who come?" armed for war at the gates of Thorin, son of Thr·in, king durin "Mountain?" This time, he was answered.
+Thorin greeted them again in a loud voice: "Who are you, you who come?" armed for war at the gates of Thorin, son of Thr√°in, king durin "Mountain?" This time, he was answered.
 A tall man stepped forward, with black hair and a stern face, and he cried out:
 "Hello Thorin! Why are you hiding like a brigand in its claws? We are..."
 We are not enemies yet, and we rejoice to know that you are alive, beyond all expectation. We are... I expected to find no one here; ye for talks and advice.
@@ -2341,7 +2341,7 @@ who reached out to them when they were in need. And I still have my other demand
 "I will not parley, as I said, with armed men at my door. Not at all." with the people of the Elf King, of whom I retain a fond memory. They have no place in this debate. Leave before our arrows fly! And if you wish to speak with me again, please first send the elven arm approaching the threshold.
 "The Elf King is my friend, and he rescued the people of..."
 "Lake in their need, although they have no right to him other than friendship," "We will give you time to repent," Bard replied. "Gather your..."
-"Wisdom before our return!" Then he left and returned to camp. Shortly after, the standard-bearers returned, and the trumpeters... He s "In the name of Esgaroth and the Forest," cried one of them, "we speak to Thorin Thr·in's son, Oakenshield, who proclaimed himself king Mountain, and we invite him to carefully consider the arguments that have been put forward, or be declared our enemy. At the very least Bard himself will contribute from this sum to aid Esgaroth; but
+"Wisdom before our return!" Then he left and returned to camp. Shortly after, the standard-bearers returned, and the trumpeters... He s "In the name of Esgaroth and the Forest," cried one of them, "we speak to Thorin Thr√°in's son, Oakenshield, who proclaimed himself king Mountain, and we invite him to carefully consider the arguments that have been put forward, or be declared our enemy. At the very least Bard himself will contribute from this sum to aid Esgaroth; but
 If Thorin could have the friendship and honor of the surrounding lands, as his fathers once had, then he too would give a little of him the comfort of the men of the lake.
 Then Thorin seized a horn bow and shot an arrow at the speaker. He crashed against his shield and lay there, trembling. "Since that is your answer," he replied, "I declare that
 Besieged mountain. You will not leave it until you have called your neighbor.
@@ -2354,7 +2354,7 @@ Bilbo heard these words and he was afraid, wondering what was going to happen.
 This would happen if the stone were found wrapped in an old bundle of tattered rags, bits and pieces he used as a pillow. He never spok As the weariness of the days intensified, the beginnings of a plan had started to take shape. to enter his little head.
 
 Things had continued like this for some time, when the ravens brought the news that Dain and more than five hundred dwarves were rushin Iron Hills was now about a two-day walk from Dale, coming from the Northeast.
-"But they cannot reach the mountain without a beacon," said Ro‰c, "and I fear there will be a battle in the valley. I do not consider t These are austere people, unlikely to overcome the enemy that assails them; and even if they did, what would you gain? Winter and snow The benevolence of the surrounding lands? The treasure is very likely to be your death.
+"But they cannot reach the mountain without a beacon," said Ro√§c, "and I fear there will be a battle in the valley. I do not consider t These are austere people, unlikely to overcome the enemy that assails them; and even if they did, what would you gain? Winter and snow The benevolence of the surrounding lands? The treasure is very likely to be your death.
 "But the dragon is no more!"
 But Thorin remained unmoved. "Winter and snow will overcome both men and
 "The elves," he said, "and they might find their home in the harsh bear-infested desert. With my friends behind them and winter setting "Perhaps more willing to negotiate."
@@ -2403,7 +2403,7 @@ Dain, I can tell you, is now less than two days' march away, and has at least fi
 
 The Elf King himself, whose eyes were accustomed to wonders and
 Their beauty made them sit up straight, stunned. Even Bard gazed at her in wonder.
-Silence. It was as if a globe had been filled with moonlight and remained suspended. Before them, in a net woven from the brilliance of "Here is Thr·in's Arkenstone," said Bilbo, "the Heart of..."
+Silence. It was as if a globe had been filled with moonlight and remained suspended. Before them, in a net woven from the brilliance of "Here is Thr√°in's Arkenstone," said Bilbo, "the Heart of..."
 Mountain; and it is also Thorin's heart. He cherishes it more than a river of
 "Gold. I'll give it to you. It will help you in your negotiations." Then Bilbo, not without a shudder, not without a look of desire, he The stone was handed to Bard, who held it in his hand, as if dazed.
 "But how can it be your prerogative to give it away?" he finally asked with difficulty. "Well!" said the hobbit, uncomfortably. "That's not exactly it; but, well, I
@@ -2455,7 +2455,7 @@ He received nothing in reward for all his efforts, except the armor Thorin had a
 "Go away!" cried Thorin. "You have mail on you, made by my people, and it's too good for you. It can't be pierced by arrows; but if you "Not so fast!" said Bard. "We'll leave you until tomorrow. At noon..." We'll come back and see if you've brought back your share of the It must be placed against the stone. If this is done without deception, then we will do it.
 
 They will leave, and the elven army will return to the forest. In the meantime, farewell! With that, they returned to camp; but Thorin sent messengers by
-Ro‰c told Dain what had happened and asked him to come with caution and speed.
+Ro√§c told Dain what had happened and asked him to come with caution and speed.
 The day passed, as did the night. The next day, the wind shifted to the west, and the air was dark and gloomy. Morning was still early Messengers arrived to announce that an army of dwarves had
 appeared around the eastern spur of the mountain and was now hurrying towards Dale. Dain had arrived. He had crossed the night in great They met them sooner than expected. Each of their own was
 dressed in a coat of steel chainmail that reached his knees, and his legs were covered with a tube of fine, flexible metal mesh, the se Crafting was an art possessed by the people of Dain. Dwarves are extremely strong for their size, but most were strong even for dwarves In combat, they wielded heavy two-handed pickaxes; but each of them also had a short, broad sword at his side and a round shield slung Their beards were forked, braided, and tucked into their belts. Their caps were made of iron, they wore iron shoes, and their faces wer The trumpets called the men and elves to arms. Soon, the dwarves were seen speeding up the valley. They stopped between the river
@@ -2690,6 +2690,7 @@ The old master had met a tragic end. Bard had given him a great deal of gold for
 "Of course!" said Gandalf. "And why shouldn't that be true?"
 Surely you don't question the prophecies just because you contributed to them? Do you bring them about yourself? Surely you don't think Your adventures and escapes were due solely to luck, just for you.
 The only benefit? You're a wonderful person, Mr. Baggins, and I appreciate you very much; but ultimately, you're just a very small man "Thank God!" said Bilbo, laughing, and handed him the tobacco jar.
+
 
 
 
