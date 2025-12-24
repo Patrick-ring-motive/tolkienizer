@@ -417,8 +417,15 @@ if (typeof process) {
       return err.message;
     }
   }
-
+  async function writeFile(filePath,content) {
+    try {
+      return await fsPromises.writeFile(filePath,content);
+    } catch (err) {
+      return err.message;
+    }
+  }
   (async () => {
+    await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
     let text = (
       await Promise.all([
         //readFile("sil.txt"),
