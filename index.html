@@ -555,13 +555,14 @@
             	}));
             }
             
-            context = (await(Promise.all(context.join(' ')
+            /*context = (await(Promise.all(context.join(' ')
                                          .replaceAll('_',' ')
                                          .split('.')
                                          .map(fixText))))
                                          .join('. ')
                                          .replaceAll('.. ','. ')
-                                         .split(' ');
+                                         .split(' ');*/
+            context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
 
             localStorage.setItem("context", JSON.stringify(context));
           };
