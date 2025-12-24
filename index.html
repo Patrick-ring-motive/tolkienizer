@@ -560,8 +560,8 @@
                                          .split('.')
                                          .map(fixText))))
                                          .join('. ')
-                                         .split(' ')
-                                         .replaceAll('.. ','. ');
+                                         .replaceAll('.. ','. ')
+                                         .split(' ');
 
             localStorage.setItem("context", JSON.stringify(context));
           };
