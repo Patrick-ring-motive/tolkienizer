@@ -555,7 +555,13 @@
             	}));
             }
             
-            context = (await(Promise.all(context.join(' ').replaceAll('_',' ').split('.').map(fixText)))).join('. ').split(' ');
+            context = (await(Promise.all(context.join(' ')
+                                         .replaceAll('_',' ')
+                                         .split('.')
+                                         .map(fixText))))
+                                         .join('. ')
+                                         .split(' ')
+                                         .replaceAll('.. ','. ');
 
             localStorage.setItem("context", JSON.stringify(context));
           };
