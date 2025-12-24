@@ -568,6 +568,13 @@
             document.querySelector("code").innerHTML = "";
           };
           buttons.appendChild(clear);
+
+          const cpy = document.createElement("button");
+          cpy.innerHTML = "Copy";
+          cpy.onclick = () => {
+            navigator.clipboard.writeText(document.querySelector("code").textContent);
+          };
+          buttons.appendChild(cpy);
         } catch (e) {
           log(e.message);
         }
