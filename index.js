@@ -479,7 +479,8 @@ if (typeof process) {
       .replace(/\s+;/g,";")
       .replace(/\s+\./g,".")
       .replace(/\s+\!/g,"!")
-      .replace(/\s+\?/g,"?");
+      .replace(/\s+\?/g,"?")
+    .replaceAll('¬','');
     
       text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
 
