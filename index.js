@@ -475,7 +475,13 @@ if (typeof process) {
         ).replaceAll("’", "'"))(),*/
       ])
     ).join(" ");
-    text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
+    text = text.replace(/\s+,/g,",")
+      .replace(/\s+;/g,";")
+      .replace(/\s+\./g,".")
+      .replace(/\s+\!/g,"!")
+      .replace(/\s+\?/g,"?");
+    
+      text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
 
     let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
     trimodel = Object.fromEntries(Object.entries(trimodel).sort());
