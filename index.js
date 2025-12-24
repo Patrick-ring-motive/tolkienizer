@@ -421,10 +421,10 @@ if (typeof process) {
   (async () => {
     let text = (
       await Promise.all([
-        ...Array(1).map(()=>readFile("fellowship.txt")),
+        readFile("fellowship.txt"),
        //readFile("fellowship-es1.txt"),
-        ...Array(1).map(()=>readFile("towers.txt")),
-        ...Array(1).map(()=>readFile("king.txt")),
+        readFile("towers.txt"),
+        readFile("king.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
        readFile("hobbit.txt"),
       //  readFile("hobbit-sit.txt"),
