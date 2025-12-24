@@ -544,7 +544,8 @@
             }
             
 
-            const url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
+            const url = 'https://script.google.com/macros/s/AKfycbwMfqRUXhcWTy8NWJ5y48jhCtCVWdrlU4F96bXYtelYrj5xxYlu7WRmVMBIFXymWXvJrw/exec';
+            //'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
             
             const fetchText = async(...args)=>(await fetch(...args)).text();
             
@@ -562,9 +563,9 @@
                                          .join('. ')
                                          .replaceAll('.. ','. ')
                                          .split(' ');*/
-            //context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
+            context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
 
-            //localStorage.setItem("context", JSON.stringify(context));
+            localStorage.setItem("context", JSON.stringify(context));
           };
           buttons.appendChild(gen);
           const clear = document.createElement("button");
