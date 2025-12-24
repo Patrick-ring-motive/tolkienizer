@@ -63,7 +63,7 @@ const glueReverse = (text) => {
 
 const fixText = (text) => {
   return text
-    .replace(/[^\-\_0-9a-zA-Z\.\?\!,';\s\(\)]/g, " ")
+    .replace(/[^\-\_a-zA-Z\.\?\!,';\s\(\)]/g, " ")
     .replace(/(\s*\.)+/g, ".")
     .replace(/(\s*\?)+/g, "?")
     .replace(/(\s*\!)+/g, "!")
