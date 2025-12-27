@@ -542,8 +542,23 @@
               appendText(chunk);
               cleanCtx(context);
             }
-            
 
+            const Str = x =>{
+              try{
+                return String(x);
+              }catch(e){
+                return String(e);
+              }
+            };
+
+            const stringify = x =>{
+              try{
+                return JSON.stringify(x);
+              }catch{
+                return Str(x);
+              }
+            };
+      
             let url = 'https://script.google.com/macros/s/AKfycbwMfqRUXhcWTy8NWJ5y48jhCtCVWdrlU4F96bXYtelYrj5xxYlu7WRmVMBIFXymWXvJrw/exec';
             url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
             url = 'https://script.google.com/macros/s/AKfycbztdOOjvIVRSlT1qChEAzmKzkVt8t5q_t2NDLmxaCACvKdXjHVwNT-XuBPKA2qv9JVm/exec';
@@ -552,9 +567,12 @@
             const fetchText = async(...args)=>(await fetch(...args)).text();
             
             async function fixText(text){
+              const payload = {text};
+              payload.pass = 'one-way';
+              payload.lang = 'de';
             	return (fetchText(`${url}`,{
             		method:"POST",
-            		body:encodeURIComponent(text)
+            		body:encodeURIComponent(stringify(payload))
             	}));
             }
             
