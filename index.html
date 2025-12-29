@@ -561,18 +561,18 @@
       
             let url = 'https://script.google.com/macros/s/AKfycbwMfqRUXhcWTy8NWJ5y48jhCtCVWdrlU4F96bXYtelYrj5xxYlu7WRmVMBIFXymWXvJrw/exec';
             url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
-           // url = 'https://script.google.com/macros/s/AKfycbztdOOjvIVRSlT1qChEAzmKzkVt8t5q_t2NDLmxaCACvKdXjHVwNT-XuBPKA2qv9JVm/exec';
+            url = 'https://script.google.com/macros/s/AKfycbx82MPWibylYIn_Fb2xCoVjTW8OVQ462wXpybTNLblCO02ZCoCa-vae6E9FePBec4Fz/exec';
 
               
             const fetchText = async(...args)=>(await fetch(...args)).text();
             
             async function fixText(text){
-              const payload = text;//{text};
-             // payload.pass = 'one-way';
-             // payload.lang = 'de';
+              const payload = {text};
+              payload.pass = 'one-way';
+              payload.lang = 'de';
             	return (fetchText(`${url}`,{
             		method:"POST",
-            		body:encodeURIComponent(text)//stringify(payload))
+            		body:encodeURIComponent(stringify(payload))
             	}));
             }
             
