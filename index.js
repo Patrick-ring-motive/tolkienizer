@@ -431,18 +431,18 @@ if (typeof process) {
         //readFile("sil.txt"),
         readFile("fellowship.txt"),,
         readFile("fellowship-lan.txt"),
-        readFile("fellowship-fren.txt"),
+        //readFile("fellowship-fren.txt"),
         readFile("towers.txt"),
         readFile("towers-lan.txt"),
-        readFile("towers-fren.txt"),
+        //readFile("towers-fren.txt"),
         readFile("king.txt"),
         readFile("king-lan.txt"),
-        readFile("king-fren.txt"),
+        //readFile("king-fren.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
        readFile("hobbit.txt"),
-       readFile("hobbit-lan-.txt"),
-       readFile("hobbit-fren.txt"),
-      //  readFile("hobbit-sum.txt"),
+       readFile("hobbit-lan.txt"),
+       //readFile("hobbit-fren.txt"),
+   // readFile("hobbit-afnlafen.txt"),
         /* (await readFile("pedia.txt"))
           .split("\n")
           .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
@@ -488,7 +488,7 @@ if (typeof process) {
       .replace(/\s+\?/g,"?")
     .replaceAll('¬','');
     
-      text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
+    text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
 
     let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
     trimodel = Object.fromEntries(Object.entries(trimodel).sort());
