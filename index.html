@@ -568,8 +568,8 @@
             
             async function fixText(text){
               const payload = text;//{text};
-              payload.pass = 'one-way';
-              payload.lang = 'de';
+             // payload.pass = 'one-way';
+             // payload.lang = 'de';
             	return (fetchText(`${url}`,{
             		method:"POST",
             		body:encodeURIComponent(text)//stringify(payload))
