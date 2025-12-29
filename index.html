@@ -567,12 +567,12 @@
             const fetchText = async(...args)=>(await fetch(...args)).text();
             
             async function fixText(text){
-              const payload = {text};
+              const payload = text;//{text};
               payload.pass = 'one-way';
               payload.lang = 'de';
             	return (fetchText(`${url}`,{
             		method:"POST",
-            		body:encodeURIComponent(stringify(payload))
+            		body:encodeURIComponent(text)//stringify(payload))
             	}));
             }
             

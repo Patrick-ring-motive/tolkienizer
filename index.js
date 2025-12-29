@@ -430,17 +430,17 @@ if (typeof process) {
       await Promise.all([
         //readFile("sil.txt"),
         readFile("fellowship.txt"),
-        readFile("fellowship-lan.txt"),
+        //readFile("fellowship-lan.txt"),
         //readFile("fellowship-fren.txt"),
         readFile("towers.txt"),
-        readFile("towers-lan.txt"),
+        //readFile("towers-lan.txt"),
         //readFile("towers-fren.txt"),
         readFile("king.txt"),
-        readFile("king-lan.txt"),
+        //readFile("king-lan.txt"),
         //readFile("king-fren.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
        readFile("hobbit.txt"),
-       readFile("hobbit-lan.txt")
+       //readFile("hobbit-lan.txt")
        //readFile("hobbit-fren.txt"),
    // readFile("hobbit-afnlafen.txt"),
         /* (await readFile("pedia.txt"))
