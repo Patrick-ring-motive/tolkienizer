@@ -426,10 +426,10 @@ if (typeof process) {
   }
   (async () => {
     //await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
-    let text = (
+    let texts = (
       await Promise.all([
         //readFile("sil.txt"),
-        readFile("fellowship.txt"),,
+        readFile("fellowship.txt"),
         readFile("fellowship-lan.txt"),
         //readFile("fellowship-fren.txt"),
         readFile("towers.txt"),
@@ -440,7 +440,7 @@ if (typeof process) {
         //readFile("king-fren.txt"),
         //...Array(2).map(()=>readFile("hobbit.txt")),
        readFile("hobbit.txt"),
-       readFile("hobbit-lan.txt"),
+       readFile("hobbit-lan.txt")
        //readFile("hobbit-fren.txt"),
    // readFile("hobbit-afnlafen.txt"),
         /* (await readFile("pedia.txt"))
@@ -480,21 +480,28 @@ if (typeof process) {
           await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
         ).replaceAll("’", "'"))(),*/
       ])
-    ).join(" ");
-    text = text.replace(/\s+,/g,",")
+    ).map(text =>text.replace(/\s+,/g,",")
       .replace(/\s+;/g,";")
       .replace(/\s+\./g,".")
       .replace(/\s+\!/g,"!")
       .replace(/\s+\?/g,"?")
-    .replaceAll('¬','');
+    .replaceAll('¬',''));
     
-    text += ' '+text.replaceAll('-',' ').replaceAll('—',' ');
+    let texts2 = texts.map(text=>text.replaceAll('-',' ').replaceAll('—',' '));
 
-    let trimodel = mergeModels(buildNGrams(text), buildPrunedNGrams(text));
-    trimodel = Object.fromEntries(Object.entries(trimodel).sort());
-    let bimodel = mergeModels(buildNGrams(text, 2), buildPrunedNGrams(text, 2));
-    bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+    let allTexts = texts.concat(texts2);
 
+    let allTrimodels = allTexts.map(text=>buildNGrams(text)).concat(allTexts.map(text=>buildPrunedNGrams(text)));
+
+    let allBimodels = allTexts.map(text=>buildNGrams(text,2)).concat(allTexts.map(text=>buildPrunedNGrams(text,2)));
+    
+    let trimodel = mergeModels(...allTrimodels);
+   // trimodel = Object.fromEntries(Object.entries(trimodel).sort());
+    let bimodel = mergeModels(...allBimodels);
+   // bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+
+
+    /*let text = allTexts.join(' ');
     let smodel = buildSGrams(text);
 
     let retrimodel = mergeModels(
@@ -507,7 +514,7 @@ if (typeof process) {
       reverseBuildPrunedNGrams(text, 2),
     );
     rebimodel = Object.fromEntries(Object.entries(rebimodel).sort());
-
+*/
     const fs = require("fs");
     const { execSync } = require("child_process");
 
@@ -520,7 +527,7 @@ if (typeof process) {
         .replaceAll('":', "="),
     );
     execSync("gzip -k --force trimodel.json.txt");
-
+/*
     fs.writeFileSync(
       "retrimodel.json.txt",
       JSON.stringify(retrimodel)
@@ -530,7 +537,7 @@ if (typeof process) {
         .replaceAll('":', "="),
     );
     execSync("gzip -k --force retrimodel.json.txt");
-
+*/
     fs.writeFileSync(
       "bimodel.json.txt",
       JSON.stringify(bimodel)
@@ -540,7 +547,7 @@ if (typeof process) {
         .replaceAll('":', "="),
     );
     execSync("gzip -k --force bimodel.json.txt");
-
+/*
     fs.writeFileSync(
       "rebimodel.json.txt",
       JSON.stringify(rebimodel)
@@ -550,18 +557,20 @@ if (typeof process) {
         .replaceAll('":', "="),
     );
     execSync("gzip -k --force rebimodel.json.txt");
-
+*/
+    /*
     fs.writeFileSync(
       "smodel.json.txt",
       JSON.stringify(smodel).replaceAll('","', "¸"),
     );
     execSync("gzip -k --force smodel.json.txt");
-
+*/
+    /*
     const sil = await getDocText(
       "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
     );
     fs.writeFileSync("sil.txt", sil);
-
+*/
     let context = [];
     let prompt = ">Aragorn";
     console.log(prompt);
