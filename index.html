@@ -282,14 +282,18 @@
                   // min length/max length punishes differences in length
                   // strtok.split(key).length punishes repeated sequences
                   let repeatTax = strtok.split(key).length;
+                  const lcsKeywords = lcs(key, keywords);
                   const keylcs =
-                    (lcs(key, keywords) *
+                    (lcsKeywords *
                       Math.min(key.length, keywords.length)) /
                     (Math.max(key.length, keywords.length) *
                       repeatTax);
                   if (keylcs > maxMatch) {
                     maxMatch = keylcs;
                     keyMatch = key;
+                  }
+                  if(lcsKeywords >= ~~(Math.max(key.length, keywords.length)*0.8)){
+                    break;
                   }
                 }
                 matches = trimodel[keyMatch];
