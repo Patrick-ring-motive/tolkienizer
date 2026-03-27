@@ -31,7 +31,9 @@
   };
 
   let wordList = Object.keys(
-    globalThis["ngram-models"]?.trimodel ?? { test: "test" },
+    globalThis["ngram-models"]?.trimodel ?? {
+      test: "test"
+    },
   );
 
   const charIndex = new Map();

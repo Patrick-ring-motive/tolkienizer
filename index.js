@@ -87,8 +87,8 @@ const fixText = (text) => {
     .replace(/\s+'ve\s/g, "'ve ")
     .replace(/\s+'d\s/g, "'d ")
     .replace(/\s+'m\s/g, "'m ")
-    .replace(/\s+\./g,'.')
-    .replace(/\s+,/g,',')
+    .replace(/\s+\./g, '.')
+    .replace(/\s+,/g, ',')
     .replace(/[A-Z]{2,}/g, (x) => x[0] + x.slice(1).toLowerCase());
 };
 
@@ -103,8 +103,8 @@ function buildNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
   let tokens = norm(
-    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
-  )
+      `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
+    )
     .split(/\s+/)
     .filter((x) => x?.trim?.());
   for (let i = 0; i < tokens.length - n + 1; i++) {
@@ -150,8 +150,8 @@ function reverseBuildNGrams(text, n = 3) {
   const model = {};
   text = fixText(text);
   let tokens = norm(
-    `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
-  )
+      `${gluePairs(text)} ${glueReverse(text)} ${text} ${gluePairs(glueFixes(fixText(text)))} ${glueReverse(glueFixes(fixText(text)))}`,
+    )
     .split(/\s+/)
     .reverse()
     .filter((x) => x?.trim?.());
@@ -211,6 +211,7 @@ if (typeof process) {
   globalThis.jsdom = require("jsdom");
   globalThis.JSDOM = jsdom.JSDOM;
 }
+
 function parseDoc(input) {
   return new JSDOM(input).window.document;
 }
@@ -286,8 +287,8 @@ function getContextBoost(tokens, key) {
 
 const actors =
   "Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman"
-    .toLowerCase()
-    .split("|");
+  .toLowerCase()
+  .split("|");
 const activeActors = {};
 
 function getActorBoost(model, key) {
@@ -342,7 +343,7 @@ function getNextToken(keywords, trimodel, bimodel, tokens = []) {
         getActorBoost(model, key) +
         getContextBoost(tokens, key) +
         followCount(model, key) * 0.01) /
-        strtok.split(key).length >
+      strtok.split(key).length >
       maxMatch
     ) {
       maxMatch = matches[key];
@@ -412,50 +413,52 @@ if (typeof process) {
   const fsPromises = require("fs/promises");
   async function readFile(filePath) {
     try {
-      return await fsPromises.readFile(filePath, { encoding: "utf8" });
+      return await fsPromises.readFile(filePath, {
+        encoding: "utf8"
+      });
     } catch (err) {
       return err.message;
     }
   }
-  async function writeFile(filePath,content) {
-    try {
-      return await fsPromises.writeFile(filePath,content);
-    } catch (err) {
-      return err.message;
+  async function writeFile(filePath, content) {
+      try {
+        return await fsPromises.writeFile(filePath, content);
+      } catch (err) {
+        return err.message;
+      }
     }
-  }
-  (async () => {
-    //await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
-    let texts = (
-      await Promise.all([
-        //readFile("sil.txt"),
-        readFile("fellowship.txt"),
-      //  readFile("fellowship-lan.txt"),
-      //  readFile("fellowship-fren.txt"),
-        readFile("towers.txt"),
-    //    readFile("towers-lan.txt"),
-     //   readFile("towers-fren.txt"),
-        readFile("king.txt"),
-       // readFile("king-lan.txt"),
-     //   readFile("king-fren.txt"),
-        //...Array(2).map(()=>readFile("hobbit.txt")),
-       readFile("hobbit.txt")
-     //  readFile("hobbit-lan.txt"),
-      // readFile("hobbit-fren.txt")
-   // readFile("hobbit-afnlafen.txt"),
-        /* (await readFile("pedia.txt"))
-          .split("\n")
-          .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
-          .join("\n"),*/
-        //getDocText("https://archive.org/stream/the-world-book-encyclopedia-volume-1-a/The%20World%20Book%20Encyclopedia%2C%20Volume%201%20A_djvu.txt")
-        //getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
-        //silmarillion
-        //getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
+    (async () => {
+      //await writeFile('hobbit-down.txt',(await readFile('hobbit.txt')).toLowerCase());
+      let texts = (
+        await Promise.all([
+          //readFile("sil.txt"),
+          readFile("fellowship.txt"),
+          //  readFile("fellowship-lan.txt"),
+          //  readFile("fellowship-fren.txt"),
+          readFile("towers.txt"),
+          //    readFile("towers-lan.txt"),
+          //   readFile("towers-fren.txt"),
+          readFile("king.txt"),
+          // readFile("king-lan.txt"),
+          //   readFile("king-fren.txt"),
+          //...Array(2).map(()=>readFile("hobbit.txt")),
+          readFile("hobbit.txt")
+          //  readFile("hobbit-lan.txt"),
+          // readFile("hobbit-fren.txt")
+          // readFile("hobbit-afnlafen.txt"),
+          /* (await readFile("pedia.txt"))
+            .split("\n")
+            .filter((x) => !/[^a-zA-Z0-9,\'\"\.\s\-:\(\)\!\?\—]/.test(x))
+            .join("\n"),*/
+          //getDocText("https://archive.org/stream/the-world-book-encyclopedia-volume-1-a/The%20World%20Book%20Encyclopedia%2C%20Volume%201%20A_djvu.txt")
+          //getDocText("https://raw.githubusercontent.com/Phylliida/Dialogue-Datasets/refs/heads/master/MovieCorpus.txt")
+          //silmarillion
+          //getDocText("https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt"),
 
-        //narnia2
-        //getDocText("https://archive.org/stream/LewisCSNarnia3TheHorseAndHisBoy/Lewis_C_S_-_Narnia_2_-_The_Lion_The_Witch_and_The__djvu.txt")
+          //narnia2
+          //getDocText("https://archive.org/stream/LewisCSNarnia3TheHorseAndHisBoy/Lewis_C_S_-_Narnia_2_-_The_Lion_The_Witch_and_The__djvu.txt")
 
-        /*
+          /*
       //elfland
       getDocText("https://www.gutenberg.org/files/61077/61077-0.txt"),
       
@@ -475,33 +478,32 @@ if (typeof process) {
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-The-Two-Towers.html"),
       getDocText("https://imsdb.com/scripts/Lord-of-the-Rings-Return-of-the-King.html"),
       getDocText("https://pjhobbitfilms.fandom.com/wiki/The_Hobbit:_An_Unexpected_Journey/Transcript"),*/
-        /*   (async () =>
-        (
-          await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
-        ).replaceAll("’", "'"))(),*/
-      ])
-    ).map(text =>text.replace(/\s+,/g,",")
-      .replace(/\s+;/g,";")
-      .replace(/\s+\./g,".")
-      .replace(/\s+\!/g,"!")
-      .replace(/\s+\?/g,"?")
-    .replaceAll('¬',''));
-    
-    let texts2 = texts.map(text=>text.replaceAll('-',' ').replaceAll('—',' '));
+          /*   (async () =>
+          (
+            await getDocText("https://www.gutenberg.org/cache/epub/10/pg10.txt")
+          ).replaceAll("’", "'"))(),*/
+        ])
+      ).map(text => text.replace(/\s+,/g, ",")
+        .replace(/\s+;/g, ";")
+        .replace(/\s+\./g, ".")
+        .replace(/\s+\!/g, "!")
+        .replace(/\s+\?/g, "?")
+        .replaceAll('¬', ''));
 
-    let allTexts = texts.concat(texts2);
+      let texts2 = texts.map(text => text.replaceAll('-', ' ').replaceAll('—', ' '));
 
-    let allTrimodels = allTexts.map(text=>buildNGrams(text)).concat(allTexts.map(text=>buildPrunedNGrams(text)));
+      let allTexts = texts.concat(texts2);
 
-    let allBimodels = allTexts.map(text=>buildNGrams(text,2)).concat(allTexts.map(text=>buildPrunedNGrams(text,2)));
-    
-    let trimodel = mergeModels(...allTrimodels);
-   // trimodel = Object.fromEntries(Object.entries(trimodel).sort());
-    let bimodel = mergeModels(...allBimodels);
-   // bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+      let allTrimodels = allTexts.map(text => buildNGrams(text)).concat(allTexts.map(text => buildPrunedNGrams(text)));
 
+      let allBimodels = allTexts.map(text => buildNGrams(text, 2)).concat(allTexts.map(text => buildPrunedNGrams(text, 2)));
 
-    /*let text = allTexts.join(' ');
+      let trimodel = mergeModels(...allTrimodels);
+      // trimodel = Object.fromEntries(Object.entries(trimodel).sort());
+      let bimodel = mergeModels(...allBimodels);
+      // bimodel = Object.fromEntries(Object.entries(bimodel).sort());
+
+      /*let text = allTexts.join(' ');
     let smodel = buildSGrams(text);
 
     let retrimodel = mergeModels(
@@ -515,65 +517,67 @@ if (typeof process) {
     );
     rebimodel = Object.fromEntries(Object.entries(rebimodel).sort());
 */
-    const fs = require("fs");
-    const { execSync } = require("child_process");
+      const fs = require("fs");
+      const {
+        execSync
+      } = require("child_process");
 
-    fs.writeFileSync(
-      "trimodel.json.txt",
-      JSON.stringify(trimodel)
+      fs.writeFileSync(
+        "trimodel.json.txt",
+        JSON.stringify(trimodel)
         .replaceAll('":{"', "[")
         .replaceAll('},"', "]")
         .replaceAll(',"', "¸")
         .replaceAll('":', "="),
-    );
-    execSync("gzip -k --force trimodel.json.txt");
-/*
-    fs.writeFileSync(
-      "retrimodel.json.txt",
-      JSON.stringify(retrimodel)
+      );
+      execSync("gzip -k --force trimodel.json.txt");
+      /*
+          fs.writeFileSync(
+            "retrimodel.json.txt",
+            JSON.stringify(retrimodel)
+              .replaceAll('":{"', "[")
+              .replaceAll('},"', "]")
+              .replaceAll(',"', "¸")
+              .replaceAll('":', "="),
+          );
+          execSync("gzip -k --force retrimodel.json.txt");
+      */
+      fs.writeFileSync(
+        "bimodel.json.txt",
+        JSON.stringify(bimodel)
         .replaceAll('":{"', "[")
         .replaceAll('},"', "]")
         .replaceAll(',"', "¸")
         .replaceAll('":', "="),
-    );
-    execSync("gzip -k --force retrimodel.json.txt");
-*/
-    fs.writeFileSync(
-      "bimodel.json.txt",
-      JSON.stringify(bimodel)
-        .replaceAll('":{"', "[")
-        .replaceAll('},"', "]")
-        .replaceAll(',"', "¸")
-        .replaceAll('":', "="),
-    );
-    execSync("gzip -k --force bimodel.json.txt");
-/*
-    fs.writeFileSync(
-      "rebimodel.json.txt",
-      JSON.stringify(rebimodel)
-        .replaceAll('":{"', "[")
-        .replaceAll('},"', "]")
-        .replaceAll(',"', "¸")
-        .replaceAll('":', "="),
-    );
-    execSync("gzip -k --force rebimodel.json.txt");
-*/
-    /*
+      );
+      execSync("gzip -k --force bimodel.json.txt");
+      /*
+          fs.writeFileSync(
+            "rebimodel.json.txt",
+            JSON.stringify(rebimodel)
+              .replaceAll('":{"', "[")
+              .replaceAll('},"', "]")
+              .replaceAll(',"', "¸")
+              .replaceAll('":', "="),
+          );
+          execSync("gzip -k --force rebimodel.json.txt");
+      */
+      /*
     fs.writeFileSync(
       "smodel.json.txt",
       JSON.stringify(smodel).replaceAll('","', "¸"),
     );
     execSync("gzip -k --force smodel.json.txt");
 */
-    /*
+      /*
     const sil = await getDocText(
       "https://archive.org/stream/TheSilmarillionIllustratedJ.R.R.TolkienTedNasmith/The%20Silmarillion%20%28Illustrated%29%20-%20J.%20R.%20R.%20Tolkien%3B%20Ted%20Nasmith%3B_djvu.txt",
     );
     fs.writeFileSync("sil.txt", sil);
 */
-    let context = [];
-    let prompt = ">Aragorn";
-    console.log(prompt);
-    console.log(generate(prompt, trimodel, bimodel, context));
-  })();
+      let context = [];
+      let prompt = ">Aragorn";
+      console.log(prompt);
+      console.log(generate(prompt, trimodel, bimodel, context));
+    })();
 }
