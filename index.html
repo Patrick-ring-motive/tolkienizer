@@ -1,414 +1,425 @@
 <html>
-  <head>
-    <style>
-      html {
-        background-image: url("bak.jpeg");
-        background-size: cover;
-      }
 
-      h1,
-      h3 {
-        font-family: sans-serif;
-      }
-      .poop,
-      button,
-      loading,
-      h1,
-      h3,
-      pre {
-        border-radius: 1vmax;
-        background-color: rgba(118, 207, 138, 0.8);
-        max-width: 100vmin;
-      }
-      button,
-      loading,
-      code {
-        white-space: pre-wrap;
-        word-break: normal !important;
-        font-size: 4vmin;
-      }
-      buttons {
-        width: 100%;
-      }
-      button {
-        color: #003200 !important;
-        margin: 1vmax;
-      }
-      pre {
-        padding: 1vmax;
-      }
-      log {
-        color: red;
-      }
-    </style>
-    <script src="https://patrick-ring-motive.github.io/patgpt/vector/knn.js"></script>
-    <script>
-      //utilities to simplify stream conversion
-      ReadableStream.prototype.gunzip = function gunzip() {
-        return this.pipeThrough(new DecompressionStream("gzip"));
-      };
-      ReadableStream.prototype.text = async function text() {
-        return await new Response(this).text();
-      };
+<head>
+  <style>
+    html {
+      background-image: url("bak.jpeg");
+      background-size: cover;
+    }
 
-      //polyfill for safari streams
-      ReadableStream.prototype[Symbol.asyncIterator] ??=
-        async function* asyncIterator() {
-          const reader = this?.getReader?.();
-          try {
-            let chunk = await reader.read();
-            while (chunk?.done === false) {
-              yield chunk?.value;
-              chunk = await reader?.read?.();
+    h1,
+    h3 {
+      font-family: sans-serif;
+    }
+
+    .poop,
+    button,
+    loading,
+    h1,
+    h3,
+    pre {
+      border-radius: 1vmax;
+      background-color: rgba(118, 207, 138, 0.8);
+      max-width: 100vmin;
+    }
+
+    button,
+    loading,
+    code {
+      white-space: pre-wrap;
+      word-break: normal !important;
+      font-size: 4vmin;
+    }
+
+    buttons {
+      width: 100%;
+    }
+
+    button {
+      color: #003200 !important;
+      margin: 1vmax;
+    }
+
+    pre {
+      padding: 1vmax;
+    }
+
+    log {
+      color: red;
+    }
+
+  </style>
+  <script src="https://patrick-ring-motive.github.io/patgpt/vector/knn.js"></script>
+  <script>
+    //utilities to simplify stream conversion
+    ReadableStream.prototype.gunzip = function gunzip() {
+      return this.pipeThrough(new DecompressionStream("gzip"));
+    };
+    ReadableStream.prototype.text = async function text() {
+      return await new Response(this).text();
+    };
+
+    //polyfill for safari streams
+    ReadableStream.prototype[Symbol.asyncIterator] ??=
+      async function* asyncIterator() {
+        const reader = this?.getReader?.();
+        try {
+          let chunk = await reader.read();
+          while (chunk?.done === false) {
+            yield chunk?.value;
+            chunk = await reader?.read?.();
+          }
+        } finally {
+          reader?.releaseLock?.();
+        }
+      };
+    window.log = (e) => {
+      console.log(e);
+      (
+        document.querySelector("log") ??
+        document.getElementsByTagName("log")?.[0] ?? {}
+      ).innerHTML += "<br>" + (e.message ?? e);
+    };
+    window.addEventListener("error", function(e) {
+      log(e?.message);
+      [...arguments].forEach((x) => {
+        log("window error " + (x?.message ?? x));
+      });
+    });
+
+    Array.prototype.remove = function remove(i) {
+      this.splice(i, 1);
+    };
+
+  </script>
+  <title>Tolkienizer</title>
+</head>
+
+<body>
+  <center>
+    <h1>Tolkienizer</h1>
+    <br />
+    <h3>
+      This little project is my attempt at creating a language model from
+      scratch and have it run entirely clientside. It's a simple trigram model
+      trained on the 3 LotR books and The Hobbit. It has a bunch of small
+      optimizations to seem more coherent. It's no Chatgpt but it is fun.⠀<a href="https://github.com/Patrick-ring-motive/tolkienizer">Here's the code or whatever.</a>
+    </h3>
+  </center>
+  <buttons></buttons>
+  <table>
+    <tr>
+      <td class="poop">seed</td>
+      <td><input id="start"></input></td>
+    </tr>
+  </table>
+  <loading>loading...</loading>
+  <pre><code></code></pre>
+  <script type="noop" src="https://patrick-ring-motive.github.io/tolkienizer/index.js"></script>
+  <script>
+    const $name = Symbol("name");
+    (async () => {
+      try {
+        let trimodel;
+        let bimodel;
+        let smodel;
+        //download the trimodel. Its a gzipped json dictionary of trigrams.
+        await Promise.all([
+          (async () => {
+            const res = await fetch("trimodel.json.txt.gz");
+            trimodel = JSON.parse(
+              (await res.body.gunzip().text())
+              .replaceAll("=", '":')
+              .replaceAll("¸", ',"')
+              .replaceAll("]", '},"')
+              .replaceAll("[", '":{"'),
+            );
+          })(),
+          (async () => {
+            const res = await fetch("bimodel.json.txt.gz");
+            bimodel = JSON.parse(
+              (await res.body.gunzip().text())
+              .replaceAll("=", '":')
+              .replaceAll("¸", ',"')
+              .replaceAll("]", '},"')
+              .replaceAll("[", '":{"'),
+            );
+          })(),
+          (async () => {
+            const res = await fetch("smodel.json.txt.gz");
+            smodel = JSON.parse(
+              (await res.body.gunzip().text()).replaceAll("¸", '","'),
+            );
+          })(),
+        ]);
+        globalThis["ngram-models"] = {
+          trimodel,
+          bimodel
+        };
+        trimodel[$name] = "trimodel";
+        bimodel[$name] = "bimodel";
+        /*const trikeys = Object.keys(trimodel);
+        const cbuckets = (trikeys.map(x=>[...new Set(x.toLowerCase().replace(/[^a-z]/g,''))].sort().join('')));
+        const pool = {};
+        for(const x of cbuckets){
+          pool[x] ??=0;
+          pool[x]++;
+        };
+        let ii = 0;
+        for(const x in pool){
+          const rr = pool[x];
+          if(rr > ii)ii = rr;
+        }
+        log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${ii}`);
+        */
+        /*for(const key in trimodel){
+          vectorStore.add(key,key);
+        }*/
+        document.querySelector("loading")?.remove?.();
+        //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
+        const lcs = function lcs(seq1, seq2) {
+          "use strict";
+          seq1 = [...(seq1 ?? [])];
+          seq2 = [...(seq2 ?? [])];
+          if (seq2.length > seq1.length) {
+            [seq1, seq2] = [seq2, seq1];
+          }
+          const arr1 = seq1;
+          const arr2 = seq2;
+          const dp = Array(arr1.length + 1)
+            .fill(0)
+            .map(() => Array(arr2.length + 1).fill(0));
+          const dp_length = dp.length;
+          for (let i = 1; i !== dp_length; i++) {
+            const dpi_length = dp[i].length;
+            for (let x = 1; x !== dpi_length; x++) {
+              if (arr1[i - 1] === arr2[x - 1]) {
+                dp[i][x] = dp[i - 1][x - 1] + 1;
+              } else {
+                dp[i][x] = Math.max(dp[i][x - 1], dp[i - 1][x]);
+              }
             }
-          } finally {
-            reader?.releaseLock?.();
+          }
+          return dp[arr1.length][arr2.length];
+        };
+
+        const weightedLCS = (seq1, seq2) => {
+          return (
+            (lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
+            Math.max(seq1.length, seq2.length)
+          );
+        };
+
+        const getsGram = (tokens) => {
+          const text = tokens
+            .join(" ")
+            .trim()
+            .split(/(?<=[\.\!\?,;])\s+/)
+            .pop();
+          let maxMatch = 0;
+          let keyMatchIndex = 0;
+          for (let i = 1; i < smodel.length; i++) {
+            const keylcs = weightedLCS(smodel[i], text);
+            if (keylcs > maxMatch) {
+              maxMatch = keylcs;
+              keyMatchIndex = i;
+            }
+          }
+          return smodel[keyMatchIndex + 1];
+        };
+
+        const stringify = (x) => {
+          try {
+            return JSON.parse(x);
+          } catch {
+            return String(x);
           }
         };
-      window.log = (e) => {
-        console.log(e);
-        (
-          document.querySelector("log") ??
-          document.getElementsByTagName("log")?.[0] ??
-          {}
-        ).innerHTML += "<br>" + (e.message ?? e);
-      };
-      window.addEventListener("error", function (e) {
-        log(e?.message);
-        [...arguments].forEach((x) => {
-          log("window error " + (x?.message ?? x));
-        });
-      });
 
-      Array.prototype.remove = function remove(i) {
-        this.splice(i, 1);
-      };
-    </script>
-    <title>Tolkienizer</title>
-  </head>
-  <body>
-    <center>
-      <h1>Tolkienizer</h1>
-      <br />
-      <h3>
-        This little project is my attempt at creating a language model from
-        scratch and have it run entirely clientside. It's a simple trigram model
-        trained on the 3 LotR books and The Hobbit. It has a bunch of small
-        optimizations to seem more coherent. It's no Chatgpt but it is fun.⠀<a
-          href="https://github.com/Patrick-ring-motive/tolkienizer"
-          >Here's the code or whatever.</a
-        >
-      </h3>
-    </center>
-    <buttons></buttons>
-    <table><tr><td class="poop">seed</td><td><input id="start"></input></td></tr></table>
-    <loading>loading...</loading>
-    <pre><code></code></pre>
-    <script
-      type="noop"
-      src="https://patrick-ring-motive.github.io/tolkienizer/index.js"
-    ></script>
-    <script>
-      const $name = Symbol("name");
-      (async () => {
-        try {
-          let trimodel;
-          let bimodel;
-          let smodel;
-          //download the trimodel. Its a gzipped json dictionary of trigrams.
-          await Promise.all([
-            (async () => {
-              const res = await fetch("trimodel.json.txt.gz");
-              trimodel = JSON.parse(
-                (await res.body.gunzip().text())
-                  .replaceAll("=", '":')
-                  .replaceAll("¸", ',"')
-                  .replaceAll("]", '},"')
-                  .replaceAll("[", '":{"'),
-              );
-            })(),
-            (async () => {
-              const res = await fetch("bimodel.json.txt.gz");
-              bimodel = JSON.parse(
-                (await res.body.gunzip().text())
-                  .replaceAll("=", '":')
-                  .replaceAll("¸", ',"')
-                  .replaceAll("]", '},"')
-                  .replaceAll("[", '":{"'),
-              );
-            })(),
-            (async () => {
-              const res = await fetch("smodel.json.txt.gz");
-              smodel = JSON.parse(
-                (await res.body.gunzip().text()).replaceAll("¸", '","'),
-              );
-            })(),
-          ]);
-          globalThis["ngram-models"] = { trimodel, bimodel };
-          trimodel[$name] = "trimodel";
-          bimodel[$name] = "bimodel";
-          /*const trikeys = Object.keys(trimodel);
-          const cbuckets = (trikeys.map(x=>[...new Set(x.toLowerCase().replace(/[^a-z]/g,''))].sort().join('')));
-          const pool = {};
-          for(const x of cbuckets){
-            pool[x] ??=0;
-            pool[x]++;
-          };
-          let ii = 0;
-          for(const x in pool){
-            const rr = pool[x];
-            if(rr > ii)ii = rr;
+        //Count the number of of possible trigrams that follow a given trigram
+        const followCount = (model, key) => {
+          if (!model[key]) return 0;
+          return Object.keys(model[key]).length;
+        };
+
+        function getContextBoost(tokens, key) {
+          const context = stringify(tokens.slice(-20));
+          return lcs(context, key) / context.length / 20;
+        }
+
+        const actors =
+          "Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman"
+          .toLowerCase()
+          .split("|");
+        const activeActors = {};
+
+        function getActorBoost(model, key) {
+          if (!model[key]) return 0;
+          let score = 0;
+          const smk = stringify(model[key]).toLowerCase();
+          for (const actor in activeActors) {
+            if (smk.includes(actor)) {
+              score += 0.2;
+            }
+            score += 0.2 * ((lcs(smk, actor) * actor.length) / smk.length);
           }
-          log(`key:${trikeys.length}|buckets:${new Set(cbuckets).size}|max:${ii}`);
-          */
-          /*for(const key in trimodel){
-            vectorStore.add(key,key);
+          return score;
+        }
+
+        let newActor;
+        //Get the next token in the sequence. This is the core of the model.
+        function getNextToken(keywords, trimodel, bimodel, tokens = []) {
+          /*if (newActor && /\?$|\.$|\!$/.test(keywords)) {
+            const x = newActor;
+            newActor = null;
+            tokens.push(x);
+            return x;
           }*/
-          document.querySelector("loading")?.remove?.();
-          //longest common subsequence. Used to find the closest matching trigram if no exact match is found.
-          const lcs = function lcs(seq1, seq2) {
-            "use strict";
-            seq1 = [...(seq1 ?? [])];
-            seq2 = [...(seq2 ?? [])];
-            if (seq2.length > seq1.length) {
-              [seq1, seq2] = [seq2, seq1];
-            }
-            const arr1 = seq1;
-            const arr2 = seq2;
-            const dp = Array(arr1.length + 1)
-              .fill(0)
-              .map(() => Array(arr2.length + 1).fill(0));
-            const dp_length = dp.length;
-            for (let i = 1; i !== dp_length; i++) {
-              const dpi_length = dp[i].length;
-              for (let x = 1; x !== dpi_length; x++) {
-                if (arr1[i - 1] === arr2[x - 1]) {
-                  dp[i][x] = dp[i - 1][x - 1] + 1;
-                } else {
-                  dp[i][x] = Math.max(dp[i][x - 1], dp[i - 1][x]);
-                }
-              }
-            }
-            return dp[arr1.length][arr2.length];
-          };
-
-          const weightedLCS = (seq1, seq2) => {
-            return (
-              (lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
-              Math.max(seq1.length, seq2.length)
-            );
-          };
-
-          const getsGram = (tokens) => {
-            const text = tokens
-              .join(" ")
-              .trim()
-              .split(/(?<=[\.\!\?,;])\s+/)
-              .pop();
-            let maxMatch = 0;
-            let keyMatchIndex = 0;
-            for (let i = 1; i < smodel.length; i++) {
-              const keylcs = weightedLCS(smodel[i], text);
-              if (keylcs > maxMatch) {
-                maxMatch = keylcs;
-                keyMatchIndex = i;
-              }
-            }
-            return smodel[keyMatchIndex + 1];
-          };
-
-          const stringify = (x) => {
-            try {
-              return JSON.parse(x);
-            } catch {
-              return String(x);
-            }
-          };
-
-          //Count the number of of possible trigrams that follow a given trigram
-          const followCount = (model, key) => {
-            if (!model[key]) return 0;
-            return Object.keys(model[key]).length;
-          };
-
-          function getContextBoost(tokens, key) {
-            const context = stringify(tokens.slice(-20));
-            return lcs(context, key) / context.length / 20;
-          }
-
-          const actors =
-            "Aragorn|Frodo|Gandalf|Legolas|Gimli|Boromir|Samwise|Merry|Pippin|Faramir|Denethor|Elrond|Galadriel|Saruman"
-              .toLowerCase()
-              .split("|");
-          const activeActors = {};
-
-          function getActorBoost(model, key) {
-            if (!model[key]) return 0;
-            let score = 0;
-            const smk = stringify(model[key]).toLowerCase();
-            for (const actor in activeActors) {
-              if (smk.includes(actor)) {
-                score += 0.2;
-              }
-              score += 0.2 * ((lcs(smk, actor) * actor.length) / smk.length);
-            }
-            return score;
-          }
-
-          let newActor;
-          //Get the next token in the sequence. This is the core of the model.
-          function getNextToken(keywords, trimodel, bimodel, tokens = []) {
-            /*if (newActor && /\?$|\.$|\!$/.test(keywords)) {
-              const x = newActor;
-              newActor = null;
-              tokens.push(x);
-              return x;
-            }*/
-            const randoSkip = Math.random() < 0.01;
-            const strtok = stringify(tokens);
-            let model = trimodel;
-            let maxMatch = 0;
-            let keyMatch = keywords;
-            let matches = trimodel[keywords];
-            let selectedModel = "trigram";
-            // 1% chance to do fuzzy match search even if exact match is found.
+          const randoSkip = Math.random() < 0.01;
+          const strtok = stringify(tokens);
+          let model = trimodel;
+          let maxMatch = 0;
+          let keyMatch = keywords;
+          let matches = trimodel[keywords];
+          let selectedModel = "trigram";
+          // 1% chance to do fuzzy match search even if exact match is found.
+          if (randoSkip || !matches) {
+            selectedModel = "bigram";
+            matches = bimodel[keywords.split(" ").pop()];
             if (randoSkip || !matches) {
-              selectedModel = "bigram";
-              matches = bimodel[keywords.split(" ").pop()];
-              if (randoSkip || !matches) {
-                selectedModel = "lcs";
-                for (const key in trimodel) {
-                  // lcs finds common sequences.
-                  // min length/max length punishes differences in length
-                  // strtok.split(key).length punishes repeated sequences
-                  let repeatTax = strtok.split(key).length;
-                  const lcsKeywords = lcs(key, keywords);
-                  const keylcs =
-                    (lcsKeywords *
-                      Math.min(key.length, keywords.length)) /
-                    (Math.max(key.length, keywords.length) *
-                      repeatTax);
-                  if (keylcs > maxMatch) {
-                    maxMatch = keylcs;
-                    keyMatch = key;
-                  }
-                  if(lcsKeywords >= ~~(Math.max(key.length, keywords.length)*0.8)){
-                    break;
-                  }
+              selectedModel = "lcs";
+              for (const key in trimodel) {
+                // lcs finds common sequences.
+                // min length/max length punishes differences in length
+                // strtok.split(key).length punishes repeated sequences
+                let repeatTax = strtok.split(key).length;
+                const lcsKeywords = lcs(key, keywords);
+                const keylcs =
+                  (lcsKeywords *
+                    Math.min(key.length, keywords.length)) /
+                  (Math.max(key.length, keywords.length) *
+                    repeatTax);
+                if (keylcs > maxMatch) {
+                  maxMatch = keylcs;
+                  keyMatch = key;
                 }
-                matches = trimodel[keyMatch];
-              } else {
-                model = bimodel;
+                if (lcsKeywords >= ~~(Math.max(key.length, keywords.length) * 0.8)) {
+                  break;
+                }
               }
+              matches = trimodel[keyMatch];
+            } else {
+              model = bimodel;
             }
-            maxMatch = 0;
-            let keyMatch1 = keyMatch;
-            //old heuristic
-            for (const key in matches) {
-              if (maxMatch > 0 && Math.random() < 0.2) {
-                continue;
-              }
-              if (matches[key] == key) {
-                delete matches[key];
-                continue;
-              }
-
-               repeatTax = strtok.split(key).length;
-              
-              //followCount boosts trigrams that have more possible followups
-              //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
-              if (
-                (matches[key] +
-                  getActorBoost(model, key) +
-                  getContextBoost(tokens, key) +
-                  followCount(model, key) * 0.01) /
-                  repeatTax >
-                maxMatch
-              ) {
-                maxMatch = matches[key];
-                keyMatch1 = key;
-              }
+          }
+          maxMatch = 0;
+          let keyMatch1 = keyMatch;
+          //old heuristic
+          for (const key in matches) {
+            if (maxMatch > 0 && Math.random() < 0.2) {
+              continue;
+            }
+            if (matches[key] == key) {
+              delete matches[key];
+              continue;
             }
 
-  keyMatch = keyMatch1;
-            keyMatch = stringify(keyMatch);
-            const lk = String(keyMatch).toLowerCase();
-            for (const actor of actors) {
-              if (lk.includes(actor)) {
-                activeActors[actor] = 20;
-              }
+            repeatTax = strtok.split(key).length;
+
+            //followCount boosts trigrams that have more possible followups
+            //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
+            if (
+              (matches[key] +
+                getActorBoost(model, key) +
+                getContextBoost(tokens, key) +
+                followCount(model, key) * 0.01) /
+              repeatTax >
+              maxMatch
+            ) {
+              maxMatch = matches[key];
+              keyMatch1 = key;
             }
-            for (const actor in activeActors) {
-              activeActors[actor]--;
-              if (activeActors[actor] <= 0) {
-                delete activeActors[actor];
-              }
-            }
-            if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
-              if (
-                !activeActors[keyMatch] &&
-                !/\?|\.|\!/.test(keyMatch) &&
-                !newActor &&
-                keyMatch != "I"
-              ) {
-                newActor = keyMatch;
-              }
-              activeActors[keyMatch] = 20;
-            }
-            delete activeActors["I"];
-            console.log(
-              `Key ${keyMatch} selected from ${selectedModel} and skips ${randoSkip}`,
-            );
-            return keyMatch;
           }
 
-          const join = (x, y = "") => {
-            try {
-              return x.join(y);
-            } catch {
-              return String(y);
+          keyMatch = keyMatch1;
+          keyMatch = stringify(keyMatch);
+          const lk = String(keyMatch).toLowerCase();
+          for (const actor of actors) {
+            if (lk.includes(actor)) {
+              activeActors[actor] = 20;
             }
-          };
+          }
+          for (const actor in activeActors) {
+            activeActors[actor]--;
+            if (activeActors[actor] <= 0) {
+              delete activeActors[actor];
+            }
+          }
+          if (/[A-Z]/.test(keyMatch) && !/\?|\.|\!/.test(keywords)) {
+            if (
+              !activeActors[keyMatch] &&
+              !/\?|\.|\!/.test(keyMatch) &&
+              !newActor &&
+              keyMatch != "I"
+            ) {
+              newActor = keyMatch;
+            }
+            activeActors[keyMatch] = 20;
+          }
+          delete activeActors["I"];
+          console.log(
+            `Key ${keyMatch} selected from ${selectedModel} and skips ${randoSkip}`,
+          );
+          return keyMatch;
+        }
 
-          const nextTime =
-            globalThis.requestIdleCallback ??
-            globalThis.requestAnimationFrame ??
-            ((x) => setTimeout(x, 0));
+        const join = (x, y = "") => {
+          try {
+            return x.join(y);
+          } catch {
+            return String(y);
+          }
+        };
 
-          const nextIdle = () => new Promise((resolve) => nextTime(resolve));
+        const nextTime =
+          globalThis.requestIdleCallback ??
+          globalThis.requestAnimationFrame ??
+          ((x) => setTimeout(x, 0));
 
-          function generateStream(prompt, trimodel, bimodel, context = []) {
-            return new ReadableStream({
-              async start(controller) {
-                try {
-                  const tokens = context;
-                  if (!prompt) {
-                    prompt = context[context.length - 1];
-                  }
-                  if (!prompt) {
-                    prompt = getNextToken(
-                      String(self?.crypto?.randomUUID?.()).replaceAll('-',''),
-                      // actors[Math.floor(actors.length * Math.random())],
-                      trimodel,
-                      bimodel,
-                      tokens,
-                    );
-                  }
-                  const out = [];
-                  context.push(prompt);
-                  while (join(out).split(/[\.\?\!]/).length < 10) {
-                    await nextIdle();
-                    const nextToken = getNextToken(
-                      `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
-                      trimodel,
-                      bimodel,
-                      tokens,
-                    );
-                    tokens.push(nextToken);
-                    out.push(nextToken);
-                    controller.enqueue(nextToken);
-                    if (/[\.\?\!,;]/.test(nextToken)) {
-                      /*
+        const nextIdle = () => new Promise((resolve) => nextTime(resolve));
+
+        function generateStream(prompt, trimodel, bimodel, context = []) {
+          return new ReadableStream({
+            async start(controller) {
+              try {
+                const tokens = context;
+                if (!prompt) {
+                  prompt = context[context.length - 1];
+                }
+                if (!prompt) {
+                  prompt = getNextToken(
+                    String(self?.crypto?.randomUUID?.()).replaceAll('-', ''),
+                    // actors[Math.floor(actors.length * Math.random())],
+                    trimodel,
+                    bimodel,
+                    tokens,
+                  );
+                }
+                const out = [];
+                context.push(prompt);
+                while (join(out).split(/[\.\?\!]/).length < 10) {
+                  await nextIdle();
+                  const nextToken = getNextToken(
+                    `${tokens[tokens.length - 2]} ${tokens[tokens.length - 1]}`,
+                    trimodel,
+                    bimodel,
+                    tokens,
+                  );
+                  tokens.push(nextToken);
+                  out.push(nextToken);
+                  controller.enqueue(nextToken);
+                  if (/[\.\?\!,;]/.test(nextToken)) {
+                    /*
                       const sgrams = getsGram(tokens).split(" ");
                       for (const sgram of sgrams) {
                         tokens.push(sgram);
@@ -416,202 +427,207 @@
                         controller.enqueue(sgram);
                       }
                 */
-                    }
-                  }
-                  controller.close();
-                } catch (e) {
-                  log(e.message);
-                }
-              },
-            });
-          }
-
-          const low = (x) => String(x).toLowerCase();
-          globalThis.cleanCtx = function cleanCtx(ctx) {
-            
-            for (let i = 0; i < ctx.length; i++) {
-              try {
-                if (
-                  ctx[i] &&
-                  ctx[i + 1] &&
-                  low(ctx[i]) == low(ctx[i + 2]) &&
-                  low(ctx[i + 1]) == low(ctx[i + 3])
-                ) {
-                  ctx[i + 2] = `$${ctx[i + 2]}`;
-                  ctx[i + 3] = `$${ctx[i + 3]}`;
-                  ctx.splice(i + 2, 2);
-                  i -= 2;
-                  document.querySelector("code").innerHTML = "";
-                  for (const word of ctx) {
-                    appendText(word);
-                  }
-                } else if (
-                  ctx[i] &&
-                  ctx[i + 1] &&
-                  low(ctx[i]) == low(ctx[i + 1])
-                ) {
-                  ctx[i + 1] = `#${ctx[i + 1]}`;
-                  ctx.remove(i + 1);
-                  i--;
-                  document.querySelector("code").innerHTML = "";
-                  for (const word of ctx) {
-                    appendText(word);
-                  }
-                } else if (String(ctx[i + 3]).includes(" ")) {
-                  ctx[i + 3] = `&${ctx[i + 3]}`;
-                  ctx.remove(i + 3);
-                  i--;
-                  document.querySelector("code").innerHTML = "";
-                  for (const word of ctx) {
-                    appendText(word);
                   }
                 }
+                controller.close();
               } catch (e) {
                 log(e.message);
               }
-            }
-
-            return ctx.filter((x) => x);
-          };
-          setInterval(
-            () =>{
-              let c = localStorage.getItem('context')||'[]';
-              
-             let x = cleanCtx(JSON.parse(c)
-                .join(' ').split(/\s+/));
-              if(c.includes(' ')){
-                localStorage.setItem('context',JSON.stringify(x));
-                
-              }
-              document.querySelector("code").innerHTML = "";
-              for (const word of x) {
-                appendText(word);
-              }
             },
-            500,
-          );
-          function cap(txt) {
-            txt = txt.trim();
-            return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
+          });
+        }
+
+        const low = (x) => String(x).toLowerCase();
+        globalThis.cleanCtx = function cleanCtx(ctx) {
+
+          for (let i = 0; i < ctx.length; i++) {
+            try {
+              if (
+                ctx[i] &&
+                ctx[i + 1] &&
+                low(ctx[i]) == low(ctx[i + 2]) &&
+                low(ctx[i + 1]) == low(ctx[i + 3])
+              ) {
+                ctx[i + 2] = `$${ctx[i + 2]}`;
+                ctx[i + 3] = `$${ctx[i + 3]}`;
+                ctx.splice(i + 2, 2);
+                i -= 2;
+                document.querySelector("code").innerHTML = "";
+                for (const word of ctx) {
+                  appendText(word);
+                }
+              } else if (
+                ctx[i] &&
+                ctx[i + 1] &&
+                low(ctx[i]) == low(ctx[i + 1])
+              ) {
+                ctx[i + 1] = `#${ctx[i + 1]}`;
+                ctx.remove(i + 1);
+                i--;
+                document.querySelector("code").innerHTML = "";
+                for (const word of ctx) {
+                  appendText(word);
+                }
+              } else if (String(ctx[i + 3]).includes(" ")) {
+                ctx[i + 3] = `&${ctx[i + 3]}`;
+                ctx.remove(i + 3);
+                i--;
+                document.querySelector("code").innerHTML = "";
+                for (const word of ctx) {
+                  appendText(word);
+                }
+              }
+            } catch (e) {
+              log(e.message);
+            }
           }
-          function appendText(text) {
-            document.querySelector("code").innerHTML = cap(
+
+          return ctx.filter((x) => x);
+        };
+        setInterval(
+          () => {
+            let c = localStorage.getItem('context') || '[]';
+
+            let x = cleanCtx(JSON.parse(c)
+              .join(' ').split(/\s+/));
+            if (c.includes(' ')) {
+              localStorage.setItem('context', JSON.stringify(x));
+
+            }
+            document.querySelector("code").innerHTML = "";
+            for (const word of x) {
+              appendText(word);
+            }
+          },
+          500,
+        );
+
+        function cap(txt) {
+          txt = txt.trim();
+          return (txt[0]?.toUpperCase?.() || "") + txt.slice(1);
+        }
+
+        function appendText(text) {
+          document.querySelector("code").innerHTML = cap(
               document.querySelector("code").innerHTML + " " + text,
             )
             //  .replaceAll("_", " ")
-              .replace(/\? [a-z]/g, (x) => x.toUpperCase())
-              .replace(/\. [a-z]/g, (x) => x.toUpperCase())
-              .replace(/\! [a-z]/g, (x) => x.toUpperCase());
-          }
-          const parseOrNull = x => {
-            try{
-              return JSON.parse(x);
-            }catch{
-              return null;
-            }
-          };
-          let context;
-          try{
-            context = cleanCtx(
-              parseOrNull(localStorage.getItem("context")) ?? document.querySelector('#start')?.value?.split(/\s+/) ?? []
-            );
-            if(!context?.length){
-              context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
-              localStorage.setItem('context',JSON.stringify(context));
-            }
-          }catch(e){
-            context = cleanCtx(String(e?.message ?? e).split(' '));
-          }
-          for(const txt of context){
-            appendText(txt);
-          }
-          //appendText(join(context, " "));
-
-          context = cleanCtx(context);
-          const buttons = document.querySelector("buttons");
-          const gen = document.createElement("button");
-          gen.innerHTML = "Generate";
-          gen.onclick = async () => {
-            await nextIdle();
-            let prompt;// = document.querySelector('#start')?.value;
-            if(!context?.length){
-              context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
-              localStorage.setItem('context',JSON.stringify(context));
-            }
-            const stream = generateStream(prompt, trimodel, bimodel, context);
-
-            for await (const chunk of stream) {
-              cleanCtx(context);
-              localStorage.setItem("context", JSON.stringify(context));
-              appendText(chunk);
-              cleanCtx(context);
-            }
-
-            const Str = x =>{
-              try{
-                return String(x);
-              }catch(e){
-                return String(e);
-              }
-            };
-
-            const stringify = x =>{
-              try{
-                return JSON.stringify(x);
-              }catch{
-                return Str(x);
-              }
-            };
-      
-            let url = 'https://script.google.com/macros/s/AKfycbwMfqRUXhcWTy8NWJ5y48jhCtCVWdrlU4F96bXYtelYrj5xxYlu7WRmVMBIFXymWXvJrw/exec';
-            url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
-            url = 'https://script.google.com/macros/s/AKfycbwcvr8w_E14DFv6IGVSjxbQCn43cbY6Tu96N30G_1HvcisZu2iy-gVqsi_YLK6aFL4Ktw/exec';
-
-              
-            const fetchText = async(...args)=>(await fetch(...args)).text();
-            
-            async function fixText(text){
-              const payload = {text};
-              payload.pass = 'one-way';
-              payload.lang = 'fy';
-            	return (fetchText(`${url}`,{
-            		method:"POST",
-            		body:encodeURIComponent(stringify(payload))
-            	}));
-            }
-            
-            context = (await(Promise.all(context.join(' ')
-                                         .replaceAll('_',' ')
-                                         .split('.')
-                                         .map(fixText))))
-                                         .join('. ')
-                                         .replaceAll('.. ','. ')
-                                         .split(' ');
-            //context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
-
-            localStorage.setItem("context", JSON.stringify(context));
-          };
-          buttons.appendChild(gen);
-          const clear = document.createElement("button");
-          clear.innerHTML = "Clear";
-          clear.onclick = () => {
-            localStorage.setItem("context", "[]");
-            context = [];
-            document.querySelector("code").innerHTML = "";
-          };
-          buttons.appendChild(clear);
-
-          const cpy = document.createElement("button");
-          cpy.innerHTML = "Copy";
-          cpy.onclick = () => {
-            navigator.clipboard.writeText(document.querySelector("code").textContent);
-          };
-          buttons.appendChild(cpy);
-        } catch (e) {
-          log(e.message);
+            .replace(/\? [a-z]/g, (x) => x.toUpperCase())
+            .replace(/\. [a-z]/g, (x) => x.toUpperCase())
+            .replace(/\! [a-z]/g, (x) => x.toUpperCase());
         }
-      })();
-    </script>
-    <log></log>
-  </body>
+        const parseOrNull = x => {
+          try {
+            return JSON.parse(x);
+          } catch {
+            return null;
+          }
+        };
+        let context;
+        try {
+          context = cleanCtx(
+            parseOrNull(localStorage.getItem("context")) ?? document.querySelector('#start')?.value?.split(/\s+/) ?? []
+          );
+          if (!context?.length) {
+            context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
+            localStorage.setItem('context', JSON.stringify(context));
+          }
+        } catch (e) {
+          context = cleanCtx(String(e?.message ?? e).split(' '));
+        }
+        for (const txt of context) {
+          appendText(txt);
+        }
+        //appendText(join(context, " "));
+
+        context = cleanCtx(context);
+        const buttons = document.querySelector("buttons");
+        const gen = document.createElement("button");
+        gen.innerHTML = "Generate";
+        gen.onclick = async () => {
+          await nextIdle();
+          let prompt; // = document.querySelector('#start')?.value;
+          if (!context?.length) {
+            context = document.querySelector('#start')?.value?.split?.(/\s+/) ?? [];
+            localStorage.setItem('context', JSON.stringify(context));
+          }
+          const stream = generateStream(prompt, trimodel, bimodel, context);
+
+          for await (const chunk of stream) {
+            cleanCtx(context);
+            localStorage.setItem("context", JSON.stringify(context));
+            appendText(chunk);
+            cleanCtx(context);
+          }
+
+          const Str = x => {
+            try {
+              return String(x);
+            } catch (e) {
+              return String(e);
+            }
+          };
+
+          const stringify = x => {
+            try {
+              return JSON.stringify(x);
+            } catch {
+              return Str(x);
+            }
+          };
+
+          let url = 'https://script.google.com/macros/s/AKfycbwMfqRUXhcWTy8NWJ5y48jhCtCVWdrlU4F96bXYtelYrj5xxYlu7WRmVMBIFXymWXvJrw/exec';
+          url = 'https://script.google.com/macros/s/AKfycbyWI_FLpELJZBBWkYlMtD4LXtBvSCw8tr_J8LegrAYDpiest5awbKTUFKOVoFmxoVODEA/exec';
+          url = 'https://script.google.com/macros/s/AKfycbwcvr8w_E14DFv6IGVSjxbQCn43cbY6Tu96N30G_1HvcisZu2iy-gVqsi_YLK6aFL4Ktw/exec';
+
+          const fetchText = async (...args) => (await fetch(...args)).text();
+
+          async function fixText(text) {
+            const payload = {
+              text
+            };
+            payload.pass = 'one-way';
+            payload.lang = 'fy';
+            return (fetchText(`${url}`, {
+              method: "POST",
+              body: encodeURIComponent(stringify(payload))
+            }));
+          }
+
+          context = (await (Promise.all(context.join(' ')
+              .replaceAll('_', ' ')
+              .split('.')
+              .map(fixText))))
+            .join('. ')
+            .replaceAll('.. ', '. ')
+            .split(' ');
+          //context = (await(fixText(context.join(' ').replaceAll('_',' ')))).split(' ');
+
+          localStorage.setItem("context", JSON.stringify(context));
+        };
+        buttons.appendChild(gen);
+        const clear = document.createElement("button");
+        clear.innerHTML = "Clear";
+        clear.onclick = () => {
+          localStorage.setItem("context", "[]");
+          context = [];
+          document.querySelector("code").innerHTML = "";
+        };
+        buttons.appendChild(clear);
+
+        const cpy = document.createElement("button");
+        cpy.innerHTML = "Copy";
+        cpy.onclick = () => {
+          navigator.clipboard.writeText(document.querySelector("code").textContent);
+        };
+        buttons.appendChild(cpy);
+      } catch (e) {
+        log(e.message);
+      }
+    })();
+
+  </script>
+  <log></log>
+</body>
+
 </html>
