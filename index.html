@@ -309,7 +309,7 @@
             if (maxMatch > 0 && Math.random() < 0.2) {
               continue;
             }
-            if (matches[key] == key) {
+            if (String(matches[key]).toLowerCase() == key.toLowerCase()) {
               delete matches[key];
               continue;
             }
