@@ -322,6 +322,7 @@
               (matches[key] +
                 getActorBoost(model, key) +
                 getContextBoost(tokens, key) +
+                +key?.includes?.('_') +
                 followCount(model, key) * 0.01) /
               repeatTax >
               maxMatch
