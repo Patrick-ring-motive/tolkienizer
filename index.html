@@ -232,6 +232,17 @@
           return Object.keys(model[key]).length;
         };
 
+        const lengthBoost = (matches,key)=>{
+          if(!key?.length)return 0;
+          matches = Object(matches);
+          let max = 0;
+          for(const k in matches){
+            max = Math.max(max,(k?.length || 0));
+          }
+          if(!max)return 0;
+          return key.length/max;
+        };
+
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
           return lcs(context, key) / context.length / 20;
@@ -322,7 +333,7 @@
               (matches[key] +
                 getActorBoost(model, key) +
                 getContextBoost(tokens, key) +
-                +key?.includes?.('_') +
+                lengthBoost(matches,key) +
                 followCount(model, key) * 0.01) /
               repeatTax >
               maxMatch
