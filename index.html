@@ -243,6 +243,17 @@
           return key.length/max;
         };
 
+        const followBoost = (model,matches,key)=>{
+          if(!key?.length)return 0;
+          matches = Object(matches);
+          let sum = 0;
+          for(const k in matches){
+            sum += followCount(model,k);
+          }
+          if(!sum)return 0;
+          return followCount(model,key)/sum;
+        };
+
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
           return lcs(context, key) / context.length / 20;
@@ -334,7 +345,7 @@
                 getActorBoost(model, key) +
                 getContextBoost(tokens, key) +
                 lengthBoost(matches,key) +
-                followCount(model, key) * 0.01) /
+                followBoost(model, key)) /
               repeatTax >
               maxMatch
             ) {
