@@ -232,26 +232,26 @@
           return Object.keys(model[key]).length;
         };
 
-        const lengthBoost = (matches,key)=>{
-          if(!key?.length)return 0;
+        const lengthBoost = (matches, key) => {
+          if (!key?.length) return 0;
           matches = Object(matches);
           let max = 0;
-          for(const k in matches){
-            max = Math.max(max,(k?.length || 0));
+          for (const k in matches) {
+            max = Math.max(max, (k?.length || 0));
           }
-          if(!max)return 0;
-          return key.length/max;
+          if (!max) return 0;
+          return key.length / max;
         };
 
-        const followBoost = (model,matches,key)=>{
-          if(!key?.length)return 0;
+        const followBoost = (model, matches, key) => {
+          if (!key?.length) return 0;
           matches = Object(matches);
           let sum = 0;
-          for(const k in matches){
-            sum += followCount(model,k);
+          for (const k in matches) {
+            sum += followCount(model, k);
           }
-          if(!sum)return 0;
-          return followCount(model,key)/sum;
+          if (!sum) return 0;
+          return followCount(model, key) / sum;
         };
 
         function getContextBoost(tokens, key) {
@@ -344,7 +344,7 @@
               (matches[key] +
                 getActorBoost(model, key) +
                 getContextBoost(tokens, key) +
-                lengthBoost(matches,key) +
+                lengthBoost(matches, key) +
                 followBoost(model, key)) /
               repeatTax >
               maxMatch
