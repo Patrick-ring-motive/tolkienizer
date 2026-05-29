@@ -314,6 +314,10 @@
                 // min length/max length punishes differences in length
                 // strtok.split(key).length punishes repeated sequences
                 let repeatTax = strtok.split(key).length;
+                const repeats = String(ley).replaceAll('_',' ').split(' ');
+                for(const r of repeats){
+                  repeatTax += strtok.split(r).length;
+                }
                 const lcsKeywords = lcs(key, keywords);
                 const keylcs =
                   (lcsKeywords *
