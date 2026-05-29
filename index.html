@@ -331,7 +331,7 @@
                 for(const r of repeats){
                   repeatTax += strtok.split(r).length;
                 }
-                const lcsKeywords = lcs(key, keywords);
+                const lcsKeywords = word.lcs(key, keywords);
                 const keylcs =
                   (lcsKeywords *
                     Math.min(key.length, keywords.length)) /
