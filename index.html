@@ -227,9 +227,14 @@
         };
 
         //Count the number of of possible trigrams that  a given trigram
+        const fcMemo = new Map();
         const followCount = (model, key) => {
           if (!model[key]) return 0;
-          return Object.keys(model[key]).length;
+          let count = fcMemo.get(key);
+          if(count) return count;
+          count = Object.keys(model[key]).length;
+          fcMemo.set(key,count);
+          return count;
         };
 
         const lengthBoost = (matches, key) => {
