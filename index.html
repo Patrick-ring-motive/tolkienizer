@@ -120,6 +120,16 @@
     const $name = Symbol("name");
     (async () => {
       try {
+        const importScript = async (url) => {
+  const module = {
+    exports: {}
+  };
+  eval(await (await fetch(url)).text());
+  return module.exports;
+};
+
+        const nlpLcs = await importScript('https://patrick-ring-motive.github.io/nlp-lcs/index.js');
+        globalThis.word = nlpLcs.word;
         let trimodel;
         let bimodel;
         let smodel;
