@@ -261,7 +261,7 @@
 
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
-          return lcs(context, key) / context.length / 20;
+          return (lcs(context, key) / context.length / 20)||0;
         }
 
         const actors =
