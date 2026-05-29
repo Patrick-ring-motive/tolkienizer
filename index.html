@@ -205,7 +205,7 @@
 
         const weightedLCS = (seq1, seq2) => {
           return (
-            (lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
+            (word.lcs(seq1, seq2) * Math.min(seq1.length, seq2.length)) /
             Math.max(seq1.length, seq2.length)
           );
         };
@@ -219,7 +219,7 @@
           let maxMatch = 0;
           let keyMatchIndex = 0;
           for (let i = 1; i < smodel.length; i++) {
-            const keylcs = weightedLCS(smodel[i], text);
+            const keylcs = word.weighted(smodel[i], text);
             if (keylcs > maxMatch) {
               maxMatch = keylcs;
               keyMatchIndex = i;
@@ -276,7 +276,7 @@
 
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
-          return (lcs(context, key) / context.length / 20)||0;
+          return (word.lcs(context, key) / context.length / 20)||0;
         }
 
         const actors =
