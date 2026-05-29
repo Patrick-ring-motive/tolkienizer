@@ -347,7 +347,7 @@
                 getActorBoost(model, key) +
                 getContextBoost(tokens, key) +
                 lengthBoost(matches, key) +
-                followBoost(model, key)) /
+                followBoost(model,matches,key)) /
               repeatTax >
               maxMatch
             ) {
