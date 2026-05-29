@@ -226,7 +226,7 @@
           }
         };
 
-        //Count the number of of possible trigrams that follow a given trigram
+        //Count the number of of possible trigrams that  a given trigram
         const followCount = (model, key) => {
           if (!model[key]) return 0;
           return Object.keys(model[key]).length;
@@ -251,7 +251,9 @@
             sum += followCount(model, k);
           }
           if (!sum) return 0;
-          return followCount(model, key) / sum;
+          const fb = followCount(model, key) / sum;
+          console.log({key},{fb});
+          return fb;
         };
 
         function getContextBoost(tokens, key) {
