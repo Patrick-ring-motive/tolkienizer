@@ -355,7 +355,7 @@
             const contextBoost = getContextBoost(tokens, key);
             const lenBoost = lengthBoost(matches, key);
             const folBoost = followBoost(model,matches,key,keyMatch);
-            console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
+            //console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
             const boosted = (matches[key] + actorBoost
                 +
                 contextBoost +
@@ -368,7 +368,7 @@
             ) {
               maxMatch = boosted;
               keyMatch1 = key;
-              console.log({maxMatch,key});
+              //console.log({maxMatch,key});
             }
           }
 
