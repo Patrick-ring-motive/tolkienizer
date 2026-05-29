@@ -351,12 +351,17 @@
             const lenBoost = lengthBoost(matches, key);
             const folBoost = followBoost(model,matches,key);
             console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
+            console.log(matches[key] + actorBoost
+                +
+                contextBoost +
+                lenBoost +
+                folBoost);
             if (
               (matches[key] + actorBoost
                 +
                 contextBoost +
                 lenBoost +
-                folBoost)) /
+                folBoost) /
               repeatTax >
               maxMatch
             ) {
