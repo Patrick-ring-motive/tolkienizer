@@ -346,12 +346,17 @@
 
             //followCount boosts trigrams that have more possible followups
             //followCount is a hueristic inspired by Kneser–Ney smoothing but much simpler
+            const actorBoost = getActorBoost(model, key);
+            const contextBoost = getContextBoost(tokens, key);
+            const lenBoost = lengthBoost(matches, key);
+            const folBoost = followBoost(model,matches,key);
+            console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
             if (
-              (matches[key] +
-                getActorBoost(model, key) +
-                getContextBoost(tokens, key) +
-                lengthBoost(matches, key) +
-                followBoost(model,matches,key)) /
+              (matches[key] + actorBoost
+                +
+                contextBoost +
+                lenBoost +
+                folBoost)) /
               repeatTax >
               maxMatch
             ) {
