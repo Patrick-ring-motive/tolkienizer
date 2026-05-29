@@ -243,9 +243,9 @@
           return key.length / max;
         };
 
-        const followBoost = (model, matches, key) => {
+        const followBoost = (model, matches, key,keyMatch) => {
           if (!key?.length) return 0;
-          const pre = key.split(' ').pop();
+          const pre = keyMatch.split(' ').pop();
           matches = Object(matches);
           let sum = 0;
           for (const k in matches) {
@@ -255,8 +255,7 @@
             sum += followCount(model, `${pre} ${k}`);
           }
           if (!sum) return 0;
-          const fb = (followCount(model, matches[key])+followCount(model, `${pre} ${matches[key]}`)) / sum;
-        //  console.log({key},{fb});
+          const fb = (followCount(model, key)+followCount(model, `${pre} ${key}`)) / sum;
           return fb;
         };
 
@@ -349,7 +348,7 @@
             const actorBoost = getActorBoost(model, key);
             const contextBoost = getContextBoost(tokens, key);
             const lenBoost = lengthBoost(matches, key);
-            const folBoost = followBoost(model,matches,key);
+            const folBoost = followBoost(model,matches,key,keyMatch);
             console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
             console.log(matches[key] + actorBoost
                 +
