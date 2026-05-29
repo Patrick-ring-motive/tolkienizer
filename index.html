@@ -235,12 +235,12 @@
         const lengthBoost = (matches, key) => {
           if (!key?.length) return 0;
           matches = Object(matches);
-          let max = 0;
+          let sum = 0;
           for (const k in matches) {
-            max = Math.max(max, (k?.length || 0));
+            sum += k.length;
           }
-          if (!max) return 0;
-          return key.length / max;
+          if (!sum) return 0;
+          return key.length / sum;
         };
 
         const followBoost = (model, matches, key,keyMatch) => {
