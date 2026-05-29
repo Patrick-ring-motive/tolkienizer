@@ -292,6 +292,10 @@
             tokens.push(x);
             return x;
           }*/
+          if( Math.random() < 0.01){
+            context = context.join(' ').replaceAll('_',' ').split(' ');
+          }
+          
           const randoSkip = Math.random() < 0.01;
           const strtok = stringify(tokens);
           let model = trimodel;
