@@ -245,13 +245,17 @@
 
         const followBoost = (model, matches, key) => {
           if (!key?.length) return 0;
+          const pre = key.split(' ').pop();
           matches = Object(matches);
           let sum = 0;
           for (const k in matches) {
             sum += followCount(model, k);
           }
+          for (const k in matches) {
+            sum += followCount(model, `${pre} ${k}`);
+          }
           if (!sum) return 0;
-          const fb = followCount(model, key) / sum;
+          const fb = (followCount(model, matches[key])+followCount(model, `${pre} ${matches[key]}`)) / sum;
           console.log({key},{fb});
           return fb;
         };
