@@ -335,6 +335,13 @@
             }
             if (key && (keyMatch.split(/[ _-]/).includes(key)||keyMatch.includes(key))) {
               delete matches[key];
+              if(Math.random() > 0.5){
+                if(Math.random() > 0.5){
+                  return getNextToken([...new Set(keywords)].join(''), trimodel, bimodel, tokens);
+                }else{
+                  return getNextToken([...keywords].reverse().join(''), trimodel, bimodel, tokens);
+                }
+              }
               continue;
             }
             if (key && (keywords.split(/[ _-]/).includes(key)||keywords.includes(key))) {
