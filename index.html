@@ -275,6 +275,7 @@
         }
 
         let newActor;
+        const isMobile =  navigator.userAgent.toLowerCase().includes('mobile');
         //Get the next token in the sequence. This is the core of the model.
         function getNextToken(keywords, trimodel, bimodel, tokens = []) {
           /*if (newActor && /\?$|\.$|\!$/.test(keywords)) {
@@ -299,7 +300,7 @@
             if (randoSkip || !matches) {
               selectedModel = "lcs";
               for (const key in trimodel) {
-                if(key[0] !== keywords[0]){
+                if(isMobile && key[0] !== keywords[0]){
                   continue;
                 }
                 // lcs finds common sequences.
