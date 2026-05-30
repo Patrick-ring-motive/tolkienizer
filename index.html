@@ -333,7 +333,7 @@
             if (maxMatch > 0 && Math.random() < 0.2) {
               continue;
             }
-            if (key && (keyMatch.split(/[ _-]/).includes(key)||key == keyMatch)) {
+            if (key && (keyMatch.split(/[ _-]/).includes(key)||keyMatch.includes(key)) {
                delete matches[key];
               continue;
             }
