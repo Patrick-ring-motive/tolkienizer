@@ -299,6 +299,9 @@
             if (randoSkip || !matches) {
               selectedModel = "lcs";
               for (const key in trimodel) {
+                if(key[0] !=== keywords[0]){
+                  continue;
+                }
                 // lcs finds common sequences.
                 // min length/max length punishes differences in length
                 // strtok.split(key).length punishes repeated sequences
