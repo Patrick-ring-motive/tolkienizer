@@ -339,7 +339,11 @@
             }
             if (key && (keywords.split(/[ _-]/).includes(key)||keywords.includes(key))) {
               delete matches[key];
-              return getNextToken([...new Set(keywords)].join(''), trimodel, bimodel, tokens);
+              if(Math.random() > 0.5){
+                return getNextToken([...new Set(keywords)].join(''), trimodel, bimodel, tokens);
+              }else{
+                return getNextToken([...keywords].reverse().join(''), trimodel, bimodel, tokens);
+              }
             }
 
             repeatTax = strtok.split(key).length;
