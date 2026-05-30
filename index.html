@@ -293,7 +293,7 @@
             if (smk.includes(actor)) {
               score += 0.2;
             }
-            score += 0.2 * ((lcs(smk, actor) * actor.length) / smk.length);
+            score += 0.2 * ((word.lcs(smk, actor) * actor.length) / smk.length);
           }
           return score;
         }
@@ -357,7 +357,7 @@
             if (maxMatch > 0 && Math.random() < 0.2) {
               continue;
             }
-            if (String(matches[key]).toLowerCase() == key.toLowerCase()) {
+            if (key && (keyMatch.split(' ')[0] == key)) {
               delete matches[key];
               continue;
             }
