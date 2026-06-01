@@ -121,12 +121,12 @@
     (async () => {
       try {
         const importScript = async (url) => {
-  const module = {
-    exports: {}
-  };
-  eval(await (await fetch(url)).text());
-  return module.exports;
-};
+          const module = {
+            exports: {}
+          };
+          eval(await (await fetch(url)).text());
+          return module.exports;
+        };
 
         const nlpLcs = await importScript('https://patrick-ring-motive.github.io/nlp-lcs/index.js');
         globalThis.word = nlpLcs.word;
@@ -199,9 +199,9 @@
         const followCount = (model, key) => {
           if (!model[key]) return 0;
           let count = fcMemo.get(key);
-          if(count) return count;
+          if (count) return count;
           count = Object.keys(model[key]).length;
-          fcMemo.set(key,count);
+          fcMemo.set(key, count);
           return count;
         };
 
@@ -216,7 +216,7 @@
           return key.length / sum;
         };
 
-        const followBoost = (model, matches, key,keyMatch) => {
+        const followBoost = (model, matches, key, keyMatch) => {
           if (!key?.length) return 0;
           const pre = keyMatch.split(' ').pop();
           matches = Object(matches);
@@ -228,13 +228,13 @@
             sum += followCount(model, `${pre} ${k}`);
           }
           if (!sum) return 0;
-          const fb = (followCount(model, key)+followCount(model, `${pre} ${key}`)) / sum;
+          const fb = (followCount(model, key) + followCount(model, `${pre} ${key}`)) / sum;
           return fb;
         };
 
         function getContextBoost(tokens, key) {
           const context = stringify(tokens.slice(-20));
-          return (word.lcs(context, key) / context.length / 20)||0;
+          return (word.lcs(context, key) / context.length / 20) || 0;
         }
 
         const actors =
@@ -257,7 +257,7 @@
         }
 
         let newActor;
-        const isMobile =  navigator.userAgent.toLowerCase().includes('mobile');
+        const isMobile = navigator.userAgent.toLowerCase().includes('mobile');
         //Get the next token in the sequence. This is the core of the model.
         function getNextToken(keywords, trimodel, bimodel, tokens = []) {
           /*if (newActor && /\?$|\.$|\!$/.test(keywords)) {
@@ -267,7 +267,6 @@
             return x;
           }*/
 
-          
           const randoSkip = Math.random() < 0.01;
           const strtok = stringify(tokens);
           let model = trimodel;
@@ -282,15 +281,15 @@
             if (randoSkip || !matches) {
               selectedModel = "lcs";
               for (const key in trimodel) {
-                if(isMobile && key[0] !== keywords[0]){
+                if (isMobile && key[0] !== keywords[0]) {
                   continue;
                 }
                 // lcs finds common sequences.
                 // min length/max length punishes differences in length
                 // strtok.split(key).length punishes repeated sequences
                 let repeatTax = strtok.split(key).length;
-                const repeats = String(key).replaceAll('_',' ').split(' ');
-                for(const r of repeats){
+                const repeats = String(key).replaceAll('_', ' ').split(' ');
+                for (const r of repeats) {
                   repeatTax += strtok.split(r).length;
                 }
                 const lcsKeywords = word.lcs(key, keywords);
@@ -319,22 +318,22 @@
             if (maxMatch > 0 && Math.random() < 0.2) {
               continue;
             }
-            if (key && (keyMatch.split(/[ _-]/).includes(key)||keyMatch.includes(key))) {
+            if (key && (keyMatch.split(/[ _-]/).includes(key) || keyMatch.includes(key))) {
               delete matches[key];
-              if(Math.random() > 0.5){
-                if(Math.random() > 0.5){
+              if (Math.random() > 0.5) {
+                if (Math.random() > 0.5) {
                   return getNextToken([...new Set(keywords)].join(''), trimodel, bimodel, tokens);
-                }else{
+                } else {
                   return getNextToken([...keywords].reverse().join(''), trimodel, bimodel, tokens);
                 }
               }
               continue;
             }
-            if (key && (keywords.split(/[ _-]/).includes(key)||keywords.includes(key))) {
+            if (key && (keywords.split(/[ _-]/).includes(key) || keywords.includes(key))) {
               delete matches[key];
-              if(Math.random() > 0.5){
+              if (Math.random() > 0.5) {
                 return getNextToken([...new Set(keywords)].join(''), trimodel, bimodel, tokens);
-              }else{
+              } else {
                 return getNextToken([...keywords].reverse().join(''), trimodel, bimodel, tokens);
               }
             }
@@ -346,16 +345,15 @@
             const actorBoost = getActorBoost(model, key);
             const contextBoost = getContextBoost(tokens, key);
             const lenBoost = lengthBoost(matches, key);
-            const folBoost = followBoost(model,matches,key,keyMatch);
+            const folBoost = followBoost(model, matches, key, keyMatch);
             //console.log({actorBoost,contextBoost,lenBoost,folBoost,repeatTax});
-            const boosted = (matches[key] + actorBoost
-                +
-                contextBoost +
-                lenBoost +
-                folBoost);
+            const boosted = (matches[key] + actorBoost +
+              contextBoost +
+              lenBoost +
+              folBoost);
             if (
               (boosted /
-              repeatTax) >
+                repeatTax) >
               maxMatch
             ) {
               maxMatch = boosted;
