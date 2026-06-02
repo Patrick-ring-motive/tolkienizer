@@ -136,12 +136,12 @@
         //download the trimodel. Its a gzipped json dictionary of trigrams.
         await Promise.all([
           (async () => {
-            const res = await fetch("/lm/tri-tolkien-model.json.txt.gz");
+            const res = await fetch("/lm/tri-enhanced-model.json.txt.gz");
             trimodel = JSON.parse(
               (await res.body.gunzip().text()));
           })(),
           (async () => {
-            const res = await fetch("/lm/bi-tolkien-model.json.txt.gz");
+            const res = await fetch("/lm/bi-enhanced-model.json.txt.gz");
             bimodel = JSON.parse(
               (await res.body.gunzip().text()));
           })(),
